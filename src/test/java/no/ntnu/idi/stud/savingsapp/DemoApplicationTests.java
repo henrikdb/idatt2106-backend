@@ -1,4 +1,4 @@
-package com.example.demo;
+package no.ntnu.idi.stud.savingsapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

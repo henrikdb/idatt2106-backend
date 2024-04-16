@@ -1,4 +1,4 @@
-package com.example.demo;
+package no.ntnu.idi.stud.savingsapp;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
