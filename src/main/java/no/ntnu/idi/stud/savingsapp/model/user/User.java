@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -74,6 +76,14 @@ public class User implements UserDetails{
   @JoinColumn(name = "user_id", nullable = false)
   private List<SavingGoal> savingGoal;
 
+  @ManyToMany
+  @JoinTable(name = "badge_user",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "badge_id"))
+  private List<Badge> badges;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<BadgeUser> badgeUserList;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(role.name()));
