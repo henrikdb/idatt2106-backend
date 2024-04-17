@@ -126,7 +126,7 @@
 				<version>3.2.5</version>
 			</plugin>
 
-			<!-- Jacoco -->
+			<!-- Produce code coverage reports -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -137,9 +137,10 @@
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
+					<!-- Attached to Maven test phase -->
 					<execution>
 						<id>report</id>
-						<phase>prepare-package</phase>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
