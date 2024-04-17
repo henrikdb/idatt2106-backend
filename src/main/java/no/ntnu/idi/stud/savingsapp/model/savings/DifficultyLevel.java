@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.saving;
+package no.ntnu.idi.stud.savingsapp.model.savings;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.model.bank.Account;
-import no.ntnu.idi.stud.savingsapp.model.saving.SavingGoal;
+import no.ntnu.idi.stud.savingsapp.model.savings.SavingGoal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
