@@ -73,7 +73,7 @@ public class User implements UserDetails{
   private Role role;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user_id")
   private List<SavingGoal> savingGoal;
 
   @ManyToMany
