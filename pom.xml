@@ -157,6 +157,27 @@
 				<artifactId>maven-site-plugin</artifactId>
     			<version>4.0.0-M13</version>
 			</plugin>	
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+					<id>update-html-report</id>
+					<phase>prepare-package</phase>
+					<goals>
+						<goal>exec</goal>
+					</goals>
+					<configuration>
+						<executable>python</executable>
+						<workingDirectory>${project.basedir}/scripts</workingDirectory>
+						<arguments>
+						<argument>update_html.py</argument>
+						</arguments>
+					</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
