@@ -47,7 +47,9 @@ pages:
     - generate_site_reports 
   script:
     - mkdir public
-    - cp -r target/site/* public/ 
+    - cp -r target/site/* public/  # This copies all files from site, including the checkstyle
+    - cp -r target/site/jacoco public/jacoco  # Specifically ensure Jacoco files are also copied
   artifacts:
     paths:
       - public
+
