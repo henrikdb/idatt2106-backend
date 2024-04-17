@@ -1,11 +1,14 @@
 package no.ntnu.idi.stud.savingsapp.model.saving;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,4 +38,7 @@ public class SavingChallenge {
   @NonNull
   @Column(name = "points", nullable = false)
   private int points;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<DailyChallengeProgress> dailyChallengeProgressList;
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
@@ -48,5 +49,6 @@ public class SavingGoal {
   private Timestamp createdAt;
 
   @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "saving_goal_id")
   private List<SavingChallenge> savingChallenges;
 }
