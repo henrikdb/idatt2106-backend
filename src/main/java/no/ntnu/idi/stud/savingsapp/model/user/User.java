@@ -1,6 +1,5 @@
 package no.ntnu.idi.stud.savingsapp.model.user;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Date;
@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import no.ntnu.idi.stud.savingsapp.model.bank.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,17 +44,25 @@ public class User implements UserDetails{
   @Column(name = "email", nullable = false)
   private String email;
 
+  @OneToOne
+  @Column(name = "savings_account", nullable = false, unique = true)
+  private Account savingsAccount;
+
+  @OneToOne
+  @Column(name = "checking_account", nullable = false, unique = true)
+  private Account checkingAccount;
+
   @NonNull
   @Column(name = "password", nullable = false)
   private String password;
 
-
+  @NonNull
+  @Column(name = "created_at", nullable = false)
+  private Date createdAt;
 
   @NonNull
-  private Date createdAt;
-  @Nonnull
   @Enumerated(EnumType.STRING)
-
+  @Column(name = "role", nullable = false)
   private Role role;
 
   @Override
@@ -65,7 +74,6 @@ public class User implements UserDetails{
   public String getUsername() {
     return this.email;
   }
-
 
   @Override
   public boolean isAccountNonExpired() {
