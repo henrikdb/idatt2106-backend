@@ -23,7 +23,7 @@ test:jdk17:
       - target/site/jacoco # We need to save the HTML-reports that Jacoco produces, so we can serve it on Gitlab Pages in the next stage
     reports:
       junit:
-        - target/surefire-reports/TEST-*.xml #
+        - target/surefire-reports/TEST-*.xml 
         - target/failsafe-reports/TEST-*.xml  
   when: always
 
@@ -63,9 +63,10 @@ generatepdf:
 pages:
   image: alpine:latest
   stage: test
+  dependencies:
+    - test:jdk17
   script:
     - mv target/site/jacoco public
   artifacts:
     paths:
       - public
-
