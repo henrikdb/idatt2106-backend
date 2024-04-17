@@ -53,7 +53,7 @@ publish_pages:
   image: alpine:latest
   stage: publish_pages
   dependencies:
-    - modify_html
+    - modify_generated_site_reports
   script:
     - mkdir public
     - cp -r target/site/* public/
