@@ -42,7 +42,7 @@ modify_html:
   stage: modify
   script:
     - pip install beautifulsoup4
-    - python scripts/modify_html.py
+    - python scripts/update_html.py
   artifacts:
     paths:
       - target/site/
