@@ -9,7 +9,7 @@ variables:
 stages:
   - test
   - deploy
-  - page
+  - pages
 
 cache:
   key: "${CI_JOB_NAME}" # Keep cache across branches 
