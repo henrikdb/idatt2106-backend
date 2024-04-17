@@ -8,7 +8,6 @@ variables:
   
 stages:
   - test
-  - deploy
   - pages
 
 cache:
@@ -34,8 +33,6 @@ test:jdk17:
 pages:
   image: alpine:latest
   stage: pages
-  dependencies:
-    - generate_site_reports 
   script:
     - mv target/site/jacoco public
   artifacts:
