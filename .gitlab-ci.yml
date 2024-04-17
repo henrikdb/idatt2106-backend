@@ -36,7 +36,7 @@ test:jdk17:
 #
 # The artifact produced can be downloaded from the CI/CI -> Piplines page, and is called "generatepdf"
 generatepdf:
-  image: ubuntu:latest  # vi kjører dette i en docker container, som kjører Ubuntu Linux
+  image: ubuntu:20.04  # vi kjører dette i en docker container, som kjører Ubuntu Linux
   stage: test # vi kjører den parallelt med å publisere javadoc til Pages
   script:
     - apt-get update  # apt-get er en pakkehåndterer som kan laste ned og installere pakker på linux-system
