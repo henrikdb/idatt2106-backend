@@ -1,0 +1,21 @@
+package no.ntnu.idi.stud.savingsapp.exception.user;
+
+/**
+ * Exception thrown when attempting to retrieve a user that does not exist in the system.
+ */
+public final class UserNotFoundException extends RuntimeException {
+
+  /**
+   * Constructs a UserNotFoundException with the default message.
+   */
+  public UserNotFoundException() {
+    super("User not found");
+  }
+
+  /**
+   * Constructs a UserNotFoundException with the default message.
+   */
+  public UserNotFoundException(String string) {
+    super(string);
+  }
+}
