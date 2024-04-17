@@ -23,5 +23,6 @@ cache:
 test:jdk17:
   stage: test
   script:
+    - docker run --publish 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8.0.36
     - mvn clean test # Cleans the previous build and runs tests.
   when: always
