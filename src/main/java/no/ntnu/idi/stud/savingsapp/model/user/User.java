@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.model.user;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
@@ -17,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.model.bank.Account;
+import no.ntnu.idi.stud.savingsapp.model.saving.SavingGoal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +34,7 @@ public class User implements UserDetails{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_id")
   private Long id;
 
   @NonNull
@@ -64,6 +69,10 @@ public class User implements UserDetails{
   @Enumerated(EnumType.STRING)
   @Column(name = "role", nullable = false)
   private Role role;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id", nullable = false)
+  private List<SavingGoal> savingGoal;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
