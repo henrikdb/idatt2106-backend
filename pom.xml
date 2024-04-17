@@ -152,15 +152,17 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!-- Plugin that generates a site for the current project -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
     			<version>4.0.0-M13</version>
 			</plugin>	
+			<!-- Plugin allow execution of system and Java programs -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 					<id>update-html-report</id>
@@ -172,7 +174,7 @@
 						<executable>python</executable>
 						<workingDirectory>${project.basedir}/scripts</workingDirectory>
 						<arguments>
-						<argument>update_html.py</argument>
+						<argument>add_jacoco_coverage_link_to_html.py</argument>
 						</arguments>
 					</configuration>
 					</execution>
@@ -182,6 +184,7 @@
 	</build>
 	<reporting>
 		<plugins>
+			<!-- Generate Checkstyle Report -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>

@@ -1,14 +1,17 @@
-def modify_html(file_path):
+# Function is used to modify target/site/project-reports.html to include
+# a link to the JaCoCo generated coverage files at target/site/jacoco/index.html.
+def add_jacoco_coverage_link_to_html(file_path):
     import bs4
 
-    # Read the original HTML content from a file
+    # Open and read the HTML file at file_path
     with open(file_path, 'r', encoding='utf-8') as file:
         original_html = file.read()
 
-    # Parse the original HTML content using Beautiful Soup
+    # Parse the content of the HTML file using Beautiful Soup (bs4)
     soup = bs4.BeautifulSoup(original_html, features='html.parser')
     
     # Find the <ul> element that contains the Checkstyle link inside the Project Reports navigation section
+    # This is where we wanna add a list item for the JaCoCo coverage report
     nav_list = soup.find("li", class_="active").find("ul", class_="nav nav-list")
     
     # Create the new list item for JaCoCo
@@ -21,6 +24,7 @@ def modify_html(file_path):
     nav_list.append(new_li)
 
     # Find the table that contains the Checkstyle link
+    # This is where we wanna add a table that contains a link for the JaCoCo report
     table = soup.find("table", class_="table table-striped")
     
     # Create the new table row for JaCoCo
@@ -42,6 +46,5 @@ def modify_html(file_path):
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(str(soup.prettify()))
 
-# Specify the path to your HTML file
 file_path = 'target/site/project-reports.html'
-modify_html(file_path)
+add_jacoco_coverage_link_to_html(file_path)
