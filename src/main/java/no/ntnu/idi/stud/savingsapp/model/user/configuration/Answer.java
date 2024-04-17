@@ -25,5 +25,5 @@ public class Answer {
 
   @NonNull
   @Column(name = "answer_text", nullable = false)
-  private Object answer_text;
+  private String answer_text;
 }

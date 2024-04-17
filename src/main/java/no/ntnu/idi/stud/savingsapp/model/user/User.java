@@ -13,6 +13,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Date;
@@ -52,11 +53,11 @@ public class User implements UserDetails{
   private String email;
 
   @OneToOne
-  @Column(name = "savings_account", nullable = false, unique = true)
+  @PrimaryKeyJoinColumn(name = "savings_account")
   private Account savingsAccount;
 
   @OneToOne
-  @Column(name = "checking_account", nullable = false, unique = true)
+  @PrimaryKeyJoinColumn(name = "savings_account")
   private Account checkingAccount;
 
   @NonNull
