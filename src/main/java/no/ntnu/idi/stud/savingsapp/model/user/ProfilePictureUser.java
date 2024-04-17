@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,8 +32,5 @@ public class ProfilePictureUser {
   @JoinColumn(name = "profile_picture_id")
   private ProfilePicture profilePicture;
 
-  @OneToOne
-  @JoinColumn(name = "profile_picture_id")
-  @Column(name = "in_use")
-  private ProfilePicture inUse;
+  private boolean inUse;
 }
