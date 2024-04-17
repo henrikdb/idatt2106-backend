@@ -1,9 +1,10 @@
 image: maven:3.8.5-openjdk-17
 
 variables:
+  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-  SPRING_PROFILES_ACTIVE: gitlab-ci 
+  SPRING_PROFILES_ACTIVE: gitlab-ci # NB!! THIS ONE'S IMPORTANT!
   
 stages:
   - test
@@ -11,7 +12,7 @@ stages:
 cache:
   paths:
     - .m2/repository
-  key: "$CI_BUILD_REF_NAME" # Separate cache for each branch or tag
+  key: "$CI_BUILD_REF_NAME" # Separate cache for each branch
 
 test:jdk17:
   stage: test
@@ -23,8 +24,8 @@ test:jdk17:
       - target/site/jacoco # We need to save the HTML-reports that Jacoco produces, so we can serve it on Gitlab Pages in the next stage
     reports:
       junit:
-        - target/surefire-reports/TEST-*.xml 
-        - target/failsafe-reports/TEST-*.xml  
+        - target/surefire-reports/TEST-*.xml # Unit tests
+        - target/failsafe-reports/TEST-*.xml # Integration tests
   when: always
 
 # This is a particularly nasty way of generating a PDF of the wiki, due to how much it downloads/installs.
@@ -56,6 +57,7 @@ generatepdf:
   artifacts:
     paths:
         - wiki.pdf  # Vi gjør fila tilgjengelig som en nedlastbar artefakt (CI/CD -> Pipelines, deretter ikon helt til høyre for #bygget). Fila kalles wiki.pdf.
+        - documentation.html
   only:
     - web  # Only web gjør at vi kun kjører denne delen av pipeline når en trykker på knappen "Run pipeline"
 
