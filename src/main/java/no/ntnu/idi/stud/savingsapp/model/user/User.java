@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model;
+package no.ntnu.idi.stud.savingsapp.model.user;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;
@@ -46,6 +46,8 @@ public class User implements UserDetails{
   @NonNull
   @Column(name = "password", nullable = false)
   private String password;
+
+
 
   @NonNull
   private Date createdAt;
