@@ -7,6 +7,18 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
   SPRING_PROFILES_ACTIVE: gitlab-ci 
 
+  # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: $MYSQL_DATABASE
+  MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD   
+  Host: mysql
+  User: root
+  Password: root
+  Database: sparesti 
+
+
+services:
+  - mysql:latest
+  
 stages:
   - compile_and_test
   - generate_site_reports
