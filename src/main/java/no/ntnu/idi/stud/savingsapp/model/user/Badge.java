@@ -14,6 +14,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents a badge a user can earn.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

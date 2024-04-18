@@ -12,6 +12,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents the progress of daily challenges.
+ * This entity keeps track of when challenges are completed, and whihc day they need to be
+ * completed at.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

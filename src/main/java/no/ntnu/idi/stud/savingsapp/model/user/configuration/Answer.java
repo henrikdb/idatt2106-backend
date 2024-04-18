@@ -11,6 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents an answer associated with a question.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

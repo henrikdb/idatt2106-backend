@@ -9,6 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The personalized configuration of a user.
+ * This entity contains a composite primary key consisting of the users' id, a question id and an
+ * answer id.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
