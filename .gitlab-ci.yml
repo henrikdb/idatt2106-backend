@@ -20,7 +20,7 @@ stages:
   - publish_pages
 
 cache:
-  key: "${CI_JOB_NAME}" # To keep cache across branches 
+  key: "maven-repository" # Static Cache Key to keep cache across branches 
   paths:
     - .m2/repository 
 
