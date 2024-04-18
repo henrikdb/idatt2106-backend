@@ -21,7 +21,6 @@ import no.ntnu.idi.stud.savingsapp.utils.TokenUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,7 +65,8 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest request) {
     User user = userService.login(request.getEmail(), request.getPassword());
     String token = TokenUtils.generateToken(user);
-    return ResponseEntity.ok(new AuthenticationResponse(token));
+    return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
+        user.getLastName(), user.getRole().name(), token));
   }
 
   /**
@@ -89,6 +89,7 @@ public class AuthenticationController {
     User requestUser = modelMapper.map(request, User.class);
     User user = userService.register(requestUser);
     String token = TokenUtils.generateToken(user);
-    return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(token));
+    return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
+        user.getLastName(), user.getRole().name(), token));
   }
 }
