@@ -21,7 +21,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "daily_challenge_progresss")
+@Table(name = "daily_challenge_progress")
 public class DailyChallengeProgress {
 
   @Id()
