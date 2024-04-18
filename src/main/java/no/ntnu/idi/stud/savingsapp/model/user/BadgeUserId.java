@@ -8,20 +8,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Composite Primary Key used in {@link FriendList} entity.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class FriendListId implements Serializable {
+public class BadgeUserId implements Serializable {
+
+  @ManyToOne
+  @JoinColumn(name = "badge_id")
+  private Badge badge;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "friend_id")
-  private User friend;
+
 }
