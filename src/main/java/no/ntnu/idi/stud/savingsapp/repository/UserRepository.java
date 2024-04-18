@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,4 +34,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
    */
   List<User> findUserByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
       String firstName, String lastName);
+
+  @Query("SELECT CASE WHEN fl1.id.user = :userId THEN fl1.id.friend ELSE fl1.id.user END "
+      + "FROM FriendList fl1 "
+      + "WHERE (fl1.id.user = :userId OR fl1.id.friend = :userId) AND fl1.pending = false")
+  List<Long> findFriendIdsByUserId(@Param("userId") Long userId);
 }
