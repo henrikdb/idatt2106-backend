@@ -15,7 +15,7 @@ import no.ntnu.idi.stud.savingsapp.dto.auth.AuthenticationResponse;
 import no.ntnu.idi.stud.savingsapp.dto.auth.LoginRequest;
 import no.ntnu.idi.stud.savingsapp.dto.auth.SignUpRequest;
 import no.ntnu.idi.stud.savingsapp.exception.ExceptionResponse;
-import no.ntnu.idi.stud.savingsapp.model.User;
+import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 import no.ntnu.idi.stud.savingsapp.utils.TokenUtils;
 import org.modelmapper.ModelMapper;
