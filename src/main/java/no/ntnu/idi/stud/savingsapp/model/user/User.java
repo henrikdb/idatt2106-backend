@@ -15,8 +15,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -71,7 +72,7 @@ public class User implements UserDetails{
 
   @NonNull
   @Column(name = "created_at", nullable = false)
-  private Date createdAt;
+  private Timestamp createdAt;
 
   @NonNull
   @Enumerated(EnumType.STRING)

@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.service;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
+import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -60,6 +63,8 @@ public class UserServiceImpl implements UserService {
   public User register(User user) {
     String encodedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encodedPassword);
+    user.setRole(Role.USER);
+    user.setCreatedAt(Timestamp.from(Instant.now()));
     try {
       return userRepository.save(user);
     } catch (DataIntegrityViolationException e) {
