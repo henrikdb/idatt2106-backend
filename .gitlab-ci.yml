@@ -12,7 +12,7 @@ services:
     variables:
       MYSQL_ROOT_PASSWORD: "root"  # TODO Set this in GitLab's CI/CD environment variables for security in production
       MYSQL_DATABASE: "sparesti"
-
+  
 stages:
   - compile_and_test
   - generate_site_reports
@@ -20,7 +20,7 @@ stages:
   - publish_pages
 
 cache:
-  key: "${CI_JOB_NAME}" # To keep cache across branches
+  key: "maven-repository" # Static Cache Key to keep cache across branches 
   paths:
     - .m2/repository
 
@@ -67,4 +67,4 @@ publish_pages:
     paths:
       - public
   only:
-    - master
+    - master       
