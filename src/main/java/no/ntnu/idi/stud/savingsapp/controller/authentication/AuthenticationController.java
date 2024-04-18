@@ -1,6 +1,7 @@
-package no.ntnu.idi.stud.savingsapp.controller;
+package no.ntnu.idi.stud.savingsapp.controller.authentication;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
@@ -23,10 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller handling authentication related requests.
@@ -34,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @EnableAutoConfiguration
+@Validated
 @Tag(name = "Authentication", description = "User authentication")
 public class AuthenticationController {
 
@@ -91,5 +91,29 @@ public class AuthenticationController {
     String token = TokenUtils.generateToken(user);
     return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
         user.getLastName(), user.getRole().name(), token));
+  }
+
+  /**
+   * Validates an email.
+   *
+   * @param email The email.
+   * @return ResponseEntity.
+   * @throws EmailAlreadyExistsException if the email is registered with an existing user.
+   */
+  @Operation(summary = "Validate email", description = "Check that the given email is valid")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Email is valid"),
+      @ApiResponse(responseCode = "409", description = "Email already exists",
+          content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+  })
+  @SecurityRequirements
+  @PostMapping(value = "/valid-email/{email}")
+  public ResponseEntity<?> validateEmail(@PathVariable @Email(message = "Invalid email") String email) {
+    try {
+      userService.findByEmail(email);
+      throw new EmailAlreadyExistsException();
+    } catch (UserNotFoundException e) {
+      return ResponseEntity.ok().build();
+    }
   }
 }

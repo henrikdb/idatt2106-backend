@@ -25,4 +25,6 @@ public interface UserService {
    * @return The registered user object.
    */
   User register(User user);
+
+  User findByEmail(String email);
 }
