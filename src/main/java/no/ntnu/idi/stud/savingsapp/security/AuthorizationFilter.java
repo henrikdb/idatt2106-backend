@@ -9,7 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import no.ntnu.idi.stud.savingsapp.model.Role;
+import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.properties.TokenProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

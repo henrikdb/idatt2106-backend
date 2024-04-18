@@ -2,7 +2,7 @@ package no.ntnu.idi.stud.savingsapp.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import no.ntnu.idi.stud.savingsapp.model.User;
+import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.properties.TokenProperties;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ public final class TokenUtils {
    */
   public static String generateToken(final User user) {
     final Instant now = Instant.now();
-    final Algorithm hmac512 = Algorithm.HMAC512(TokenProperties.SECRET);;
+    final Algorithm hmac512 = Algorithm.HMAC512(TokenProperties.SECRET);
     return JWT.create()
         .withSubject(String.valueOf(user.getId()))
         .withClaim("user_role", user.getRole().name())
