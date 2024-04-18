@@ -9,13 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Composite Primary Key used in {@link FriendList} entity.
+ * Composite Primary Key used in {@link Friend} entity.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class FriendListId implements Serializable {
+public class FriendId implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "user_id")

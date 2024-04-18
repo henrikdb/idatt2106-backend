@@ -17,11 +17,11 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "friend_list")
-public class FriendList {
+@Table(name = "friend")
+public class Friend {
 
   @EmbeddedId
-  private FriendListId id;
+  private FriendId id;
 
   @NonNull
   @Column(name = "status", nullable = false)
