@@ -21,7 +21,7 @@ public class FriendList {
 
   @NonNull
   @Column(name = "status", nullable = false)
-  private String status;
+  private boolean pending;
 
   @NonNull
   @Column(name = "created_at")
