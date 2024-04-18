@@ -37,28 +37,25 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   /**
    * Finds the top X users with the highest total earned points.
-   *
    * @param entryCount The maximum number of users to return.
    * @return A list of users sorted by total earned points in descending order.
    */
-  @Query(value = "SELECT u.* FROM user u JOIN points p ON u.points_id = p.points_id ORDER BY p.total_earned_points DESC LIMIT :entryCount", nativeQuery = true)
+  @Query(value = "SELECT u.* FROM User u JOIN Point p ON u.point.id = p.id ORDER BY p.totalEarnedPoints DESC LIMIT :entryCount", nativeQuery = true)
   List<User> findTopUsersByTotalEarnedPoints(@Param("entryCount") Integer entryCount);
 
   /**
    * Finds the top X users with the highest ever streak.
-   *
    * @param entryCount The maximum number of users to return.
    * @return A list of users sorted by highest ever streak in descending order.
    */
-  @Query(value = "SELECT u.* FROM user u JOIN streak s ON u.streak_id = s.streak_id ORDER BY s.highest_streak DESC LIMIT :entryCount", nativeQuery = true)
+  @Query(value = "SELECT u.* FROM User u JOIN Streak s ON u.streak.id = s.id ORDER BY s.highestStreak DESC LIMIT :entryCount", nativeQuery = true)
   List<User> findTopUsersByHighestEverStreak(@Param("entryCount") Integer entryCount);
 
   /**
    * Finds the top X users with the highest current streak.
-   *
    * @param entryCount The maximum number of users to return.
    * @return A list of users sorted by highest current streak in descending order.
    */
-  @Query(value = "SELECT u.* FROM user u JOIN streak s ON u.streak_id = s.streak_id ORDER BY s.current_streak DESC LIMIT :entryCount", nativeQuery = true)
+  @Query(value = "SELECT u.* FROM user u JOIN Streak s ON u.streak.id = s.id ORDER BY s.currentStreak DESC LIMIT :entryCount", nativeQuery = true)
   List<User> findTopUsersByHighestCurrentStreak(@Param("entryCount") Integer entryCount);
 }
