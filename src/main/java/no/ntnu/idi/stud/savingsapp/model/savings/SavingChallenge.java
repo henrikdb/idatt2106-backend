@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -42,5 +43,6 @@ public class SavingChallenge {
   private int points;
 
   @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "saving_challenge_id")
   private List<DailyChallengeProgress> dailyChallengeProgressList;
 }
