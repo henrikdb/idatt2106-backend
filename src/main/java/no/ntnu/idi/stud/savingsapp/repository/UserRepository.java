@@ -24,9 +24,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
   /**
    * Finds users with names containing provided string.
    *
-   * @param name The string with names containing it to be searched for.
+   * @param firstName The string containing any of the characters present in the first name of a
+   *                  user.
+   * @param lastName  The string containing any of the characters present in the first name of a
+   *    *             user.
    * @return A list of users with names containing the provided string.
    */
   List<User> findUserByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
-      String name);
+      String firstName, String lastName);
 }
