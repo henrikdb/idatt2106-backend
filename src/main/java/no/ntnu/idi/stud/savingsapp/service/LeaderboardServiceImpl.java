@@ -115,7 +115,6 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                                 // Collect the results into users
                                 .collect(Collectors.toList());
 
-                        users = userRepository.findTopUsersByHighestEverStreak(entryCount);
                         for (User user : users) {
                             entries.add(new LeaderboardEntry(user, user.getStreak().getHighestStreak()));
                         }
