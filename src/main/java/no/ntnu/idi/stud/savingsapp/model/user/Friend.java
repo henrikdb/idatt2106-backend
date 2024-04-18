@@ -24,7 +24,7 @@ public class Friend {
   private FriendId id;
 
   @NonNull
-  @Column(name = "status", nullable = false)
+  @Column(name = "pending", nullable = false)
   private boolean pending;
 
   @NonNull

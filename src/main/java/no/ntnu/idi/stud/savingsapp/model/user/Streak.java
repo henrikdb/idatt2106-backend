@@ -44,7 +44,10 @@ public class Streak {
   private int highestStreak;
 
   @NonNull
+  @Column(name = "highest_streak_created_at", nullable = false)
+  private Timestamp highestStreakCreatedAt;
+
+  @NonNull
   @Column(name = "highest_streak_ended_at")
   private Timestamp highestStreakEndedAt;
-
 }

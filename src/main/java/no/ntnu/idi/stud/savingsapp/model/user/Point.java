@@ -20,7 +20,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "points")
+@Table(name = "point")
 public class Point {
 
   @Id
