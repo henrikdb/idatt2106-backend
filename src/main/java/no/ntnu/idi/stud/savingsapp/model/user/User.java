@@ -28,6 +28,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Represents a user in the system.
+ * This class implements the UserDetails interface, providing the necessary information for
+ * Spring Security to authenticate and authorize users and for use in testing.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -85,31 +90,63 @@ public class User implements UserDetails{
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private List<BadgeUser> badgeUserList;
+
+  /**
+   * Get the authorities granted to the user.
+   *
+   * @return A list of GrantedAuthority objects representing the authorities granted to the user.
+   */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(role.name()));
   }
 
+  /**
+   * Get a unique representation of the user.
+   * This method uses the email as the username.
+   *
+   * @return The email of the email of the user.
+   */
   @Override
   public String getUsername() {
     return this.email;
   }
 
+  /**
+   * Indicates whether the user's account has expired.
+   *
+   * @return true if the user's account is valid (i.e., non-expired), false otherwise.
+   */
   @Override
   public boolean isAccountNonExpired() {
     return true;
   }
 
+  /**
+   * Indicates whether the user is locked or unlocked.
+   *
+   * @return true if the user is not locked, false otherwise.
+   */
   @Override
   public boolean isAccountNonLocked() {
     return true;
   }
 
+  /**
+   * Indicates whether the user's credentials (password) has expired.
+   *
+   * @return true if the user's credentials are valid (i.e., non-expired), false otherwise.
+   */
   @Override
   public boolean isCredentialsNonExpired() {
     return true;
   }
 
+  /**
+   * Indicates whether the user is enabled or disabled.
+   *
+   * @return true if the user is enabled, false otherwise.
+   */
   @Override
   public boolean isEnabled() {
     return true;
