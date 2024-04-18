@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -33,6 +35,30 @@ public interface UserRepository extends JpaRepository<User, Long> {
   List<User> findUserByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
       String firstName, String lastName);
 
+  /**
+   * Finds the top X users with the highest total earned points.
+   *
+   * @param entryCount The maximum number of users to return.
+   * @return A list of users sorted by total earned points in descending order.
+   */
+  @Query(value = "SELECT u.* FROM user u JOIN points p ON u.points_id = p.points_id ORDER BY p.total_earned_points DESC LIMIT :entryCount", nativeQuery = true)
+  List<User> findTopUsersByTotalEarnedPoints(@Param("entryCount") Integer entryCount);
 
+  /**
+   * Finds the top X users with the highest ever streak.
+   *
+   * @param entryCount The maximum number of users to return.
+   * @return A list of users sorted by highest ever streak in descending order.
+   */
+  @Query(value = "SELECT u.* FROM user u JOIN streak s ON u.streak_id = s.streak_id ORDER BY s.highest_streak DESC LIMIT :entryCount", nativeQuery = true)
+  List<User> findTopUsersByHighestEverStreak(@Param("entryCount") Integer entryCount);
 
+  /**
+   * Finds the top X users with the highest current streak.
+   *
+   * @param entryCount The maximum number of users to return.
+   * @return A list of users sorted by highest current streak in descending order.
+   */
+  @Query(value = "SELECT u.* FROM user u JOIN streak s ON u.streak_id = s.streak_id ORDER BY s.current_streak DESC LIMIT :entryCount", nativeQuery = true)
+  List<User> findTopUsersByHighestCurrentStreak(@Param("entryCount") Integer entryCount);
 }

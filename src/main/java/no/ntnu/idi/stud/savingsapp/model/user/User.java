@@ -93,6 +93,14 @@ public class User implements UserDetails{
   @JoinColumn(name = "user_id")
   private List<BadgeUser> badgeUserList;
 
+  @OneToOne
+  @JoinColumn(name = "point_id", nullable = false)
+  private Point point;
+
+  @OneToOne
+  @JoinColumn(name = "streak_id", nullable = false)
+  private Streak streak;
+
   /**
    * Get the authorities granted to the user.
    *

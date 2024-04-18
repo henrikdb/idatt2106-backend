@@ -2,6 +2,8 @@ package no.ntnu.idi.stud.savingsapp.model.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -22,9 +24,9 @@ import lombok.NonNull;
 public class Point {
 
   @Id
-  @OneToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "point_id")
+  private Long id;
 
   @NonNull
   @Column(name = "current_points", nullable = false)
