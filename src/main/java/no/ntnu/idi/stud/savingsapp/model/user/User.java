@@ -54,7 +54,7 @@ public class User implements UserDetails{
   private String lastName;
 
   @NonNull
-  @Column(name = "email", nullable = false)
+  @Column(name = "email", nullable = false, unique = true)
   private String email;
 
   @OneToOne

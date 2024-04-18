@@ -3,12 +3,14 @@ package no.ntnu.idi.stud.savingsapp.service;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
-import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
+import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of the UserService interface for user-related operations.
@@ -16,7 +18,11 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-  private final List<User> users = new ArrayList<>();
+  @Autowired
+  private UserRepository userRepository;
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   /**
    * Authenticates a user with the provided email and password.
@@ -29,14 +35,18 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public User login(String email, String password) {
-    for (User user : users) {
-      if (user.getEmail().equalsIgnoreCase(email)) {
-        if (!user.getPassword().equalsIgnoreCase(password))
-          throw new InvalidCredentialsException();
+    Optional<User> optionalUser = userRepository.findByEmail(email);
+    if (optionalUser.isPresent()) {
+      User user = optionalUser.get();
+      boolean match = passwordEncoder.matches(password, user.getPassword());
+      if (match) {
         return user;
+      } else {
+        throw new InvalidCredentialsException();
       }
+    } else {
+      throw new UserNotFoundException();
     }
-    throw new UserNotFoundException();
   }
 
   /**
@@ -48,10 +58,12 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public User register(User user) {
-    if (users.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail())))
+    String encodedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encodedPassword);
+    try {
+      return userRepository.save(user);
+    } catch (DataIntegrityViolationException e) {
       throw new EmailAlreadyExistsException();
-    user.setRole(Role.USER);
-    users.add(user);
-    return user;
+    }
   }
 }
