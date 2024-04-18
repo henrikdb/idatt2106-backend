@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
    * @param email The email of the user to be found
    * @return An optional containing the user if found, otherwise empty.
    */
-  Optional<User> findUserByEmail(String email);
+  Optional<User> findByEmail(String email);
 
   /**
    * Finds users with names containing provided string.
