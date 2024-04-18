@@ -4,9 +4,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
-import no.ntnu.idi.stud.savingsapp.exception.user.UserAlreadyExistsException;
+import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
-import no.ntnu.idi.stud.savingsapp.exception.user.UsernameTakenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -84,7 +83,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    * @param e The exception.
    * @return A ResponseEntity containing the error response.
    */
-  @ExceptionHandler({UserAlreadyExistsException.class, UsernameTakenException.class})
+  @ExceptionHandler({EmailAlreadyExistsException.class})
   public ResponseEntity<ExceptionResponse> handleConflict(Exception e) {
     return ExceptionResponse.toResponseEntity(HttpStatus.CONFLICT, e.getMessage());
   }

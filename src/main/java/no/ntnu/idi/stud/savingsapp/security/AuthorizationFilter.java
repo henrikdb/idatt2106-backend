@@ -30,6 +30,7 @@ import java.util.Collections;
 public class AuthorizationFilter extends OncePerRequestFilter {
 
   private static final Logger LOGGER = LogManager.getLogger(AuthorizationFilter.class);
+  private static final int TOKEN_PREFIX_LENGTH = 7;
 
   /**
    * Filters incoming requests and processes JWT authorization.
@@ -49,7 +50,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
       return;
     }
 
-    String token = header.substring(7);
+    String token = header.substring(TOKEN_PREFIX_LENGTH);
     final DecodedJWT decodedJWT = validateToken(token);
     if (decodedJWT == null) {
       filterChain.doFilter(request, response);
