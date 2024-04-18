@@ -2,22 +2,16 @@ image: maven:3.8.5-openjdk-17
 
 variables:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
-  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
   SPRING_PROFILES_ACTIVE: gitlab-ci 
 
-  # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
-  MYSQL_DATABASE: $MYSQL_DATABASE
-  MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD   
-  Host: mysql
-  User: root
-  Password: root
-  Database: sparesti 
-
-
 services:
-  - mysql:latest
+  - name: mysql:latest
+    alias: mysql
+    variables:
+      MYSQL_ROOT_PASSWORD: "root"  # TODO Set this in GitLab's CI/CD environment variables for security in production
+      MYSQL_DATABASE: "sparesti"
   
 stages:
   - compile_and_test
