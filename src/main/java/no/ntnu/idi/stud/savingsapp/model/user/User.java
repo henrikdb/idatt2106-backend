@@ -89,7 +89,8 @@ public class User implements UserDetails{
       inverseJoinColumns = @JoinColumn(name = "badge_id"))
   private List<Badge> badges;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
   private List<BadgeUser> badgeUserList;
 
   @OneToOne
