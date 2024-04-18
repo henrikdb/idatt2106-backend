@@ -2,6 +2,8 @@ package no.ntnu.idi.stud.savingsapp.model.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,14 +16,16 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FriendList {
+@Entity
+@Table(name = "friend")
+public class Friend {
 
   @EmbeddedId
-  private FriendListId id;
+  private FriendId id;
 
   @NonNull
-  @Column(name = "status", nullable = false)
-  private String status;
+  @Column(name = "pending", nullable = false)
+  private boolean pending;
 
   @NonNull
   @Column(name = "created_at")
