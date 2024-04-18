@@ -11,6 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents the points associated with a user.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

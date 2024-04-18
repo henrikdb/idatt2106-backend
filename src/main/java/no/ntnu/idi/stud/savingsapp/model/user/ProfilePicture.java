@@ -11,6 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * The profile picture of a user.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

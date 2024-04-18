@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Composite Primary Key used in {@link FriendList} entity.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

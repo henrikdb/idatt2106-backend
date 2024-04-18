@@ -14,13 +14,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents a challenge need to achieve a {@link SavingGoal}
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "saving_challenge")
 public class SavingChallenge {
-
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,6 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The joining entity between a user and available profile pictures
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

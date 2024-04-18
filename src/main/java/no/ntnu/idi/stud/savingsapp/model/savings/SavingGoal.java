@@ -16,6 +16,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents a saving goal.
+ * This entity has a list of generated {@link SavingChallenge SavingChallanges} associated with it.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

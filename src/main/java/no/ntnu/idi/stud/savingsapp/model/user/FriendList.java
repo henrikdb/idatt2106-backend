@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents users connected to one another as friends.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

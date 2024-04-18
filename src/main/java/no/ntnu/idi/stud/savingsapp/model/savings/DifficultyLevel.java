@@ -15,6 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents the difficulty level of the {@link SavingChallenge SavingChallanges}.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

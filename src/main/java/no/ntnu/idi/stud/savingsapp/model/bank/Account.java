@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Mock data for an account associated with a user in a bank.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

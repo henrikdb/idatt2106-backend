@@ -12,6 +12,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents the streak of a user.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

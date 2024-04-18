@@ -15,6 +15,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents a question presented to a user during the configuration.
+ * This entity contains a list of answers associated with it.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
