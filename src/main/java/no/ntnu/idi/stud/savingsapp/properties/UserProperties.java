@@ -4,18 +4,17 @@ import org.springframework.stereotype.Component;
 
 /**
  * Configuration properties related to user validation.
- * Provides constants for username and password validation.
  */
 @Component
 public final class UserProperties {
 
-  // Username
+  // Name
   public static final String NAME_EMPTY = "Name is required";
   public static final int NAME_LEN_MIN = 2;
   public static final int NAME_LEN_MAX = 64;
-  public static final String NAME_LEN_MSG = "Username must be between " + NAME_LEN_MIN + " and " + NAME_LEN_MAX + " characters";
-  public static final String NAME_REGEX = "[\\w]+$";
-  public static final String NAME_REGEX_MSG = "Name must contain only letters, digits and underscores";
+  public static final String NAME_LEN_MSG = "Name must be between " + NAME_LEN_MIN + " and " + NAME_LEN_MAX + " characters";
+  public static final String NAME_REGEX = "^[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$";
+  public static final String NAME_REGEX_MSG = "Invalid name";
 
   // Password
   public static final String PASS_EMPTY = "Password is required";
