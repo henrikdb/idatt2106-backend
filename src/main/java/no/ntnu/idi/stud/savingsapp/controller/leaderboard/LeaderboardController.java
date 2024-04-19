@@ -1,15 +1,12 @@
 package no.ntnu.idi.stud.savingsapp.controller.leaderboard;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import no.ntnu.idi.stud.savingsapp.dto.dto.UserDTO;
 import no.ntnu.idi.stud.savingsapp.dto.leaderboard.LeaderboardDTO;
-import no.ntnu.idi.stud.savingsapp.dto.leaderboard.LeaderboardEntryDTO;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.Leaderboard;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardType;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.LeaderboardService;
-import no.ntnu.idi.stud.savingsapp.service.UserService;
 import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
 
 /**
  * Controller class for handling leaderboard-related requests.

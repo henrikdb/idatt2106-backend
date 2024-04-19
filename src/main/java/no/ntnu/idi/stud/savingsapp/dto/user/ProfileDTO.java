@@ -1,16 +1,14 @@
-package no.ntnu.idi.stud.savingsapp.dto.dto;
+package no.ntnu.idi.stud.savingsapp.dto.user;
 
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public final class UserDTO {
+public final class ProfileDTO {
 
   private long id;
   private String firstName;
   private String lastName;
-  private String email;
   private Timestamp createdAt;
-  private String role;
 }

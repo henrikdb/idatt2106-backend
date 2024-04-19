@@ -4,8 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import no.ntnu.idi.stud.savingsapp.dto.dto.UserUpdateDTO;
-import no.ntnu.idi.stud.savingsapp.dto.dto.UserDTO;
+import no.ntnu.idi.stud.savingsapp.dto.user.ProfileDTO;
+import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
+import no.ntnu.idi.stud.savingsapp.dto.user.UserUpdateDTO;
+import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
@@ -35,6 +37,34 @@ public class UserController {
 
   @Autowired
   private ModelMapper modelMapper;
+
+  @Operation(summary = "Get user", description = "Get user information")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully got user")
+  })
+  @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserDTO> getUser(@AuthenticationPrincipal AuthIdentity identity,
+                                         @PathVariable long userId) {
+    if (identity.getId() != userId) {
+      throw new PermissionDeniedException();
+    }
+    User user = userService.findById(userId);
+    UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+    return ResponseEntity.ok(userDTO);
+  }
+
+  @Operation(summary = "Get profile", description = "Get user profile")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully got profile")
+  })
+  @GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ProfileDTO> getProfile(@PathVariable long userId) {
+    User user = userService.findById(userId);
+    ProfileDTO profileDTO = modelMapper.map(user, ProfileDTO.class);
+    return ResponseEntity.ok(profileDTO);
+  }
 
   @Operation(summary = "Update profile", description = "Update the profile of the authenticated user")
   @ApiResponses(value = {

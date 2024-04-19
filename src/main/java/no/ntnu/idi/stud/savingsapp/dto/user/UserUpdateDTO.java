@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.dto.dto;
+package no.ntnu.idi.stud.savingsapp.dto.user;
 
 import jakarta.validation.constraints.Email;
 import lombok.Data;
