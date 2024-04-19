@@ -7,6 +7,6 @@ import no.ntnu.idi.stud.savingsapp.dto.dto.UserDTO;
 public final class LeaderboardEntryDTO {
 
   private UserDTO user;
-  private long value;
+  private int score;
 
 }
