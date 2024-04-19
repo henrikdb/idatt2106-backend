@@ -23,6 +23,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import no.ntnu.idi.stud.savingsapp.model.Commitment;
+import no.ntnu.idi.stud.savingsapp.model.Experience;
 import no.ntnu.idi.stud.savingsapp.model.bank.Account;
 import no.ntnu.idi.stud.savingsapp.model.savings.SavingGoal;
 import org.springframework.security.core.GrantedAuthority;
@@ -100,6 +102,16 @@ public class User implements UserDetails{
   @OneToOne
   @JoinColumn(name = "streak_id", nullable = false)
   private Streak streak;
+
+  @NonNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "commitment", nullable = false)
+  private Commitment commitment;
+
+  @NonNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "experience", nullable = false)
+  private Experience experience;
 
   /**
    * Get the authorities granted to the user.
