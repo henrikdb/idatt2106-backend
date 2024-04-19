@@ -3,6 +3,8 @@ package no.ntnu.idi.stud.savingsapp.model.savings;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 
 /**
  * Represents a challenge need to achieve a {@link SavingGoal}
@@ -45,4 +48,9 @@ public class SavingChallenge {
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "saving_challenge_id")
   private List<DailyChallengeProgress> dailyChallengeProgressList;
+
+  @NonNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "challenge_type", nullable = false)
+  private ChallengeType challengeType;
 }
