@@ -1,7 +1,9 @@
 package no.ntnu.idi.stud.savingsapp.model.user;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,6 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.Experience;
 import no.ntnu.idi.stud.savingsapp.model.bank.Account;
@@ -112,6 +115,12 @@ public class User implements UserDetails{
   @Enumerated(EnumType.STRING)
   @Column(name = "experience", nullable = false)
   private Experience experience;
+
+  @ElementCollection
+  @CollectionTable(name = "challenge_type", joinColumns = @JoinColumn(name = "user_id"))
+  @Column(name = "type", nullable = false)
+  @Enumerated(EnumType.STRING)
+  private List<ChallengeType> challengeTypes;
 
   /**
    * Get the authorities granted to the user.
