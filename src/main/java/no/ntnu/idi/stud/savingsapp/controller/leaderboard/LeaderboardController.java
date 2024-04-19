@@ -79,7 +79,7 @@ public class LeaderboardController {
       @RequestParam @Enumerator(value = LeaderboardFilter.class,
           message = "Invalid filter") String filter,
       @RequestParam(defaultValue = "10", required = false) int entryCount) {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(
+    Leaderboard leaderboard = leaderboardService.getSurrounding(
         LeaderboardType.valueOf(type), LeaderboardFilter.valueOf(filter), entryCount, identity.getId());
     LeaderboardDTO leaderboardDTO = modelMapper.map(leaderboard, LeaderboardDTO.class);
     return ResponseEntity.ok(leaderboardDTO);

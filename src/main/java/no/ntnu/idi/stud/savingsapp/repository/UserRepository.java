@@ -58,4 +58,72 @@ public interface UserRepository extends JpaRepository<User, Long> {
    */
   @Query(value = "SELECT u.* FROM user u JOIN streak s ON u.streak_id = s.streak_id ORDER BY s.current_streak DESC LIMIT :entryCount", nativeQuery = true)
   List<User> findTopUsersByHighestCurrentStreak(@Param("entryCount") Integer entryCount);
+
+  /**
+   * Finds the X users surrounding a user by their total earned points.
+   * @param userId The ID of the user you want to be surrounded.
+   * @param entryCount The number of users above and below the user.
+   * @return A list of users with a user with userId and 2X users surrounding it by their total earned points.
+   */
+  @Query(value = 
+               // Define two CTEs (ranked_users and user_rank)
+               // ranked_users virtual table that holds user info and their rank desc (1 is lowest)
+               // user_rank virtual table that holds rank of the user with ID userId
+               "WITH ranked_users AS (" + 
+               "    SELECT u.*, RANK() OVER (ORDER BY p.total_earned_points DESC) AS user_rank" +
+               "    FROM user u" +
+               "    JOIN point p ON u.point_id = p.point_id" +
+               "), user_rank AS (" +
+               "    SELECT user_rank" +
+               "    FROM ranked_users" +
+               "    WHERE user_id = :userId" +
+               ")" +
+               // Get user attributes from ranked_users
+               "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id " +  
+               "FROM ranked_users ru, user_rank ur " +
+               // Case handling for when user_rank is less than entryCount
+               "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
+       nativeQuery = true)
+  List<User> findSurroundingUsersByTotalEarnedPoints(@Param("userId") Long userId, @Param("entryCount") Integer entryCount);
+  @Query(value = 
+               // Define two CTEs (ranked_users and user_rank)
+               // ranked_users virtual table that holds user info and their rank desc (1 is lowest)
+               // user_rank virtual table that holds rank of the user with ID userId
+               "WITH ranked_users AS (" + 
+               "    SELECT u.*, RANK() OVER (ORDER BY s.current_streak DESC) AS user_rank" +
+               "    FROM user u" +
+               "    JOIN streak s ON u.streak_id = s.streak_id" +
+               "), user_rank AS (" +
+               "    SELECT user_rank" +
+               "    FROM ranked_users" +
+               "    WHERE user_id = :userId" +
+               ")" +
+               // Get user attributes from ranked_users
+               "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id " +  
+               "FROM ranked_users ru, user_rank ur " +
+               // Case handling for when user_rank is less than entryCount
+               "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
+       nativeQuery = true)
+  List<User> findSurroundingUsersByHighestCurrentStreak (@Param("userId") Long userId, @Param("entryCount") Integer entryCount);
+
+  @Query(value = 
+               // Define two CTEs (ranked_users and user_rank)
+               // ranked_users virtual table that holds user info and their rank desc (1 is lowest)
+               // user_rank virtual table that holds rank of the user with ID userId
+               "WITH ranked_users AS (" + 
+               "    SELECT u.*, RANK() OVER (ORDER BY s.highest_streak DESC) AS user_rank" +
+               "    FROM user u" +
+               "    JOIN streak s ON u.streak_id = s.streak_id" +
+               "), user_rank AS (" +
+               "    SELECT user_rank" +
+               "    FROM ranked_users" +
+               "    WHERE user_id = :userId" +
+               ")" +
+               // Get user attributes from ranked_users
+               "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id " +  
+               "FROM ranked_users ru, user_rank ur " +
+               // Case handling for when user_rank is less than entryCount
+               "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
+       nativeQuery = true)
+  List<User> findSurroundingUsersByHighestEverStreak (@Param("userId") Long userId, @Param("entryCount") Integer entryCount);
 }
