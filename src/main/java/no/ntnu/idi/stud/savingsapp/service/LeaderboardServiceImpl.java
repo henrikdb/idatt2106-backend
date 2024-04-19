@@ -78,33 +78,17 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 break;
 
             case FRIENDS:
-                List<Friend> friends = friendRepository.findAllById_UserOrId_User(userId);
-
-                // Add friends
-                users = friends.stream() 
-                               .map(friend -> friend.getId().getUser().getId().equals(userId) ? friend.getId().getFriend() : friend.getId().getUser())
-                               .distinct()
-                               .collect(Collectors.toList());
-                // Add yourself
-                User yourself = userRepository.findById(userId).orElse(null);
-                if(yourself != null && !users.contains(yourself)) {
-                    users.add(yourself);
+                switch (type) {
+                    case TOTAL_POINTS:
+                        users = userRepository.findTopFriendsByTotalEarnedPoints(userId, entryCount);
+                        break;
+                    case CURRENT_STREAK:
+                        users = userRepository.findTopFriendsByHighestCurrentStreak(userId, entryCount);
+                        break;
+                    case TOP_STREAK:
+                        users = userRepository.findTopFriendsByHighestEverStreak(userId, entryCount);
+                        break;
                 }
-                users = users.stream()
-                             .sorted(Comparator.comparing(user -> {
-                                 switch (type) {
-                                     case TOTAL_POINTS:
-                                         return user.getPoint().getTotalEarnedPoints();
-                                     case CURRENT_STREAK:
-                                         return user.getStreak().getCurrentStreak();
-                                     case TOP_STREAK:
-                                         return user.getStreak().getHighestStreak();
-                                     default:
-                                         return 0;
-                                 }
-                             }, Comparator.reverseOrder()))
-                             .limit(entryCount)
-                             .collect(Collectors.toList());
                 for (User user : users) {
                     int score = 0;
                     switch (type) {
@@ -148,7 +132,6 @@ public class LeaderboardServiceImpl implements LeaderboardService {
 
         switch (filter) {
             case GLOBAL:
-                // Get users surrounding the specific user (X above and X below)
                 switch (type) {
                     case TOTAL_POINTS:
                         users = userRepository.findSurroundingUsersByTotalEarnedPoints(userId, entryCount);
@@ -177,9 +160,70 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 }
                 break;
             case FRIENDS:
-        
-        } 
+                List<Friend> friends = friendRepository.findAllById_UserOrId_UserAndPendingFalse(userId);
+                
+                // Add friends to users and remove duplicates
+                users = friends.stream() 
+                               .map(friend -> friend.getId().getUser().getId().equals(userId) ? friend.getId().getFriend() : friend.getId().getUser())
+                               .distinct()
+                               .collect(Collectors.toList());
+                
+                // Add user to users
+                User yourself = userRepository.findById(userId).orElse(null);
+                if(yourself != null && !users.contains(yourself)) {
+                    users.add(yourself);
+                }
 
+                // Sort users based on type 
+                users = users.stream()
+                             .sorted(Comparator.comparing(user -> {
+                                 switch (type) {
+                                     case TOTAL_POINTS:
+                                         return user.getPoint().getTotalEarnedPoints();
+                                     case CURRENT_STREAK:
+                                         return user.getStreak().getCurrentStreak();
+                                     case TOP_STREAK:
+                                         return user.getStreak().getHighestStreak();
+                                     default:
+                                         return 0;
+                                 }
+                             }, Comparator.reverseOrder()))
+                             .collect(Collectors.toList());
+                             
+                // Find the index of user
+                int index = 0; 
+                for(User user : users) {
+                    if(user.getId().equals(userId)) {
+                        break;
+                    }
+                    index++;
+                }
+                
+                // Calculate the start and end index of the surrounding friends
+                int startIndex = Math.max(index - entryCount, 0); 
+                int endIndex = Math.min(index + entryCount + 1, users.size()); 
+
+                // Extract the sublist
+                users = users.subList(startIndex, endIndex);
+                
+                // Add the users as entries
+                for (User user : users) {
+                    int score = 0;
+                    switch (type) {
+                        case TOTAL_POINTS:
+                            score = user.getPoint().getTotalEarnedPoints();
+                            break;
+                        case CURRENT_STREAK:
+                            score = user.getStreak().getCurrentStreak();
+                            break;
+                        case TOP_STREAK:
+                            score = user.getStreak().getHighestStreak();
+                            break;
+                    }
+                    entries.add(new LeaderboardEntry(user, score));
+                }
+                break;
+        } 
         leaderboard.setEntries(entries);
         return leaderboard;
     }
