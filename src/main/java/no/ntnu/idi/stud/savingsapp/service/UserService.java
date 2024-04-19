@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
+import no.ntnu.idi.stud.savingsapp.dto.dto.UserUpdateDTO;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,9 @@ public interface UserService {
    */
   User register(User user);
 
+  User update(User user);
+
   User findByEmail(String email);
+
+  User findById(long id);
 }

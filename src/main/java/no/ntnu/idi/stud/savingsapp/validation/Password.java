@@ -18,6 +18,12 @@ import java.lang.annotation.*;
 public @interface Password {
 
   /**
+   * Specifies whether the annotated element is allowed to be null.
+   * @return True if the annotated element can be null, false otherwise.
+   */
+  boolean nullable() default false;
+
+  /**
    * Specifies the default error message that will be used when the validation fails.
    *
    * @return The default error message.

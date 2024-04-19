@@ -73,8 +73,27 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public User update(User user) {
+    try {
+      return userRepository.save(user);
+    } catch (DataIntegrityViolationException e) {
+      throw new EmailAlreadyExistsException();
+    }
+  }
+
+  @Override
   public User findByEmail(String email) {
     Optional<User> optionalUser = userRepository.findByEmail(email);
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    } else {
+      throw new UserNotFoundException();
+    }
+  }
+
+  @Override
+  public User findById(long userId) {
+    Optional<User> optionalUser = userRepository.findById(userId);
     if (optionalUser.isPresent()) {
       return optionalUser.get();
     } else {
