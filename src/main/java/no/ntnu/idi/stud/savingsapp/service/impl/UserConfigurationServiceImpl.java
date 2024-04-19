@@ -1,13 +1,14 @@
-package no.ntnu.idi.stud.savingsapp.service;
+package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.idi.stud.savingsapp.model.user.configuration.UserConfiguration;
 import no.ntnu.idi.stud.savingsapp.repository.UserConfigurationRepository;
+import no.ntnu.idi.stud.savingsapp.service.UserConfigurationService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserConfigurationServiceImpl implements UserConfigurationService{
+public class UserConfigurationServiceImpl implements UserConfigurationService {
 
   private UserConfigurationRepository userConfigRepository;
 

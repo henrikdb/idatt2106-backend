@@ -1,5 +1,6 @@
-package no.ntnu.idi.stud.savingsapp.service;
+package no.ntnu.idi.stud.savingsapp.service.impl;
 
+import no.ntnu.idi.stud.savingsapp.service.LeaderboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

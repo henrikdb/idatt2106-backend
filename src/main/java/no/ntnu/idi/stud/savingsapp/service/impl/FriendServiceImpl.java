@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.service;
+package no.ntnu.idi.stud.savingsapp.service.impl;
 
 
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
