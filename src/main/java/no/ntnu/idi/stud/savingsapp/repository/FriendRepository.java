@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * Repository interface for {@link Friend} entities.
+ */
 public interface FriendRepository extends JpaRepository<Friend, FriendId> {
 
   @Query("SELECT f FROM Friend f WHERE f.id.friend.id = :userId OR f.id.user.id = :userId")
