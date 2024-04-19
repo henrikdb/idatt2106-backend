@@ -15,4 +15,5 @@ import lombok.NoArgsConstructor;
 public class Leaderboard {
     private List<LeaderboardEntry> entries;
     private LeaderboardType type;
+    private LeaderboardFilter filter;
 }
