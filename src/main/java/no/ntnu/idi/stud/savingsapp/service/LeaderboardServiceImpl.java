@@ -13,6 +13,7 @@ import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.FriendRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Implementation of the UserService interface for leaderboard-related operations.
  */
+@Service
 public class LeaderboardServiceImpl implements LeaderboardService {
 
     @Autowired
