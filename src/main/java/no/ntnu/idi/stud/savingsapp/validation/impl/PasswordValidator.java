@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public final class PasswordValidator implements ConstraintValidator<Password, String> {
 
+  private Password passwordConstraint;
   public Pattern pattern;
 
   /**
@@ -23,6 +24,7 @@ public final class PasswordValidator implements ConstraintValidator<Password, St
    */
   @Override
   public void initialize(Password password) {
+    passwordConstraint = password;
     if (pattern == null) {
       pattern = Pattern.compile(UserProperties.PASS_REGEX);
     }
@@ -38,11 +40,11 @@ public final class PasswordValidator implements ConstraintValidator<Password, St
   @Override
   public boolean isValid(String password, ConstraintValidatorContext context) {
     String message = null;
-    if (password == null) {
+    if (password == null && !passwordConstraint.nullable()) {
       message = UserProperties.PASS_EMPTY;
-    } else if (password.length() < UserProperties.PASS_LEN_MIN || password.length() > UserProperties.PASS_LEN_MAX) {
+    } else if (password != null && (password.length() < UserProperties.PASS_LEN_MIN || password.length() > UserProperties.PASS_LEN_MAX)) {
       message = UserProperties.PASS_LEN_MSG;
-    } else if (!pattern.matcher(password).matches()) {
+    } else if (password != null && !pattern.matcher(password).matches()) {
       message = UserProperties.PASS_REGEX_MSG;
     }
 

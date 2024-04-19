@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.dto.auth;
+package no.ntnu.idi.stud.savingsapp.dto.dto;
 
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -11,30 +11,26 @@ import no.ntnu.idi.stud.savingsapp.validation.Password;
 
 import java.util.List;
 
-/**
- * Represents a sign-up request used for user registration.
- */
 @Data
-public final class SignUpRequest {
+public final class UserUpdateDTO {
 
-  @Name
+  @Name(nullable = true)
   private String firstName;
 
-  @Name
+  @Name(nullable = true)
   private String lastName;
 
   @Email(message = "Invalid email")
   private String email;
 
-  @Password
+  @Password(nullable = true)
   private String password;
 
-  @Enumerator(value = ChangeWilling.class, nullable = false)
+  @Enumerator(value = ChangeWilling.class)
   private String commitment;
 
-  @Enumerator(value = Experience.class, nullable = false)
+  @Enumerator(value = Experience.class)
   private String experience;
 
   private List<@Enumerator(value = ChallengeType.class, nullable = false) String> challengeTypes;
-
 }

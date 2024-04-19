@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public final class NameValidator implements ConstraintValidator<Name, String> {
 
+  private Name nameConstraint;
   private Pattern pattern;
 
   /**
@@ -23,6 +24,7 @@ public final class NameValidator implements ConstraintValidator<Name, String> {
    */
   @Override
   public void initialize(Name name) {
+    this.nameConstraint = name;
     if (pattern == null) {
       pattern = Pattern.compile(UserProperties.NAME_REGEX);
     }
@@ -38,11 +40,11 @@ public final class NameValidator implements ConstraintValidator<Name, String> {
   @Override
   public boolean isValid(String name, ConstraintValidatorContext context) {
     String message = null;
-    if (name == null) {
+    if (name == null && !this.nameConstraint.nullable()) {
       message = UserProperties.NAME_EMPTY;
-    } else if (name.length() < UserProperties.NAME_LEN_MIN || name.length() > UserProperties.NAME_LEN_MAX) {
+    } else if (name != null && (name.length() < UserProperties.NAME_LEN_MIN || name.length() > UserProperties.NAME_LEN_MAX)) {
       message = UserProperties.NAME_LEN_MSG;
-    } else if (!pattern.matcher(name).matches()) {
+    } else if (name != null && !pattern.matcher(name).matches()) {
       message = UserProperties.NAME_REGEX_MSG;
     }
 

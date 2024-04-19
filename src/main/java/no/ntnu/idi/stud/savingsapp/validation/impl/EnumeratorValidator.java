@@ -39,7 +39,9 @@ public final class EnumeratorValidator implements ConstraintValidator<Enumerator
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
     String message = null;
-    if ((value == null && !enumerator.nullable()) || (types != null && !types.contains(value))) {
+    if (value == null && !enumerator.nullable()) {
+      message = enumerator.value().getSimpleName() + " value is required";
+    } else if (value != null && !types.contains(value)) {
       message = "Invalid enum value '" + value + "' for " + enumerator.value().getSimpleName();
     }
 
