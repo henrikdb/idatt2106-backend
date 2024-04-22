@@ -22,10 +22,13 @@ public class BankProfile {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "bank_profile_id")
+  private Long id;
+
   @Column(name = "ssn")
   private Long ssn;
 
   @OneToMany()
-  @JoinColumn(name = "ssn")
+  @JoinColumn(name = "bank_profile_id")
   private List<Account> accounts;
 }
