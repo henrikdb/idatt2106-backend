@@ -26,9 +26,42 @@ public interface UserService {
    */
   User register(User user);
 
+  /**
+   * Updates the information of an existing user.
+   *
+   * @param user The User object containing updated information.
+   * @return The updated User object, persisted in the database.
+   */
   User update(User user);
 
+  /**
+   * Retrieves a user by their email address.
+   *
+   * @param email The email address to search for in the user database.
+   * @return The User object associated with the specified email if found.
+   */
   User findByEmail(String email);
 
+  /**
+   * Retrieves a user by their unique identifier.
+   *
+   * @param id The unique ID of the user.
+   * @return The User object associated with the specified ID if found.
+   */
   User findById(long id);
+
+  /**
+   * Initiates the password reset process for a user identified by their email address.
+   *
+   * @param email The email address of the user requesting a password reset.
+   */
+  void initiatePasswordReset(String email);
+
+  /**
+   * Completes the password reset process by updating the user's password based on the provided reset token.
+   *
+   * @param token The password reset token that was sent to the user.
+   * @param password The new password to set for the user.
+   */
+  void confirmPasswordReset(String token, String password);
 }

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/leaderboard")
 @EnableAutoConfiguration
-@Tag(name = "Leaderboard", description = "Retrieving leaderboard data")
+@Tag(name = "Leaderboard")
 public class LeaderboardController {
 
   @Autowired
