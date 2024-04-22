@@ -94,11 +94,11 @@ public class User implements UserDetails{
   private List<BadgeUser> badgeUserList;
 
   @OneToOne
-  @JoinColumn(name = "point_id", nullable = false)
+  @JoinColumn(name = "point_id", nullable = true)
   private Point point;
 
   @OneToOne
-  @JoinColumn(name = "streak_id", nullable = false)
+  @JoinColumn(name = "streak_id", nullable = true)
   private Streak streak;
 
   /**
