@@ -1,0 +1,11 @@
+package no.ntnu.idi.stud.bank.dto;
+
+import lombok.Data;
+
+@Data
+public class AccountResponseDTO {
+
+  private Long bankProfileId;
+
+  private Double balance;
+}

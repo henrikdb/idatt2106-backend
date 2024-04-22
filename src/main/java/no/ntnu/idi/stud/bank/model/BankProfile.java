@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class BankProfile {
   private Long ssn;
 
   @OneToMany()
+  @JsonManagedReference
   @JoinColumn(name = "bank_profile_id")
   private List<Account> accounts;
 }
