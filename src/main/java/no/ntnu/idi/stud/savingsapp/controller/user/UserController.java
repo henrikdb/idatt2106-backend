@@ -42,8 +42,7 @@ public class UserController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successfully got user")
   })
-  @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserDTO> getUser(@AuthenticationPrincipal AuthIdentity identity) {
     User user = userService.findById(identity.getId());
     UserDTO userDTO = modelMapper.map(user, UserDTO.class);
