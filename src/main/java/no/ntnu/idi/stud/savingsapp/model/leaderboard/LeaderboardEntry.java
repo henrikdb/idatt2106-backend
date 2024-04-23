@@ -14,4 +14,5 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 public class LeaderboardEntry {
     private User user;
     private int score;
+    private long rank;
 }

@@ -1,5 +1,6 @@
-package no.ntnu.idi.stud.savingsapp.service;
+package no.ntnu.idi.stud.savingsapp.service.impl;
 
+import no.ntnu.idi.stud.savingsapp.service.LeaderboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,18 +63,22 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 }
                 for (User user : users) {
                     int score = 0;
+                    long rank = 0;
                     switch (type) {
                         case TOTAL_POINTS:
                             score = user.getPoint().getTotalEarnedPoints();
+                            rank = userRepository.findUserRankByTotalEarnedPoints(user.getId());
                             break;
                         case CURRENT_STREAK:
                             score = user.getStreak().getCurrentStreak();
+                            rank = userRepository.findUserRankByCurrentStreak(user.getId());
                             break;
                         case TOP_STREAK:
                             score = user.getStreak().getHighestStreak();
+                            rank = userRepository.findUserRankByHighestEverStreak(user.getId());
                             break;
                     }
-                    entries.add(new LeaderboardEntry(user, score));
+                    entries.add(new LeaderboardEntry(user, score, rank));
                 }
                 break;
 
@@ -91,18 +96,22 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 }
                 for (User user : users) {
                     int score = 0;
+                    long rank = 0;
                     switch (type) {
                         case TOTAL_POINTS:
                             score = user.getPoint().getTotalEarnedPoints();
+                            rank = userRepository.findUserRankByTotalEarnedPoints(user.getId());
                             break;
                         case CURRENT_STREAK:
                             score = user.getStreak().getCurrentStreak();
+                            rank = userRepository.findUserRankByCurrentStreak(user.getId());
                             break;
                         case TOP_STREAK:
                             score = user.getStreak().getHighestStreak();
+                            rank = userRepository.findUserRankByHighestEverStreak(user.getId());
                             break;
                     }
-                    entries.add(new LeaderboardEntry(user, score));
+                    entries.add(new LeaderboardEntry(user, score, rank));
                 }
                 break;
         }
@@ -145,18 +154,22 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 } 
                 for (User user : users) {
                     int score = 0;
+                    long rank = 0;
                     switch (type) {
                         case TOTAL_POINTS:
                             score = user.getPoint().getTotalEarnedPoints();
+                            rank = userRepository.findUserRankByTotalEarnedPoints(user.getId());
                             break;
                         case CURRENT_STREAK:
                             score = user.getStreak().getCurrentStreak();
+                            rank = userRepository.findUserRankByCurrentStreak(user.getId());
                             break;
                         case TOP_STREAK:
                             score = user.getStreak().getHighestStreak();
+                            rank = userRepository.findUserRankByHighestEverStreak(user.getId());
                             break;
                     }
-                    entries.add(new LeaderboardEntry(user, score));
+                    entries.add(new LeaderboardEntry(user, score, rank));
                 }
                 break;
             case FRIENDS:
@@ -209,18 +222,22 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 // Add the users as entries
                 for (User user : users) {
                     int score = 0;
+                    long rank = 0;
                     switch (type) {
                         case TOTAL_POINTS:
                             score = user.getPoint().getTotalEarnedPoints();
+                            rank = userRepository.findUserRankByTotalEarnedPoints(user.getId());
                             break;
                         case CURRENT_STREAK:
                             score = user.getStreak().getCurrentStreak();
+                            rank = userRepository.findUserRankByCurrentStreak(user.getId());
                             break;
                         case TOP_STREAK:
                             score = user.getStreak().getHighestStreak();
+                            rank = userRepository.findUserRankByHighestEverStreak(user.getId());
                             break;
                     }
-                    entries.add(new LeaderboardEntry(user, score));
+                    entries.add(new LeaderboardEntry(user, score, rank));
                 }
                 break;
         } 

@@ -8,5 +8,6 @@ public final class LeaderboardEntryDTO {
 
   private UserDTO user;
   private int score;
+  private long rank;
 
 }

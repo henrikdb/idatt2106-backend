@@ -17,6 +17,14 @@ spring:
     init:
       mode: always
       continue-on-error: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sparesti050@gmail.com
+    password: cdxdjzkwapkbitej
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
 springdoc:
   swagger-ui:
