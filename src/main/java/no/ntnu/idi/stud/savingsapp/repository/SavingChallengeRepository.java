@@ -22,7 +22,7 @@ public interface SavingChallengeRepository extends JpaRepository<SavingChallenge
    * @param challengeType The type of challenge to search for.
    * @return A list of {@link SavingChallenge SavingChallenges}
    */
-  List<SavingChallenge> findAllByChallengeType(ChallengeType challengeType);
+  //List<SavingChallenge> findAllByChallengeType(ChallengeType challengeType);
 
 
   /**
@@ -31,11 +31,11 @@ public interface SavingChallengeRepository extends JpaRepository<SavingChallenge
    * @param difficultyLevel The difficulty level of the challenges to be found.
    * @return A list of {@link SavingChallenge SavingChallenges}.
    */
-  @Query("SELECT sc.* FROM saving_challenge sc "
+  /*@Query("SELECT sc.* FROM saving_challenge sc "
       + "JOIN difficulty_level dl "
       + "ON sc.difficulty_level_id = dl.difficulty_level_id "
-      + "WHERE dl.difficulty_level_id = :difLevel")
-  List<SavingChallenge> findAllByDifficultyLevel(@Param("difLevel") DifficultyLevel difficultyLevel);
+      + "WHERE dl.difficulty_level_id = :difLevel")*/
+  //List<SavingChallenge> findAllByDifficultyLevel(@Param("difLevel") DifficultyLevel difficultyLevel);
 
   // TODO find all challenges in a list of challenges that are of a difficulty level.
 
@@ -47,12 +47,12 @@ public interface SavingChallengeRepository extends JpaRepository<SavingChallenge
    * @return The {@link DifficultyLevel} of the {@link SavingChallenge} if found, if not return
    * empty.
    */
-  @Query("SELECT dl.* FROM difficulty_level dl JOIN saving_challenge sc "
+  /*@Query("SELECT dl.* FROM difficulty_level dl JOIN saving_challenge sc "
       + "ON dl.difficulty_level_id = sc.difficulty_level_id"
       + "WHERE sc.saving_challenge_id = :savingChallengeId")
   Optional<DifficultyLevel> findDifficultyLevelBySavingChallengeId(
       @Param("savingChallengeId")
       Long savingChallengeId
-  );
+  );*/
 
 }

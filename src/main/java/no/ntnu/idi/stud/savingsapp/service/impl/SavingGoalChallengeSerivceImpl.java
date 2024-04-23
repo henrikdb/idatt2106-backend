@@ -39,9 +39,9 @@ public class SavingGoalChallengeSerivceImpl {
     //Might not need this one
     for (List<SavingChallengeTemplate> list : typeChallengeListMap.values()) {
       for (SavingChallengeTemplate challenge : list) {
-        if (savingChallengeRepository.findDifficultyLevelBySavingChallengeId(challenge.getId())
+        /*if (savingChallengeRepository.findDifficultyLevelBySavingChallengeId(challenge.getId())
             .equals(user.getCommitment())) {
-        }
+        }*/
       }
     }
 
