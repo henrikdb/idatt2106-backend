@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
   public AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDto) throws ResponseStatusException {
     AccountResponseDTO accountResponseDTO = new AccountResponseDTO();
     try {
-      Optional<BankProfile> profile = bankProfileRepository.findById(accountRequestDto.getBankProfileId());
+      Optional<BankProfile> profile = bankProfileRepository.findBySsn(accountRequestDto.getSsn());
       if (profile.isEmpty()) {
         throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
       }

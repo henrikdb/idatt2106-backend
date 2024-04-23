@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class AccountRequestDTO {
 
-  private Long bankProfileId;
+  private Long ssn;
 
 }
