@@ -18,7 +18,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
    *
    * @return A list containing a list of user configurations.
    */
-  public List<List<UserConfiguration>> getSortedUserConfigs(Long userId) {
+  /*public List<List<UserConfiguration>> getSortedUserConfigs(Long userId) {
     List<UserConfiguration> suitableChallenges = new ArrayList<>();
     List<UserConfiguration> willingnessToChange = new ArrayList<>();
     List<UserConfiguration> experience = new ArrayList<>();
@@ -39,5 +39,5 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
     sortedUserConfigs.add(experience);
 
     return sortedUserConfigs;
-  }
+  }*/
 }

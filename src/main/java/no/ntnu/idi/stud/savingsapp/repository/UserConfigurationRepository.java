@@ -19,7 +19,7 @@ public interface UserConfigurationRepository extends JpaRepository<UserConfigura
    * @param userId The id of the user to search for.
    * @return The list of {@link UserConfiguration UserConfigurations}.
    */
-  @Query("SELECT uc.* FROM user_configuration uc WHERE uc.user_id = :userId")
-  List<UserConfiguration> findAllByUserId(@Param("userId") Long userId);
+  //@Query("SELECT uc.* FROM user_configuration uc WHERE uc.user_id = :userId")
+  //List<UserConfiguration> findAllById_UserId(@Param("userId") Long userId);
 
 }

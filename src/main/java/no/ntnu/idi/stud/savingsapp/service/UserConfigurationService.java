@@ -16,6 +16,6 @@ public interface UserConfigurationService {
    *
    * @return A list containing a list of user configurations.
    */
-  public List<List<UserConfiguration>> getSortedUserConfigs(Long userId);
+  //public List<List<UserConfiguration>> getSortedUserConfigs(Long userId);
 
 }
