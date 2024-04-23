@@ -22,6 +22,7 @@ import no.ntnu.idi.stud.savingsapp.utils.TokenUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -85,11 +86,12 @@ public class AuthenticationController {
   @SecurityRequirements
   @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseEntity<AuthenticationResponse> signup(@RequestBody @Valid SignUpRequest request) {
     User requestUser = modelMapper.map(request, User.class);
     User user = userService.register(requestUser);
     String token = TokenUtils.generateToken(user);
-    return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
+    return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
         user.getLastName(), user.getRole().name(), token));
   }
 
