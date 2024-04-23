@@ -68,10 +68,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
+
 
 		<!-- MySQL -->
 		<dependency>
@@ -152,7 +152,12 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<!-- TODO: Exclusions -->
+						<exclude>no/ntnu/idi/stud/savingsapp/config/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/dto/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/properties/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/exception/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/utils/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/security/**/*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -161,7 +166,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
     			<version>4.0.0-M13</version>
-			</plugin>	
+			</plugin>
 			<!-- Plugin allow execution of system and Java programs -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
