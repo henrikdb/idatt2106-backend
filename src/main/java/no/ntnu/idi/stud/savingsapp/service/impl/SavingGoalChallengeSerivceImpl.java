@@ -13,16 +13,12 @@ import no.ntnu.idi.stud.savingsapp.model.savings.SavingChallengeTemplate;
 import no.ntnu.idi.stud.savingsapp.model.savings.SavingGoal;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.SavingChallengeRepository;
-import no.ntnu.idi.stud.savingsapp.repository.SavingGoalChallengeRepository;
 import no.ntnu.idi.stud.savingsapp.repository.SavingChallengeTemplateRepository;
-import no.ntnu.idi.stud.savingsapp.repository.SavingGoalRepository;
-import no.ntnu.idi.stud.savingsapp.service.SavingGoalChallengeService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SavingGoalChallengeSerivceImpl implements SavingGoalChallengeService {
+public class SavingGoalChallengeSerivceImpl {
 
-  private SavingGoalChallengeRepository SavingGoalChallengeRepository;
   private SavingChallengeRepository savingChallengeRepository;
   private SavingChallengeTemplateRepository savingChallengeTemplateRepository;
 
