@@ -27,7 +27,7 @@ public class GoalServiceImpl {
     goal.setDescription(description);
     goal.setTargetAmount(targetAmount);
     goal.setTargetDate(targetDate);
-    goal.setUser(userService.findById(userID));
+    goal.setCreator(userService.findById(userID));
 
     goal.setChallenges(goalChallengeSerivce.generateSavingGoalChallenges(goal, userService.findById(userID)));
 
