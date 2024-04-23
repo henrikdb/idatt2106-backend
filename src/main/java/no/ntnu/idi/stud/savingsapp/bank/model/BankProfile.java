@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.bank.model;
+package no.ntnu.idi.stud.savingsapp.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;

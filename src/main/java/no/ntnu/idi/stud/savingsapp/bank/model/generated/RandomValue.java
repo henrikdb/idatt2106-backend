@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.bank.model.generated;
+package no.ntnu.idi.stud.savingsapp.bank.model.generated;
 
 import java.util.Random;
 

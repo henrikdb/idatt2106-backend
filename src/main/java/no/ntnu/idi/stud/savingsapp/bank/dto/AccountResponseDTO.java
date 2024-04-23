@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.bank.dto;
+package no.ntnu.idi.stud.savingsapp.bank.dto;
 
 import lombok.Data;
 

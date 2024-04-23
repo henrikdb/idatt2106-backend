@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.bank.model;
+package no.ntnu.idi.stud.savingsapp.bank.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

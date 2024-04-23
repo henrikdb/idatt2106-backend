@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.bank.model;
+package no.ntnu.idi.stud.savingsapp.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import no.ntnu.idi.stud.bank.model.generated.RandomValue;
+import no.ntnu.idi.stud.savingsapp.bank.model.generated.RandomValue;
 
 /**
  * Mock data for an account associated with a user in a bank.
