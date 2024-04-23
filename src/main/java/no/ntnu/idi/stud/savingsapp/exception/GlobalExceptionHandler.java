@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.question.QuestionTypeNotFoundException;
+import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
@@ -73,9 +74,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    * @return A ResponseEntity containing the error response.
    */
   @ExceptionHandler({InvalidCredentialsException.class, AccessDeniedException.class,
-      AuthenticationException.class, CredentialsExpiredException.class, PermissionDeniedException.class})
+      AuthenticationException.class, CredentialsExpiredException.class})
   public ResponseEntity<ExceptionResponse> handleUnauthorized(Exception e) {
     return ExceptionResponse.toResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+  }
+
+  /**
+   * Handles exceptions by returning an {@link HttpStatus#FORBIDDEN} response.
+   *
+   * @param e The exception.
+   * @return A ResponseEntity containing the error response.
+   */
+  @ExceptionHandler({PermissionDeniedException.class, InvalidPasswordResetTokenException.class})
+  public ResponseEntity<ExceptionResponse> handleForbidden(Exception e) {
+    return ExceptionResponse.toResponseEntity(HttpStatus.FORBIDDEN, e.getMessage());
   }
 
   /**

@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @EnableAutoConfiguration
 @Validated
-@Tag(name = "Authentication", description = "User authentication")
+@Tag(name = "Authentication")
 public class AuthenticationController {
 
   @Autowired

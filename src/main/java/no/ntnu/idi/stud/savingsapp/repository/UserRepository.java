@@ -191,4 +191,52 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
   nativeQuery = true)
   List<User> findSurroundingUsersByHighestEverStreak (@Param("userId") Long userId, @Param("entryCount") Integer entryCount); 
+
+  @Query(value = 
+            "WITH ranked_users AS (" +
+            "    SELECT u.user_id, RANK() OVER (ORDER BY p.total_earned_points DESC) AS user_rank " +
+            "    FROM user u " +
+            "    JOIN point p ON u.point_id = p.point_id " +
+            "), " +
+            "user_rank AS (" +
+            "    SELECT user_rank " +
+            "    FROM ranked_users " +
+            "    WHERE user_id = :userId " +
+            ") " +
+            "SELECT user_rank " +
+            "FROM user_rank",
+            nativeQuery = true)
+    long findUserRankByTotalEarnedPoints(@Param("userId") Long userId);
+
+    @Query(value = 
+            "WITH ranked_users AS (" +
+            "    SELECT u.user_id, RANK() OVER (ORDER BY s.current_streak DESC) AS user_rank " +
+            "    FROM user u " +
+            "    JOIN streak s ON u.streak_id = s.streak_id " +
+            "), " +
+            "user_rank AS (" +
+            "    SELECT user_rank " +
+            "    FROM ranked_users " +
+            "    WHERE user_id = :userId " +
+            ") " +
+            "SELECT user_rank " +
+            "FROM user_rank",
+            nativeQuery = true)
+    long findUserRankByCurrentStreak(@Param("userId") Long userId);
+
+    @Query(value = 
+            "WITH ranked_users AS (" +
+            "    SELECT u.user_id, RANK() OVER (ORDER BY s.highest_streak DESC) AS user_rank " +
+            "    FROM user u " +
+            "    JOIN streak s ON u.streak_id = s.streak_id " +
+            "), " +
+            "user_rank AS (" +
+            "    SELECT user_rank " +
+            "    FROM ranked_users " +
+            "    WHERE user_id = :userId " +
+            ") " +
+            "SELECT user_rank " +
+            "FROM user_rank",
+            nativeQuery = true)
+    long findUserRankByHighestEverStreak(@Param("userId") Long userId);
 }
