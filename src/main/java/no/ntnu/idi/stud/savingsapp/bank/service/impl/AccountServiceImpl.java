@@ -24,14 +24,24 @@ public class AccountServiceImpl implements AccountService {
   private BankProfileRepository bankProfileRepository;
 
   @Override
-  public List<Account> getAccountsByBankProfileId(Long ssn) {
+  public List<Account> getAccountsByBankProfileId(Long id) {
     List<Account> accountList;
-    try {
-      accountList = accountRepository.findAllByBankProfileId(ssn);
-
-    } catch (Exception e) {
+    Optional<BankProfile> bankProfile = bankProfileRepository.findById(id);
+    if (bankProfile.isEmpty()) {
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
     }
+      accountList = accountRepository.findAllByBankProfileId(id);
+    return accountList;
+  }
+
+  @Override
+  public List<Account> getAccountsBySsn(Long ssn) {
+    List<Account> accountList;
+    Optional<BankProfile> bankProfile = bankProfileRepository.findBySsn(ssn);
+    if (bankProfile.isEmpty()) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
+    }
+    accountList = accountRepository.findAllByBankProfileSsn(ssn);
     return accountList;
   }
 

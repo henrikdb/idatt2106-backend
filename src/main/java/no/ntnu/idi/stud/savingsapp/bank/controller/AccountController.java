@@ -10,7 +10,6 @@ import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +32,15 @@ public class AccountController {
       @ApiResponse(responseCode = "200", description = "No accounts associated with a bank user"),
       @ApiResponse(responseCode = "404", description = "Bank profile id does not exist")
   })
-  @GetMapping(value = "/accounts/{bankProfileId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping("/accounts/profile/{bankProfileId}")
   public ResponseEntity<List<Account>> getAccounts(@PathVariable Long bankProfileId) {
     List<Account> accounts = accountService.getAccountsByBankProfileId(bankProfileId);
+    return ResponseEntity.ok(accounts);
+  }
+
+  @GetMapping("/accounts/ssn/{ssn}")
+  public ResponseEntity<List<Account>> getAccountsBySsn(@PathVariable Long ssn) {
+    List<Account> accounts = accountService.getAccountsBySsn(ssn);
     return ResponseEntity.ok(accounts);
   }
 

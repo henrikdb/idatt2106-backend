@@ -11,6 +11,8 @@ public interface AccountService {
 
   List<Account> getAccountsByBankProfileId(Long ssn);
 
+  List<Account> getAccountsBySsn(Long ssn);
+
   AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDto);
 
 }

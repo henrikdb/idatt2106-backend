@@ -19,5 +19,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
   @Query("SELECT a FROM Account a WHERE a.bankProfile.id = :bankProfileId")
   List<Account> findAllByBankProfileId(@Param("bankProfileId") Long bankProfileId);
 
+  List<Account> findAllByBankProfileSsn(Long ssn);
 
 }
