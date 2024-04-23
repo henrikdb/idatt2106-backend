@@ -1,6 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.model;
 
-public enum ChangeWilling {
+public enum Commitment {
 
   LITTLE,
   SOME,

@@ -19,18 +19,18 @@ import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 
 /**
- * Represents a challenge need to achieve a {@link SavingGoal}
+ * Represents a challenge template need to achieve a {@link SavingGoal}
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "saving_challenge")
-public class SavingChallenge {
+@Table(name = "saving_challenge_template")
+public class SavingChallengeTemplate {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "saving_challenge_id")
+  @Column(name = "saving_challenge_template_id")
   private Long id;
 
   @NonNull
@@ -38,19 +38,28 @@ public class SavingChallenge {
   private String savingChallengeText;
 
   @NonNull
-  @Column(name = "potential_saving_amount", nullable = false)
-  private int potentialSavingAmount;
+  @Column(name = "saving_challenge_min_lenght", nullable = false)
+  private int savingChallengeMinLenght;
 
   @NonNull
-  @Column(name = "points", nullable = false)
-  private int points;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "saving_challenge_id")
-  private List<DailyChallengeProgress> dailyChallengeProgressList;
+  @Column(name = "saving_challenge_max_lenght", nullable = false)
+  private int savingChallengeMaxLenght;
 
   @NonNull
   @Enumerated(EnumType.STRING)
   @Column(name = "challenge_type", nullable = false)
   private ChallengeType challengeType;
+
+
+  public String getChallengeText() {
+    return this.savingChallengeText;
+  }
+
+  public int getMinDays() {
+    return this.savingChallengeMinLenght;
+  }
+
+  public int getMaxDays() {
+    return this.savingChallengeMaxLenght;
+  }
 }

@@ -3,7 +3,7 @@ package no.ntnu.idi.stud.savingsapp.dto.auth;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
-import no.ntnu.idi.stud.savingsapp.model.ChangeWilling;
+import no.ntnu.idi.stud.savingsapp.model.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.Experience;
 import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
 import no.ntnu.idi.stud.savingsapp.validation.Name;

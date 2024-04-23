@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.service;
+package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import jakarta.mail.MessagingException;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
@@ -10,6 +10,7 @@ import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
+import no.ntnu.idi.stud.savingsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
