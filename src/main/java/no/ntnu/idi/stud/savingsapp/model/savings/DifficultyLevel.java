@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Represents the difficulty level of the {@link SavingChallenge SavingChallanges}.
+ * Represents the difficulty level of the {@link Challenge SavingChallanges}.
  */
 @Data
 @AllArgsConstructor
@@ -36,5 +36,5 @@ public class DifficultyLevel {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "difficulty_level_id")
-  private List<SavingChallenge> savingChallengeList;
+  private List<Challenge> challengeList;
 }
