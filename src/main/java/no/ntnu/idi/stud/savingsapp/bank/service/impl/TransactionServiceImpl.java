@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.bank.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import no.ntnu.idi.stud.savingsapp.bank.dto.TransactionDTO;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
@@ -40,7 +41,18 @@ public class TransactionServiceImpl implements TransactionService {
       savedTransaction.setCreditorAccount(creditorAccount.get());
       savedTransaction.setAmount(transactionRequest.getAmount());
 
+      BigDecimal debtorBalance = (
+          debtorAccount.get().getBalance()).subtract(transactionRequest.getAmount()
+      );
+
+      BigDecimal creditorBalance = (
+          creditorAccount.get().getBalance().add(transactionRequest.getAmount())
+      );
+
+      accountRepository.updateBalance(debtorBalance, debtorAccount.get().getBban());
+      accountRepository.updateBalance(creditorBalance, creditorAccount.get().getBban());
       transactionRepository.save(savedTransaction);
+
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
     }

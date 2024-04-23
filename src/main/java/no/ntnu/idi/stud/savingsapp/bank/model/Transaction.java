@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class Transaction {
   private Long id;
 
   @Column(name = "amount")
-  private Double amount;
+  private BigDecimal amount;
 
   @ManyToOne()
   @JoinColumn(name = "debtor_account_bban")

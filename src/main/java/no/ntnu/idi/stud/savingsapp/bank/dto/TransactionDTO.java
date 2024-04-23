@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.bank.dto;
 
+import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
@@ -9,5 +10,5 @@ public class TransactionDTO {
 
   private Long creditorBBAN;
 
-  private Double amount;
+  private BigDecimal amount;
 }
