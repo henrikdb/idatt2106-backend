@@ -1,0 +1,50 @@
+package no.ntnu.idi.stud.savingsapp.bank.service.impl;
+
+import java.util.Optional;
+import no.ntnu.idi.stud.savingsapp.bank.dto.TransactionDTO;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.bank.model.Transaction;
+import no.ntnu.idi.stud.savingsapp.bank.repository.AccountRepository;
+import no.ntnu.idi.stud.savingsapp.bank.repository.TransactionRepository;
+import no.ntnu.idi.stud.savingsapp.bank.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
+public class TransactionServiceImpl implements TransactionService {
+
+  @Autowired
+  private TransactionRepository transactionRepository;
+
+  @Autowired
+  private AccountRepository accountRepository;
+
+  @Override
+  public void saveTransaction(TransactionDTO transactionRequest){
+
+    Optional<Account> debtorAccount =
+        accountRepository.findById(transactionRequest.getDebtorBBAN());
+    if (debtorAccount.isEmpty()) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+    }
+    Optional<Account> creditorAccount =
+        accountRepository.findById(transactionRequest.getCreditorBBAN());
+    if (creditorAccount.isEmpty()) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+    }
+    try {
+      Transaction savedTransaction = new Transaction();
+      savedTransaction.setDebtorAccount(debtorAccount.get());
+      savedTransaction.setCreditorAccount(creditorAccount.get());
+      savedTransaction.setAmount(transactionRequest.getAmount());
+
+      transactionRepository.save(savedTransaction);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
+    }
+  }
+
+
+}
