@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.exception;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
+import no.ntnu.idi.stud.savingsapp.exception.question.QuestionTypeNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
