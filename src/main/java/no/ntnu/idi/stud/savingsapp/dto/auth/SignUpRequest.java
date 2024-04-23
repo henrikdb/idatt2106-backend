@@ -29,7 +29,7 @@ public final class SignUpRequest {
   @Password
   private String password;
 
-  @Enumerator(value = ChangeWilling.class, nullable = false)
+  @Enumerator(value = Commitment.class, nullable = false)
   private String commitment;
 
   @Enumerator(value = Experience.class, nullable = false)
