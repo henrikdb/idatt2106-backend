@@ -49,7 +49,8 @@ public class SecurityConfig {
         .disable()
         .authorizeHttpRequests(auth -> {
           auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-              .requestMatchers("/swagger/**", "/api/auth/**").permitAll().anyRequest().authenticated();
+              .requestMatchers("/swagger/**", "/api/auth/**", "/api/question/**").permitAll().anyRequest().authenticated();
+              
         })
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
