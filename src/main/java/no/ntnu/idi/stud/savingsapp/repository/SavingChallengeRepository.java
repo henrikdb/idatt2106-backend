@@ -49,7 +49,7 @@ public interface SavingChallengeRepository extends JpaRepository<SavingChallenge
    */
   @Query("SELECT dl.* FROM difficulty_level dl JOIN saving_challenge sc "
       + "ON dl.difficulty_level_id = sc.difficulty_level_id"
-      + "WHERE sc.saving_challenge_id = :savingChallenge")
+      + "WHERE sc.saving_challenge_id = :savingChallengeId")
   Optional<DifficultyLevel> findDifficultyLevelBySavingChallengeId(
       @Param("savingChallengeId")
       Long savingChallengeId
