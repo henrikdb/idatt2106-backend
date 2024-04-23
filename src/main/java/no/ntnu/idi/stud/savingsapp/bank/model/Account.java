@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import no.ntnu.idi.stud.savingsapp.bank.model.generated.RandomValue;
@@ -28,7 +29,7 @@ public class Account {
   private Long bban;
 
   @Column(name = "balance")
-  private Double balance;
+  private BigDecimal balance;
 
   @ManyToOne
   @JsonBackReference
