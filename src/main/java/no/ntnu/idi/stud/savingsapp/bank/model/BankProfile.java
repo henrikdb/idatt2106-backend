@@ -14,6 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity that represents a bank profile in the system.
+ * This profile consists of both an id and a social security number.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

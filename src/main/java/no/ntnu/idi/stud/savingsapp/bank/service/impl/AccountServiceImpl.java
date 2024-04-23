@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * Implementation of the {@link AccountService} interface for account related operations.
+ */
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -23,6 +26,12 @@ public class AccountServiceImpl implements AccountService {
   @Autowired
   private BankProfileRepository bankProfileRepository;
 
+  /**
+   * Get a list of accounts of a bank profile by providing the associated id of the bank profile.
+   *
+   * @param id The id of the bank profile.
+   * @return   A list of accounts.
+   */
   @Override
   public List<Account> getAccountsByBankProfileId(Long id) {
     List<Account> accountList;
@@ -34,6 +43,13 @@ public class AccountServiceImpl implements AccountService {
     return accountList;
   }
 
+  /**
+   * Get a list of accounts of a bank profile by providing the associated Social Security Number
+   * of the bank profile.
+   *
+   * @param ssn The Social Security Number of the bank profile.
+   * @return   A list of accounts.
+   */
   @Override
   public List<Account> getAccountsBySsn(Long ssn) {
     List<Account> accountList;

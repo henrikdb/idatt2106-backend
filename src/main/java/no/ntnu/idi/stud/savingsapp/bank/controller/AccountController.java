@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller class for handling bank account related operations.
+ */
 @RestController
 @RequestMapping("/bank/v1/account")
 @EnableAutoConfiguration
@@ -26,7 +29,8 @@ public class AccountController {
   @Autowired
   private AccountService accountService;
 
-  @Operation(summary = "Get user accounts", description = "Get accounts associated with a user")
+  @Operation(summary = "Get user accounts", description = "Get accounts associated with a user by"
+      + " providing their bank profile id")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successfully got accounts"),
       @ApiResponse(responseCode = "200", description = "No accounts associated with a bank user"),
@@ -38,6 +42,13 @@ public class AccountController {
     return ResponseEntity.ok(accounts);
   }
 
+  @Operation(summary = "Get user accounts", description = "Get accounts associated with a user by"
+      + " providing their social security number")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully got accounts"),
+      @ApiResponse(responseCode = "200", description = "No accounts associated with a bank user"),
+      @ApiResponse(responseCode = "404", description = "Social security number does not exist")
+  })
   @GetMapping("/accounts/ssn/{ssn}")
   public ResponseEntity<List<Account>> getAccountsBySsn(@PathVariable Long ssn) {
     List<Account> accounts = accountService.getAccountsBySsn(ssn);

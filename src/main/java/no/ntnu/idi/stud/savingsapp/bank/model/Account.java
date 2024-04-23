@@ -15,7 +15,7 @@ import lombok.Data;
 import no.ntnu.idi.stud.savingsapp.bank.model.generated.RandomValue;
 
 /**
- * Mock data for an account associated with a user in a bank.
+ * Entity that represents a bank account in the system.
  */
 @Data
 @AllArgsConstructor

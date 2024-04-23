@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * Implementation of the {@link TransactionService} interface for transaction related operations.
+ */
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -22,6 +25,13 @@ public class TransactionServiceImpl implements TransactionService {
   @Autowired
   private AccountRepository accountRepository;
 
+  /**
+   * Performs and saves a transaction between two accounts.
+   *
+   * @param transactionRequest The transaction to be performed, containing the bban of the creditor
+   *                           and debitor accounts in addition to the amount that is being
+   *                           transferred.
+   */
   @Override
   public void saveTransaction(TransactionDTO transactionRequest){
 

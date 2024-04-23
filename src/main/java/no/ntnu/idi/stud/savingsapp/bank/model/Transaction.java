@@ -14,6 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity that represents a bank transaction in the system.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
