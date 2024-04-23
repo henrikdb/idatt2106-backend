@@ -1,7 +1,7 @@
-package no.ntnu.idi.stud.bank.repository;
+package no.ntnu.idi.stud.savingsapp.bank.repository;
 
 import java.util.List;
-import no.ntnu.idi.stud.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +16,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
    * @param bankProfileId The id of the bank profile that belongs to the desired accounts.
    * @return A list of accounts.
    */
-  @Query("SELECT a.* FROM account a WHERE a.bank_profile_id = :bankProfileId")
+  @Query("SELECT a FROM Account a WHERE a.bankProfile.id = :bankProfileId")
   List<Account> findAllByBankProfileId(@Param("bankProfileId") Long bankProfileId);
 
-  Account saveAccount(Account account);
+
 }
