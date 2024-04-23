@@ -2,6 +2,8 @@ package no.ntnu.idi.stud.savingsapp.bank.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,5 +44,9 @@ public class Transaction {
 
   @Column(name = "created_at")
   private Timestamp createdAt;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "transaction_type")
+  private TransactionType transactionType;
 
 }
