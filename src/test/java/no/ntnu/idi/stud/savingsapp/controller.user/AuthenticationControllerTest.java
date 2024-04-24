@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.controller.user;
 import no.ntnu.idi.stud.savingsapp.JsonUtil;
 import no.ntnu.idi.stud.savingsapp.dto.auth.LoginRequest;
 import no.ntnu.idi.stud.savingsapp.dto.auth.SignUpRequest;
+import no.ntnu.idi.stud.savingsapp.dto.configuration.ConfigurationDTO;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
@@ -86,9 +87,11 @@ public class AuthenticationControllerTest {
     signUpRequest.setPassword(user.getPassword());
     signUpRequest.setFirstName(user.getFirstName());
     signUpRequest.setLastName(user.getLastName());
-    signUpRequest.setCommitment("MUCH");
-    signUpRequest.setExperience("EXPERT");
-    signUpRequest.setChallengeTypes(Arrays.asList("NO_COFFEE"));
+    ConfigurationDTO configurationDTO = new ConfigurationDTO();
+    configurationDTO.setCommitment("MUCH");
+    configurationDTO.setExperience("EXPERT");
+    configurationDTO.setChallengeTypes(Arrays.asList("NO_COFFEE"));
+    signUpRequest.setConfiguration(configurationDTO);
 
     when(userService.register(any())).thenReturn(user);
 
@@ -106,9 +109,11 @@ public class AuthenticationControllerTest {
     signUpRequest.setPassword(user.getPassword());
     signUpRequest.setFirstName(user.getFirstName());
     signUpRequest.setLastName(user.getLastName());
-    signUpRequest.setCommitment("MUCH");
-    signUpRequest.setExperience("EXPERT");
-    signUpRequest.setChallengeTypes(Arrays.asList("NO_COFFEE"));
+    ConfigurationDTO configurationDTO = new ConfigurationDTO();
+    configurationDTO.setCommitment("MUCH");
+    configurationDTO.setExperience("EXPERT");
+    configurationDTO.setChallengeTypes(Arrays.asList("NO_COFFEE"));
+    signUpRequest.setConfiguration(configurationDTO);
 
     when(userService.register(any())).thenThrow(new EmailAlreadyExistsException());
 
