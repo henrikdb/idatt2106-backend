@@ -1,26 +1,21 @@
 package no.ntnu.idi.stud.savingsapp.repository;
 
-import java.util.List;
-import java.util.Optional;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.savings.DifficultyLevel;
-import no.ntnu.idi.stud.savingsapp.model.savings.SavingChallenge;
+import no.ntnu.idi.stud.savingsapp.model.savings.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository interface for {@link SavingChallenge} entities.
+ * Repository interface for {@link Challenge} entities.
  */
 @Repository
-public interface SavingChallengeRepository extends JpaRepository<SavingChallenge, Long> {
+public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
   /**
    * Find all the challenges with the same challenge type.
    *
    * @param challengeType The type of challenge to search for.
-   * @return A list of {@link SavingChallenge SavingChallenges}
+   * @return A list of {@link Challenge SavingChallenges}
    */
   //List<SavingChallenge> findAllByChallengeType(ChallengeType challengeType);
 
@@ -29,7 +24,7 @@ public interface SavingChallengeRepository extends JpaRepository<SavingChallenge
    * Find all SavingChallenges that have a given difficulty level.
    *
    * @param difficultyLevel The difficulty level of the challenges to be found.
-   * @return A list of {@link SavingChallenge SavingChallenges}.
+   * @return A list of {@link Challenge SavingChallenges}.
    */
   /*@Query("SELECT sc.* FROM saving_challenge sc "
       + "JOIN difficulty_level dl "
@@ -40,11 +35,11 @@ public interface SavingChallengeRepository extends JpaRepository<SavingChallenge
   // TODO find all challenges in a list of challenges that are of a difficulty level.
 
   /**
-   * Find the difficulty level of a {@link SavingChallenge}.
+   * Find the difficulty level of a {@link Challenge}.
    *
-   * @param savingChallengeId The id of the {@link SavingChallenge} who's {@link DifficultyLevel}
+   * @param savingChallengeId The id of the {@link Challenge} who's {@link DifficultyLevel}
    *                          should be found.
-   * @return The {@link DifficultyLevel} of the {@link SavingChallenge} if found, if not return
+   * @return The {@link DifficultyLevel} of the {@link Challenge} if found, if not return
    * empty.
    */
   /*@Query("SELECT dl.* FROM difficulty_level dl JOIN saving_challenge sc "

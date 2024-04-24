@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class SavingGoalChallengeId implements Serializable {
+public class GoalChallengeId implements Serializable {
 
   @ManyToOne
-  @JoinColumn(name = "saving_goal_id")
-  private SavingGoal savingGoal;
+  @JoinColumn(name = "goal_id")
+  private Goal goal;
 
   @ManyToOne
-  @JoinColumn(name = "saving_challenge_id")
-  private SavingChallenge savingChallenge;
+  @JoinColumn(name = "challenge_id")
+  private Challenge challenge;
 }

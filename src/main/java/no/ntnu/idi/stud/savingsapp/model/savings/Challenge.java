@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,25 +18,37 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Represents the difficulty level of the {@link Challenge SavingChallanges}.
+ * Represents a challenge need to achieve a {@link Goal}
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "difficulty_level")
-public class DifficultyLevel {
+@Table(name = "challenge")
+public class Challenge {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "difficulty_level_id")
+  @Column(name = "challenge_id")
   private Long id;
 
   @NonNull
-  @Column(name = "difficulty_level_text", nullable = false)
-  private String diffucultyLevelText;
+  @Column(name = "potential_saving_amount", nullable = false)
+  private int potentialSavingAmount;
+
+  @NonNull
+  @Column(name = "points", nullable = false)
+  private int points;
+
+  @NonNull
+  @Column(name = "days", nullable = false)
+  private int days;
+
+  @NonNull
+  @Column(name = "created_at", nullable = false)
+  private Timestamp createdAt;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "difficulty_level_id")
-  private List<Challenge> challengeList;
+  @JoinColumn(name = "challenge_id")
+  private List<DailyChallengeProgress> dailyChallengeProgressList;
 }

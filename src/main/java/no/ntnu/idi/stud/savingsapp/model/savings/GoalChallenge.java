@@ -14,11 +14,11 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "saving_goal_challenge")
-public class SavingGoalChallenge {
+@Table(name = "goal_challenge")
+public class GoalChallenge {
 
   @EmbeddedId
-  private SavingGoalChallengeId id;
+  private GoalChallengeId id;
 
   @NonNull
   @Column(name = "created_at", nullable = false)

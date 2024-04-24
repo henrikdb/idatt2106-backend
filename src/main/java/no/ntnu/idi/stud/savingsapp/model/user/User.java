@@ -29,8 +29,8 @@ import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.Experience;
+import no.ntnu.idi.stud.savingsapp.model.savings.Goal;
 
-import no.ntnu.idi.stud.savingsapp.model.savings.SavingGoal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -87,7 +87,7 @@ public class User implements UserDetails{
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id")
-  private List<SavingGoal> savingGoal;
+  private List<Goal> goal;
 
   @ManyToMany
   @JoinTable(name = "badge_user",

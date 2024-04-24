@@ -1,36 +1,39 @@
 package no.ntnu.idi.stud.savingsapp.model.savings;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 /**
  * Represents a saving goal.
- * This entity has a list of generated {@link SavingChallenge SavingChallanges} associated with it.
+ * This entity has a list of generated {@link Challenge SavingChallanges} associated with it.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "saving_goal")
-public class SavingGoal {
+@Table(name = "goal")
+public class Goal {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "saving_goal_id")
+  @Column(name = "goal_id")
   private Long id;
 
   @NonNull
-  @Column(name = "saving_goal_name", nullable = false)
-  private String savingGoalName;
+  @Column(name = "goal_name", nullable = false)
+  private String GoalName;
+
+  @NonNull
+  @Column(name = "goal_description", nullable = false)
+  private String description;
 
   @NonNull
   @Column(name = "target_amount", nullable = false)
@@ -47,4 +50,14 @@ public class SavingGoal {
   @NonNull
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
+
+  @OneToMany
+  @JoinColumn(name = "challenge_id")
+  private List<Challenge> challenges;
+
+  @ManyToOne
+  @JoinTable(name = "goal_user",
+  joinColumns = @JoinColumn(name = "user_id"),
+  inverseJoinColumns = @JoinColumn(name = "goal_id"))
+  private User creator;
 }
