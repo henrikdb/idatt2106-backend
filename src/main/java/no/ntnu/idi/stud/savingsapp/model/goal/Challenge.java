@@ -1,14 +1,6 @@
-package no.ntnu.idi.stud.savingsapp.model.savings;
+package no.ntnu.idi.stud.savingsapp.model.goal;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -47,6 +39,14 @@ public class Challenge {
   @NonNull
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
+
+  @ManyToOne
+  @JoinColumn(name = "goal_id")
+  private Goal goal;
+
+  @ManyToOne
+  @JoinColumn (name = "challenge_template_id")
+  private ChallengeTemplate challengeTemplate;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "challenge_id")
