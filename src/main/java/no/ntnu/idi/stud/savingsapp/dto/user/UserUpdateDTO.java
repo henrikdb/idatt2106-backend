@@ -1,15 +1,12 @@
 package no.ntnu.idi.stud.savingsapp.dto.user;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
-import no.ntnu.idi.stud.savingsapp.model.Commitment;
-import no.ntnu.idi.stud.savingsapp.model.Experience;
-import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
+import no.ntnu.idi.stud.savingsapp.dto.configuration.ConfigurationDTO;
 import no.ntnu.idi.stud.savingsapp.validation.Name;
 import no.ntnu.idi.stud.savingsapp.validation.Password;
-
-import java.util.List;
 
 @Data
 public final class UserUpdateDTO {
@@ -26,11 +23,6 @@ public final class UserUpdateDTO {
   @Password(nullable = true)
   private String password;
 
-  @Enumerator(value = Commitment.class)
-  private String commitment;
-
-  @Enumerator(value = Experience.class)
-  private String experience;
-
-  private List<@Enumerator(value = ChallengeType.class, nullable = false) String> challengeTypes;
+  @Valid
+  private ConfigurationDTO configuration;
 }

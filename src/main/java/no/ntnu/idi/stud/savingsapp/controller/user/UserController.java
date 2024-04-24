@@ -121,15 +121,18 @@ public class UserController {
       String encodedPassword = passwordEncoder.encode(updateDTO.getPassword());
       user.setPassword(encodedPassword);
     }
-    if (updateDTO.getCommitment() != null) {
-      // TODO
+    /*if (updateDTO.getConfiguration().getCommitment() != null) {
+      user.getConfiguration().setCommitment(Commitment.valueOf(updateDTO.getConfiguration().getCommitment()));
     }
-    if (updateDTO.getExperience() != null) {
-      // TODO
+    if (updateDTO.getConfiguration().getExperience() != null) {
+      user.getConfiguration().setExperience(Experience.valueOf(updateDTO.getConfiguration().getExperience()));
     }
     if (updateDTO.getChallengeTypes() != null) {
+      for (String challengeType : updateDTO.getConfiguration().getChallengeTypes()) {
+        user.getConfiguration().getChallengeTypes().add(Cha);
+      }
       // TODO
-    }
+    }*/
     User updatedUser = userService.update(user);
     UserDTO userDTO = modelMapper.map(updatedUser, UserDTO.class);
     return ResponseEntity.ok(userDTO);

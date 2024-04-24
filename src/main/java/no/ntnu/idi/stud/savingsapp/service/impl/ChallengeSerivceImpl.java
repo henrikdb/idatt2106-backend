@@ -10,7 +10,7 @@ import java.util.Random;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDateTime;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
+import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.goal.ChallengeTemplate;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
@@ -36,7 +36,7 @@ public class ChallengeSerivceImpl implements ChallengeService {
     Map<ChallengeType, List<ChallengeTemplate>> typeChallengeListMap = new HashMap<>();
     List<Challenge> generatedChallenge = new ArrayList<>();
 
-    for (ChallengeType challengeType : user.getChallengeTypes()) {
+    for (ChallengeType challengeType : user.getConfiguration().getChallengeTypes()) {
       typeChallengeListMap.put(challengeType,
         challengeTemplateRepository.findAllByChallengeType(challengeType));
     }

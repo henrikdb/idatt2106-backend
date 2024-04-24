@@ -16,24 +16,23 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
-import no.ntnu.idi.stud.savingsapp.model.Commitment;
-import no.ntnu.idi.stud.savingsapp.model.Experience;
 import no.ntnu.idi.stud.savingsapp.model.budget.Budget;
-import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
-
+import no.ntnu.idi.stud.savingsapp.model.configuration.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents a user in the system.
@@ -44,7 +43,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "`user`") 
+@Table(name = "`user`")
 public class User implements UserDetails{
 
   @Id
@@ -100,28 +99,16 @@ public class User implements UserDetails{
   private List<Budget> budgetList;
 
   @OneToOne
-  @JoinColumn(name = "point_id", nullable = true)
+  @JoinColumn(name = "point_id")
   private Point point;
 
   @OneToOne
-  @JoinColumn(name = "streak_id", nullable = true)
+  @JoinColumn(name = "streak_id")
   private Streak streak;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "commitment", nullable = false)
-  private Commitment commitment;
-
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "experience", nullable = false)
-  private Experience experience;
-
-  @ElementCollection
-  @CollectionTable(name = "challenge_type", joinColumns = @JoinColumn(name = "user_id"))
-  @Column(name = "type", nullable = false)
-  @Enumerated(EnumType.STRING)
-  private List<ChallengeType> challengeTypes;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "configuration_id")
+  private Configuration configuration;
 
   /**
    * Get the authorities granted to the user.

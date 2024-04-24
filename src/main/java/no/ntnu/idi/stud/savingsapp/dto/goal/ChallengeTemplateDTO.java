@@ -1,7 +1,7 @@
 package no.ntnu.idi.stud.savingsapp.dto.goal;
 
 import lombok.Data;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
+import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 
 @Data
 public final class ChallengeTemplateDTO {
