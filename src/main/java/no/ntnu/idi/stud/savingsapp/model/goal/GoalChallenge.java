@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.savings;
+package no.ntnu.idi.stud.savingsapp.model.goal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
