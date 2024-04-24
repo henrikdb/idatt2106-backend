@@ -24,6 +24,5 @@ public final class UserUpdateDTO {
   private String password;
 
   @Valid
-  @NotNull(message = "Configuration is required")
   private ConfigurationDTO configuration;
 }
