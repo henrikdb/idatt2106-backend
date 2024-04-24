@@ -52,7 +52,7 @@ public class Goal {
   @JoinColumn(name = "goal_id")
   private List<Challenge> challenges;
 
-  @OneToMany(cascade = CascadeType.PERSIST)
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "goal_id")
   private List<Participant> participants;
 }
