@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
+import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 
 /**
  * Represents a challenge template need to achieve a {@link Goal}

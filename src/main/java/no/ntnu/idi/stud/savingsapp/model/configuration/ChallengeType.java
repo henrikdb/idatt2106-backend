@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model;
+package no.ntnu.idi.stud.savingsapp.model.configuration;
 
 public enum ChallengeType {
 
@@ -11,11 +11,11 @@ public enum ChallengeType {
   DROP_SUBSCRIPTION,
   SELL_SOMETHING,
   BUY_USED,
-  EAT_PACKED_LUCH,
+  EAT_PACKED_LUNCH,
   STOP_SHOPPING,
   ZERO_SPENDING,
   RENT_YOUR_STUFF,
-  MEATLESS_MONTH,
+  MEATLESS,
   SCREEN_TIME_LIMIT,
   UNPLUGGED_ENTERTAINMENT,
 }
