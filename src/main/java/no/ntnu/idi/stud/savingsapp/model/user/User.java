@@ -15,7 +15,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
@@ -66,12 +65,12 @@ public class User implements UserDetails{
   private String email;
 
   @OneToOne
-  @PrimaryKeyJoinColumn(name = "savings_account")
-  private Account savingsAccount;
+  @JoinColumn(name = "checking_account_id")
+  private Account checkingAccount;
 
   @OneToOne
-  @PrimaryKeyJoinColumn(name = "savings_account")
-  private Account checkingAccount;
+  @JoinColumn(name = "savings_account_id")
+  private Account savingsAccount;
 
   @NonNull
   @Column(name = "password", nullable = false)

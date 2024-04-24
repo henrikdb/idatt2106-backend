@@ -87,4 +87,19 @@ public class AccountServiceImpl implements AccountService {
     }
     return accountResponseDTO;
   }
+
+  /**
+   * Get an account given the Basic Bank Account Number
+   *
+   * @param bban  The Basic Bank Account Number belonging to the account.
+   * @return      The account if it exists, if not: return empty.
+   */
+  @Override
+  public Account getAccountByBban(Long bban) {
+    Optional<Account> account = accountRepository.findAccountByBban(bban);
+    if (account.isEmpty()) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Account not found");
+    }
+    return account.get();
+  }
 }
