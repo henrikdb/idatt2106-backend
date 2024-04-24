@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.model.budget;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Expense {
   @Column(name = "expense_id")
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "budget_id")
   private Budget budget;
 

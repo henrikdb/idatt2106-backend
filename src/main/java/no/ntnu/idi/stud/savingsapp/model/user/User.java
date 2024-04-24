@@ -98,10 +98,6 @@ public class User implements UserDetails{
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id")
-  private List<BadgeUser> badgeUserList;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
   private List<Budget> budgetList;
 
   @OneToOne
