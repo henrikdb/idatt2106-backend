@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/goal")
 @EnableAutoConfiguration
@@ -37,5 +39,13 @@ public class GoalController {
     Goal goal = goalService.createGoal(createGoal, identity.getId());
     GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
     return ResponseEntity.status(HttpStatus.CREATED).body(goalDTO);
+  }
+
+  @GetMapping(value = "/getGoals")
+  public ResponseEntity<List<GoalDTO>> getGoals(@AuthenticationPrincipal AuthIdentity identity) {
+    List<Goal> goals = goalService.getGoalList(identity.getId());
+    List<GoalDTO> goalsDTO = goals.stream().map(goal ->
+            modelMapper.map(goal, GoalDTO.class)).toList();
+    return ResponseEntity.ok(goalsDTO);
   }
 }

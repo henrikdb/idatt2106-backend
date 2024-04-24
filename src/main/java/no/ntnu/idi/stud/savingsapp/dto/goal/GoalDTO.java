@@ -35,5 +35,5 @@ public final class GoalDTO {
 
   private List<ChallengeDTO> challenges;
 
-  private UserDTO creator;
+  private List<ParticipantDTO> participants;
 }
