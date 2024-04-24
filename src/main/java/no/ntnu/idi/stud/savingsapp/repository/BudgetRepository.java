@@ -32,4 +32,6 @@ public interface BudgetRepository extends JpaRepository<Budget, Long> {
    * @return A list of budgets.
    */
   List<Budget> findBudgetsByUserId(Long id);
+
+
 }
