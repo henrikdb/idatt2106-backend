@@ -30,7 +30,7 @@ import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.Experience;
 import no.ntnu.idi.stud.savingsapp.model.budget.Budget;
-import no.ntnu.idi.stud.savingsapp.model.savings.Goal;
+import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
