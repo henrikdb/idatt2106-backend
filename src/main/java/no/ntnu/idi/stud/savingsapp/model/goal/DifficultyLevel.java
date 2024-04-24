@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.user.configuration;
+package no.ntnu.idi.stud.savingsapp.model.goal;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,26 +16,25 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Represents a question presented to a user during the configuration.
- * This entity contains a list of answers associated with it.
+ * Represents the difficulty level of the {@link Challenge SavingChallanges}.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "question")
-public class Question {
+@Table(name = "difficulty_level")
+public class DifficultyLevel {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "question_id")
+  @Column(name = "difficulty_level_id")
   private Long id;
 
   @NonNull
-  @Column(name = "question_text", nullable = false)
-  private String questionText;
+  @Column(name = "difficulty_level_text", nullable = false)
+  private String diffucultyLevelText;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "question_id")
-  private List<Answer> answerList;
+  @JoinColumn(name = "difficulty_level_id")
+  private List<Challenge> challengeList;
 }

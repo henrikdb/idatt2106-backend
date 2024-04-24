@@ -1,15 +1,12 @@
 package no.ntnu.idi.stud.savingsapp.dto.auth;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
-import no.ntnu.idi.stud.savingsapp.model.Commitment;
-import no.ntnu.idi.stud.savingsapp.model.Experience;
-import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
+import no.ntnu.idi.stud.savingsapp.dto.configuration.ConfigurationDTO;
 import no.ntnu.idi.stud.savingsapp.validation.Name;
 import no.ntnu.idi.stud.savingsapp.validation.Password;
-
-import java.util.List;
 
 /**
  * Represents a sign-up request used for user registration.
@@ -29,12 +26,8 @@ public final class SignUpRequest {
   @Password
   private String password;
 
-  @Enumerator(value = Commitment.class, nullable = false)
-  private String commitment;
-
-  @Enumerator(value = Experience.class, nullable = false)
-  private String experience;
-
-  private List<@Enumerator(value = ChallengeType.class, nullable = false) String> challengeTypes;
+  @Valid
+  @NotNull(message = "Configuration is required")
+  private ConfigurationDTO configuration;
 
 }

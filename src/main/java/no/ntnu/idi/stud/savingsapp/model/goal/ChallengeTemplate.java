@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.savings;
+package no.ntnu.idi.stud.savingsapp.model.goal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
+import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 
 /**
  * Represents a challenge template need to achieve a {@link Goal}
@@ -35,11 +35,11 @@ public class ChallengeTemplate {
 
   @NonNull
   @Column(name = "challenge_min_lenght", nullable = false)
-  private int ChallengeMinLenght;
+  private int challengeMinLength;
 
   @NonNull
   @Column(name = "challenge_max_lenght", nullable = false)
-  private int ChallengeMaxLenght;
+  private int challengeMaxLength;
 
   @NonNull
   @Enumerated(EnumType.STRING)

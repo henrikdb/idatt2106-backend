@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.bank.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -45,4 +46,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
   @Query(value = "UPDATE account a SET a.balance = :amount WHERE a.bban = :bban", nativeQuery = true)
   int updateBalance(@Param("amount") BigDecimal amount,@Param("bban") Long bban);
 
+  /**
+   * Get an account given the Basic Bank Account Number
+   * 
+   * @param bban  The Basic Bank Account Number belonging to the account.
+   * @return      The account if it exists, if not: return empty.
+   */
+  Optional<Account> findAccountByBban(Long bban);
 }

@@ -7,10 +7,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.dto.user.BankAccountDTO;
 import no.ntnu.idi.stud.savingsapp.dto.user.PasswordResetDTO;
 import no.ntnu.idi.stud.savingsapp.dto.user.ProfileDTO;
 import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 import no.ntnu.idi.stud.savingsapp.dto.user.UserUpdateDTO;
+import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
@@ -118,15 +121,18 @@ public class UserController {
       String encodedPassword = passwordEncoder.encode(updateDTO.getPassword());
       user.setPassword(encodedPassword);
     }
-    if (updateDTO.getCommitment() != null) {
-      // TODO
+    /*if (updateDTO.getConfiguration().getCommitment() != null) {
+      user.getConfiguration().setCommitment(Commitment.valueOf(updateDTO.getConfiguration().getCommitment()));
     }
-    if (updateDTO.getExperience() != null) {
-      // TODO
+    if (updateDTO.getConfiguration().getExperience() != null) {
+      user.getConfiguration().setExperience(Experience.valueOf(updateDTO.getConfiguration().getExperience()));
     }
     if (updateDTO.getChallengeTypes() != null) {
+      for (String challengeType : updateDTO.getConfiguration().getChallengeTypes()) {
+        user.getConfiguration().getChallengeTypes().add(Cha);
+      }
       // TODO
-    }
+    }*/
     User updatedUser = userService.update(user);
     UserDTO userDTO = modelMapper.map(updatedUser, UserDTO.class);
     return ResponseEntity.ok(userDTO);
@@ -170,5 +176,22 @@ public class UserController {
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
   public void confirmPasswordReset(@RequestBody @Valid PasswordResetDTO resetDTO) {
     userService.confirmPasswordReset(resetDTO.getToken(), resetDTO.getPassword());
+  }
+
+  @Operation(summary = "Update a user's bank account", description = "Changes either a user's "
+      + "checking account or savings account")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "")
+  })
+  @PatchMapping(value = "/update-account")
+  public Account selectBankAccount(
+      @AuthenticationPrincipal AuthIdentity identity,
+      @RequestBody @Valid BankAccountDTO bankAccountDTO) {
+    BankAccountType accountType = modelMapper.map(bankAccountDTO.getBankAccountType(),
+        BankAccountType.class);
+    return userService.selectBankAccount(
+        accountType,
+        bankAccountDTO.getBban(),
+        identity.getId());
   }
 }

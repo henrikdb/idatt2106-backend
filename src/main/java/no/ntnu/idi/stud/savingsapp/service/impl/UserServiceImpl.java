@@ -1,10 +1,13 @@
 package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import jakarta.mail.MessagingException;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
+import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
@@ -14,6 +17,7 @@ import no.ntnu.idi.stud.savingsapp.service.EmailService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +28,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Implementation of the UserService interface for user-related operations.
@@ -44,6 +49,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private EmailService emailService;
+
+  @Autowired
+  AccountService accountService;
 
   /**
    * Authenticates a user with the provided email and password.
@@ -191,4 +199,21 @@ public class UserServiceImpl implements UserService {
       throw new InvalidPasswordResetTokenException();
     }
   }
+
+  @Override
+  public Account selectBankAccount(BankAccountType bankAccountType, Long bban, Long userId) {
+    User user = findById(userId);
+    Account account = accountService.getAccountByBban(bban);
+    if (bankAccountType == BankAccountType.SAVING_ACCOUNT) {
+      user.setSavingsAccount(account);
+    }
+    else if (bankAccountType == BankAccountType.CHECKING_ACCOUNT){
+      user.setCheckingAccount(account);
+    }else {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Account type not supported");
+    }
+    update(user);
+    return account;
+  }
+
 }

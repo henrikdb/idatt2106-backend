@@ -1,5 +1,7 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.stereotype.Service;
 
@@ -64,4 +66,13 @@ public interface UserService {
    * @param password The new password to set for the user.
    */
   void confirmPasswordReset(String token, String password);
+
+  /**
+   * Select which bank account the user has selected as either savings- or checking account.
+   *
+   * @param bankAccountType The type of account, can either be a savings account or a checking
+   *                        account.
+   * @param bban            The Basic Bank Account Number, specifying the account.
+   */
+  Account selectBankAccount(BankAccountType bankAccountType, Long bban, Long userId);
 }

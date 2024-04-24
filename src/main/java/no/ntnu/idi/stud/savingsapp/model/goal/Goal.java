@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.savings;
+package no.ntnu.idi.stud.savingsapp.model.goal;
 
 import jakarta.persistence.*;
 
@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 /**
@@ -44,20 +45,14 @@ public class Goal {
   private Timestamp targetDate;
 
   @NonNull
-  @Column(name = "completed_at", nullable = false)
-  private Timestamp completedAt;
-
-  @NonNull
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
-  @OneToMany
-  @JoinColumn(name = "challenge_id")
+  @OneToMany(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "goal_id")
   private List<Challenge> challenges;
 
-  @ManyToOne
-  @JoinTable(name = "goal_user",
-  joinColumns = @JoinColumn(name = "user_id"),
-  inverseJoinColumns = @JoinColumn(name = "goal_id"))
-  private User creator;
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "goal_id")
+  private List<Participant> participants;
 }
