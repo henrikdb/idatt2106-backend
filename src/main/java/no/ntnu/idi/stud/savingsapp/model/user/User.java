@@ -29,6 +29,7 @@ import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.Experience;
+import no.ntnu.idi.stud.savingsapp.model.budget.Budget;
 import no.ntnu.idi.stud.savingsapp.model.savings.Goal;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -98,6 +99,10 @@ public class User implements UserDetails{
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id")
   private List<BadgeUser> badgeUserList;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private List<Budget> budgetList;
 
   @OneToOne
   @JoinColumn(name = "point_id", nullable = true)
