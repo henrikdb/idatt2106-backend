@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
@@ -32,11 +33,14 @@ public class GoalServiceImpl implements GoalService {
     creator.setUser(userService.findById(userID));
     creator.setRole(ParticipantRole.CREATOR);
 
-
     goal.setParticipants(Arrays.asList(creator));
 
     System.out.println(goal);
 
     return goalRepository.save(goal);
+  }
+
+  public List<Goal> getGoalList (Long userID) {
+    return goalRepository.findByParticipants_User_Id(userID);
   }
 }
