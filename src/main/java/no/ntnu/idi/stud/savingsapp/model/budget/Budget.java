@@ -11,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,10 @@ public class Budget {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "budget_id")
   private Long id;
+
+  @NonNull
+  @Column(name = "created_at", nullable = false)
+  private Timestamp createdAt;
 
   @NonNull
   @Column(name = "budget_name", nullable = false)
