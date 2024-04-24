@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.repository;
 
 import java.util.List;
 import java.util.Optional;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -239,4 +240,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "FROM user_rank",
             nativeQuery = true)
     long findUserRankByHighestEverStreak(@Param("userId") Long userId);
+
+    @Query("UPDATE User u SET u.savingsAccount = :account WHERE u = :user")
+    void updateSavingsAccount(@Param("user") User user,@Param("account") Account account);
+
+
 }

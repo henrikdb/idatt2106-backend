@@ -37,4 +37,12 @@ public interface AccountService {
    */
   AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDto);
 
+  /**
+   * Get an account given the Basic Bank Account Number
+   *
+   * @param bban  The Basic Bank Account Number belonging to the account.
+   * @return      The account if it exists, if not: return empty.
+   */
+  Account getAccountByBban(Long bban);
+
 }
