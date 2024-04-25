@@ -14,9 +14,9 @@ spring:
           starttls:
             enable: true
   datasource:
-    url: jdbc:mysql://129.241.98.39:3306/sparesti_test
-    username: user
-    password: Password1.
+    url: jdbc:mysql://127.0.0.1:3306/sparesti
+    username: username
+    password: password
   jpa:
     hibernate:
       ddl-auto: update

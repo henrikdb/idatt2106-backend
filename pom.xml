@@ -190,7 +190,7 @@
 						<executable>python</executable>
 						<workingDirectory>${project.basedir}/scripts</workingDirectory>
 						<arguments>
-						<argument>add_jacoco_coverage_link_to_html.py</argument>
+						<argument>add_jacoco_link_to_site_report.py</argument>
 						</arguments>
 					</configuration>
 					</execution>
