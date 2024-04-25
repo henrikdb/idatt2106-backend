@@ -3,9 +3,10 @@ package no.ntnu.idi.stud.savingsapp.dto.budget;
 import lombok.Data;
 
 @Data
-public class ExpenseDTO {
+public class ExpenseResponseDTO {
 
-  private Long id;
+  private Long expenseId;
+  private Long budgetId;
   private String description;
   private String amount;
 
