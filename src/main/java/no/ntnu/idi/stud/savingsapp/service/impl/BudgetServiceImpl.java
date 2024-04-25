@@ -66,7 +66,8 @@ public class BudgetServiceImpl implements BudgetService {
   @Override
   public void deleteBudgetById(Long budgetId) {
     try {
-      budgetRepository.deleteBudgetById(budgetId);
+      Optional<Budget> budget = budgetRepository.findBudgetById(budgetId);
+      budgetRepository.delete(budget.get());
     } catch (DataIntegrityViolationException e) {
       throw new BudgetNotFoundException();
     }
