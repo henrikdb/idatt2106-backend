@@ -1,6 +1,20 @@
-server.port: 8080
+server:
+  port: 8080
 
 spring:
+  profiles:
+    active: no-flyway
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sparesti050@gmail.com
+    password: cdxdjzkwapkbitej
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     url: jdbc:mysql://mysql:3306/sparesti
     username: root
@@ -12,11 +26,9 @@ spring:
     properties:
       hibernate:
         '[format_sql]': true
-    defer-datasource-initialization: true
   sql:
     init:
       mode: always
-      continue-on-error: true
 
 springdoc:
   swagger-ui:
