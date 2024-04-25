@@ -2,8 +2,6 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: no-flyway
   mail:
     host: smtp.gmail.com
     port: 587
