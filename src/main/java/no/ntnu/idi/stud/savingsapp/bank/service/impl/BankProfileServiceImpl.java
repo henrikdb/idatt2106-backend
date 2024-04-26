@@ -30,6 +30,11 @@ public class BankProfileServiceImpl implements BankProfileService {
    */
   @Override
   public BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO) {
+
+    if (bankProfileDTO.getSsn() < 1) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative ssn");
+    }
+
     BankProfile newBankProfile = new BankProfile();
     List<Account> newEmptyAccountList = new ArrayList<>();
     BankProfileResponseDTO savedProfileResponse = new BankProfileResponseDTO();
