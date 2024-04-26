@@ -35,16 +35,28 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   public void saveTransaction(TransactionDTO transactionRequest){
 
+    boolean negativeTransactionAmount = (transactionRequest.getAmount().signum() == -1);
+
+    if (negativeTransactionAmount) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative transfer amount");
+    }
+
     Optional<Account> debtorAccount =
-        accountRepository.findById(transactionRequest.getDebtorBBAN());
+        accountRepository.findAccountByBban(transactionRequest.getDebtorBBAN());
     if (debtorAccount.isEmpty()) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+      throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Debtor account not found");
     }
     Optional<Account> creditorAccount =
-        accountRepository.findById(transactionRequest.getCreditorBBAN());
+        accountRepository.findAccountByBban(transactionRequest.getCreditorBBAN());
     if (creditorAccount.isEmpty()) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+      throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Creditor account not found");
     }
+
+    boolean negativeFunds = ((debtorAccount.get().getBalance().subtract(transactionRequest.getAmount())).signum() == -1);
+    if (negativeFunds) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(402), "Insufficient funds");
+    }
+
     try {
       Transaction savedTransaction = new Transaction();
       savedTransaction.setDebtorAccount(debtorAccount.get());

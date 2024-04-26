@@ -17,7 +17,7 @@ spring:
     init:
       mode: always
       continue-on-error: true
-
+      data-locations: classpath:data-test.sql
 springdoc:
   swagger-ui:
     path: /swagger/index.html
