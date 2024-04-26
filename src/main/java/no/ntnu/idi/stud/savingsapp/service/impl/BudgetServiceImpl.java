@@ -65,10 +65,10 @@ public class BudgetServiceImpl implements BudgetService {
 
   @Override
   public void deleteBudgetById(Long budgetId) {
-    try {
-      Optional<Budget> budget = budgetRepository.findBudgetById(budgetId);
-      budgetRepository.delete(budget.get());
-    } catch (DataIntegrityViolationException e) {
+    Optional<Budget> optionalBudget = budgetRepository.findBudgetById(budgetId);
+    if (optionalBudget.isPresent()) {
+      budgetRepository.delete(optionalBudget.get());
+    } else {
       throw new BudgetNotFoundException();
     }
   }
@@ -87,7 +87,7 @@ public class BudgetServiceImpl implements BudgetService {
     try {
       return expenseRepository.save(expense);
     } catch (DataIntegrityViolationException e) {
-      throw new DataIntegrityViolationException("Error creating expense");
+      throw new DataIntegrityViolationException("Error updating expense");
     }
   }
 
@@ -103,9 +103,10 @@ public class BudgetServiceImpl implements BudgetService {
 
   @Override
   public void deleteExpenseById(Long expenseId) {
-    try {
-      expenseRepository.deleteExpenseById(expenseId);
-    } catch (DataIntegrityViolationException e) {
+    Optional<Expense> optionalExpense = expenseRepository.findExpenseById(expenseId);
+    if (optionalExpense.isPresent()) {
+      expenseRepository.delete(optionalExpense.get());
+    } else {
       throw new ExpenseNotFoundException();
     }
   }

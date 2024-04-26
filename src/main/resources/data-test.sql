@@ -122,3 +122,17 @@ INSERT INTO account (bban, balance, bank_profile_id) VALUES
 (12093388613, 1004, 3),
 (12064516157, 2003, 3),
 (12056860272, 109, 3);
+
+-- Inserting Budgets
+INSERT INTO budget (budget_id, budget_amount, budget_name, created_at, expense_amount, user_id) VALUES
+(1, 10000, 'April 2024', '2024-04-26 09:56:18.172098', 5000, 1),
+(2, 20000, 'March 2024', '2024-04-26 09:56:18.172098', 5000, 1);
+
+-- Inserting Expenses
+INSERT INTO expense (expense_id, amount, description, budget_id) VALUES
+(1, 8000, 'Rent', 1),
+(2, 1000, 'Cheese', 1),
+(3, 1000, 'Milk', 1),
+(4, 2000, 'FIFA Points', 2),
+(5, 10000, 'Rent', 2),
+(6, 8000, 'Girlfriend', 2);
