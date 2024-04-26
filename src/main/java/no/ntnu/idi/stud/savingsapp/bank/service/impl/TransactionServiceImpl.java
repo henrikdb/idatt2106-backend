@@ -45,6 +45,11 @@ public class TransactionServiceImpl implements TransactionService {
     if (creditorAccount.isEmpty()) {
       throw new ResponseStatusException(HttpStatusCode.valueOf(404));
     }
+
+    int fundCheck = (debtorAccount.get().getBalance().subtract(transactionRequest.getAmount())).signum();
+    if (fundCheck == -1) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(402), "Insufficient funds");
+    }
     try {
       Transaction savedTransaction = new Transaction();
       savedTransaction.setDebtorAccount(debtorAccount.get());
