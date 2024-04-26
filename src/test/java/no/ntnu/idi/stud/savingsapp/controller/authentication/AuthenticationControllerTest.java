@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.controller.user;
+package no.ntnu.idi.stud.savingsapp.controller.authentication;
 
 import no.ntnu.idi.stud.savingsapp.JsonUtil;
 import no.ntnu.idi.stud.savingsapp.dto.auth.LoginRequest;
