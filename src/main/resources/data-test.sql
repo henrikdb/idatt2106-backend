@@ -96,3 +96,29 @@ INSERT INTO answer (answer_id, answer_text, question_id) VALUES
 (12, 'Short showers', 3),
 (13, 'Exercise outside', 3),
 (14, 'Make budget', 3);
+
+-- Inserting bank profiles
+INSERT INTO bank_profile (bank_profile_id, ssn) VALUES
+-- SSN(Social security number):
+(1, 31125453913),
+(2, 31125451740),
+(3, 31125458990);
+
+-- Inserting bank accounts
+INSERT INTO account (bban, balance, bank_profile_id) VALUES
+-- BBAN(Basic Bank Account Number):
+
+-- Bank Profile 1:
+(12073650567, 100, 1),
+(12097256355, 500000, 1),
+(12032202452, 13000, 1),
+(12041281683, 19372, 1),
+
+-- Bank profile 2:
+(12086851618, 50000, 2),
+(12061174077, 3956, 2),
+
+-- Bank profile 3:
+(12093388613, 1004, 3),
+(12064516157, 2003, 3),
+(12056860272, 109, 3);
