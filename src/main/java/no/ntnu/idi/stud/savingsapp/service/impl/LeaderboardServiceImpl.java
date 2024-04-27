@@ -173,7 +173,7 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 }
                 break;
             case FRIENDS:
-                List<Friend> friends = friendRepository.findAllById_UserOrId_UserAndPendingFalse(userId);
+                List<Friend> friends = friendRepository.findAllById_UserOrId_FriendAndPendingFalse(userId);
                 
                 // Add friends to users and remove duplicates
                 users = friends.stream() 

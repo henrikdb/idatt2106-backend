@@ -2,7 +2,11 @@ package no.ntnu.idi.stud.savingsapp.service;
 
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -75,4 +79,8 @@ public interface UserService {
    * @param bban            The Basic Bank Account Number, specifying the account.
    */
   Account selectBankAccount(BankAccountType bankAccountType, Long bban, Long userId);
+
+  List<User> getFriends(Long userId);
+
+  List<User> getFriendRequests(Long userId);
 }
