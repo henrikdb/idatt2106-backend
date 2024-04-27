@@ -15,21 +15,22 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 @Table(name = "participant")
 public class Participant {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "participant_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "participant_id")
+	private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "goal_id")
-  private Goal goal;
+	@ManyToOne
+	@JoinColumn(name = "goal_id")
+	private Goal goal;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "role", nullable = false)
-  private ParticipantRole role;
+	@NonNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role", nullable = false)
+	private ParticipantRole role;
+
 }

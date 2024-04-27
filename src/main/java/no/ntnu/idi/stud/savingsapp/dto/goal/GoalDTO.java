@@ -13,27 +13,28 @@ import java.util.List;
 @NoArgsConstructor
 public final class GoalDTO {
 
-  private Long id;
+	private Long id;
 
-  @NonNull
-  private String goalName;
+	@NonNull
+	private String goalName;
 
-  @NonNull
-  private String description;
+	@NonNull
+	private String description;
 
-  @NonNull
-  private int targetAmount;
+	@NonNull
+	private int targetAmount;
 
-  @NonNull
-  private Timestamp targetDate;
+	@NonNull
+	private Timestamp targetDate;
 
-  @NonNull
-  private Timestamp completedAt;
+	@NonNull
+	private Timestamp completedAt;
 
-  @NonNull
-  private Timestamp createdAt;
+	@NonNull
+	private Timestamp createdAt;
 
-  private List<ChallengeDTO> challenges;
+	private List<ChallengeDTO> challenges;
 
-  private List<ParticipantDTO> participants;
+	private List<ParticipantDTO> participants;
+
 }

@@ -13,8 +13,8 @@ import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 /**
- * Represents a saving goal.
- * This entity has a list of generated {@link Challenge SavingChallanges} associated with it.
+ * Represents a saving goal. This entity has a list of generated {@link Challenge
+ * SavingChallanges} associated with it.
  */
 @Data
 @AllArgsConstructor
@@ -23,36 +23,37 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 @Table(name = "goal")
 public class Goal {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "goal_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "goal_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "goal_name", nullable = false)
-  private String GoalName;
+	@NonNull
+	@Column(name = "goal_name", nullable = false)
+	private String GoalName;
 
-  @NonNull
-  @Column(name = "goal_description", nullable = false)
-  private String description;
+	@NonNull
+	@Column(name = "goal_description", nullable = false)
+	private String description;
 
-  @NonNull
-  @Column(name = "target_amount", nullable = false)
-  private int targetAmount;
+	@NonNull
+	@Column(name = "target_amount", nullable = false)
+	private int targetAmount;
 
-  @NonNull
-  @Column(name = "target_date", nullable = false)
-  private Timestamp targetDate;
+	@NonNull
+	@Column(name = "target_date", nullable = false)
+	private Timestamp targetDate;
 
-  @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
+	@NonNull
+	@Column(name = "created_at", nullable = false)
+	private Timestamp createdAt;
 
-  @OneToMany(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "goal_id")
-  private List<Challenge> challenges;
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "goal_id")
+	private List<Challenge> challenges;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "goal_id")
-  private List<Participant> participants;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "goal_id")
+	private List<Participant> participants;
+
 }

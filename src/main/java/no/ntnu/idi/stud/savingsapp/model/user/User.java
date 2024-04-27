@@ -14,7 +14,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,131 +29,127 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Represents a user in the system.
- * This class implements the UserDetails interface, providing the necessary information for
- * Spring Security to authenticate and authorize users and for use in testing.
+ * Represents a user in the system. This class implements the UserDetails interface,
+ * providing the necessary information for Spring Security to authenticate and authorize
+ * users and for use in testing.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "`user`")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "first_name", nullable = false)
-  private String firstName;
+	@NonNull
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
 
-  @NonNull
-  @Column(name = "last_name", nullable = false)
-  private String lastName;
+	@NonNull
+	@Column(name = "last_name", nullable = false)
+	private String lastName;
 
-  @NonNull
-  @Column(name = "email", nullable = false, unique = true)
-  private String email;
+	@NonNull
+	@Column(name = "email", nullable = false, unique = true)
+	private String email;
 
-  @OneToOne
-  @JoinColumn(name = "checking_account_id")
-  private Account checkingAccount;
+	@OneToOne
+	@JoinColumn(name = "checking_account_id")
+	private Account checkingAccount;
 
-  @OneToOne
-  @JoinColumn(name = "savings_account_id")
-  private Account savingsAccount;
+	@OneToOne
+	@JoinColumn(name = "savings_account_id")
+	private Account savingsAccount;
 
-  @NonNull
-  @Column(name = "password", nullable = false)
-  private String password;
+	@NonNull
+	@Column(name = "password", nullable = false)
+	private String password;
 
-  @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
+	@NonNull
+	@Column(name = "created_at", nullable = false)
+	private Timestamp createdAt;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "role", nullable = false)
-  private Role role;
+	@NonNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role", nullable = false)
+	private Role role;
 
-  @ManyToMany
-  @JoinTable(name = "badge_user",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "badge_id"))
-  private List<Badge> badges;
+	@ManyToMany
+	@JoinTable(name = "badge_user", joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "badge_id"))
+	private List<Badge> badges;
 
-  @OneToOne
-  @JoinColumn(name = "point_id")
-  private Point point;
+	@OneToOne
+	@JoinColumn(name = "point_id")
+	private Point point;
 
-  @OneToOne
-  @JoinColumn(name = "streak_id")
-  private Streak streak;
+	@OneToOne
+	@JoinColumn(name = "streak_id")
+	private Streak streak;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "configuration_id")
-  private Configuration configuration;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "configuration_id")
+	private Configuration configuration;
 
-  /**
-   * Get the authorities granted to the user.
-   *
-   * @return A list of GrantedAuthority objects representing the authorities granted to the user.
-   */
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role.name()));
-  }
+	/**
+	 * Get the authorities granted to the user.
+	 * @return A list of GrantedAuthority objects representing the authorities granted to
+	 * the user.
+	 */
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
 
-  /**
-   * Get a unique representation of the user.
-   * This method uses the email as the username.
-   *
-   * @return The email of the email of the user.
-   */
-  @Override
-  public String getUsername() {
-    return this.email;
-  }
+	/**
+	 * Get a unique representation of the user. This method uses the email as the
+	 * username.
+	 * @return The email of the email of the user.
+	 */
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
 
-  /**
-   * Indicates whether the user's account has expired.
-   *
-   * @return true if the user's account is valid (i.e., non-expired), false otherwise.
-   */
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+	/**
+	 * Indicates whether the user's account has expired.
+	 * @return true if the user's account is valid (i.e., non-expired), false otherwise.
+	 */
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-  /**
-   * Indicates whether the user is locked or unlocked.
-   *
-   * @return true if the user is not locked, false otherwise.
-   */
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
+	/**
+	 * Indicates whether the user is locked or unlocked.
+	 * @return true if the user is not locked, false otherwise.
+	 */
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-  /**
-   * Indicates whether the user's credentials (password) has expired.
-   *
-   * @return true if the user's credentials are valid (i.e., non-expired), false otherwise.
-   */
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
+	/**
+	 * Indicates whether the user's credentials (password) has expired.
+	 * @return true if the user's credentials are valid (i.e., non-expired), false
+	 * otherwise.
+	 */
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-  /**
-   * Indicates whether the user is enabled or disabled.
-   *
-   * @return true if the user is enabled, false otherwise.
-   */
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+	/**
+	 * Indicates whether the user is enabled or disabled.
+	 * @return true if the user is enabled, false otherwise.
+	 */
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 }

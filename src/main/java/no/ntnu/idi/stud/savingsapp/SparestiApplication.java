@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The main class for the Sparesti application.
- * This class bootstraps the Spring application and configures it for execution.
+ * The main class for the Sparesti application. This class bootstraps the Spring
+ * application and configures it for execution.
  */
 @SpringBootApplication
 public class SparestiApplication {
@@ -17,4 +17,5 @@ public class SparestiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SparestiApplication.class, args);
 	}
+
 }

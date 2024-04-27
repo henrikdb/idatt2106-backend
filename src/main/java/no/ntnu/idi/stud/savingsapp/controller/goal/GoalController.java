@@ -21,31 +21,33 @@ import java.util.List;
 @EnableAutoConfiguration
 @Tag(name = "goal")
 public class GoalController {
-  @Autowired
-  private GoalService goalService;
 
-  @Autowired
-  private ModelMapper modelMapper;
+	@Autowired
+	private GoalService goalService;
 
-  @GetMapping(value = "/getGoal")
-  public ResponseEntity<GoalDTO> getGoal() {
+	@Autowired
+	private ModelMapper modelMapper;
 
-    return null;
-  }
+	@GetMapping(value = "/getGoal")
+	public ResponseEntity<GoalDTO> getGoal() {
 
-  @PostMapping(value = "/createGoal")
-  public ResponseEntity<GoalDTO> createGoal(@AuthenticationPrincipal AuthIdentity identity, @RequestBody CreateGoalDTO request) {
-    Goal createGoal = modelMapper.map(request, Goal.class);
-    Goal goal = goalService.createGoal(createGoal, identity.getId());
-    GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
-    return ResponseEntity.status(HttpStatus.CREATED).body(goalDTO);
-  }
+		return null;
+	}
 
-  @GetMapping(value = "/getGoals")
-  public ResponseEntity<List<GoalDTO>> getGoals(@AuthenticationPrincipal AuthIdentity identity) {
-    List<Goal> goals = goalService.getGoalList(identity.getId());
-    List<GoalDTO> goalsDTO = goals.stream().map(goal ->
-            modelMapper.map(goal, GoalDTO.class)).toList();
-    return ResponseEntity.ok(goalsDTO);
-  }
+	@PostMapping(value = "/createGoal")
+	public ResponseEntity<GoalDTO> createGoal(@AuthenticationPrincipal AuthIdentity identity,
+			@RequestBody CreateGoalDTO request) {
+		Goal createGoal = modelMapper.map(request, Goal.class);
+		Goal goal = goalService.createGoal(createGoal, identity.getId());
+		GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
+		return ResponseEntity.status(HttpStatus.CREATED).body(goalDTO);
+	}
+
+	@GetMapping(value = "/getGoals")
+	public ResponseEntity<List<GoalDTO>> getGoals(@AuthenticationPrincipal AuthIdentity identity) {
+		List<Goal> goals = goalService.getGoalList(identity.getId());
+		List<GoalDTO> goalsDTO = goals.stream().map(goal -> modelMapper.map(goal, GoalDTO.class)).toList();
+		return ResponseEntity.ok(goalsDTO);
+	}
+
 }

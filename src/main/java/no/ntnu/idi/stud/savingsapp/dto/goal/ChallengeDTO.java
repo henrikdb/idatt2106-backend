@@ -8,15 +8,16 @@ import java.util.List;
 @Data
 public final class ChallengeDTO {
 
-  private long id;
+	private long id;
 
-  private int potentialSavingAmount;
+	private int potentialSavingAmount;
 
-  private int points;
+	private int points;
 
-  private int days;
+	private int days;
 
-  private Timestamp createdAt;
+	private Timestamp createdAt;
 
-  private List<DailyChallengeProgressDTO> dailyChallengeProgressList;
+	private List<DailyChallengeProgressDTO> dailyChallengeProgressList;
+
 }

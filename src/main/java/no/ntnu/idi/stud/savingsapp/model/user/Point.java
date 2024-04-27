@@ -23,16 +23,17 @@ import lombok.NonNull;
 @Table(name = "point")
 public class Point {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "point_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "point_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "current_points", nullable = false)
-  private int currentPoints;
+	@NonNull
+	@Column(name = "current_points", nullable = false)
+	private int currentPoints;
 
-  @NonNull
-  @Column(name = "total_earned_points", nullable = false)
-  private int totalEarnedPoints;
+	@NonNull
+	@Column(name = "total_earned_points", nullable = false)
+	private int totalEarnedPoints;
+
 }

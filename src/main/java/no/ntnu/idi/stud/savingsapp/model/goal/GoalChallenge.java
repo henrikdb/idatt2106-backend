@@ -17,11 +17,11 @@ import lombok.NonNull;
 @Table(name = "goal_challenge")
 public class GoalChallenge {
 
-  @EmbeddedId
-  private GoalChallengeId id;
+	@EmbeddedId
+	private GoalChallengeId id;
 
-  @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
+	@NonNull
+	@Column(name = "created_at", nullable = false)
+	private Timestamp createdAt;
 
 }

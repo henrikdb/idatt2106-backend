@@ -15,20 +15,21 @@ import java.sql.Timestamp;
 @Table(name = "password_reset_token")
 public class PasswordResetToken {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-  @NonNull
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+	@NonNull
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @NonNull
-  @Column(name = "token", unique = true)
-  private String token;
+	@NonNull
+	@Column(name = "token", unique = true)
+	private String token;
 
-  @NonNull
-  @Column(name = "created_at")
-  private Timestamp createdAt;
+	@NonNull
+	@Column(name = "created_at")
+	private Timestamp createdAt;
+
 }

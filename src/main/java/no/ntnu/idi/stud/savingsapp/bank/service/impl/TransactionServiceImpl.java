@@ -14,71 +14,66 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * Implementation of the {@link TransactionService} interface for transaction related operations.
+ * Implementation of the {@link TransactionService} interface for transaction related
+ * operations.
  */
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-  @Autowired
-  private TransactionRepository transactionRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
 
-  @Autowired
-  private AccountRepository accountRepository;
+	@Autowired
+	private AccountRepository accountRepository;
 
-  /**
-   * Performs and saves a transaction between two accounts.
-   *
-   * @param transactionRequest The transaction to be performed, containing the bban of the creditor
-   *                           and debitor accounts in addition to the amount that is being
-   *                           transferred.
-   */
-  @Override
-  public void saveTransaction(TransactionDTO transactionRequest){
+	/**
+	 * Performs and saves a transaction between two accounts.
+	 * @param transactionRequest The transaction to be performed, containing the bban of
+	 * the creditor and debitor accounts in addition to the amount that is being
+	 * transferred.
+	 */
+	@Override
+	public void saveTransaction(TransactionDTO transactionRequest) {
 
-    boolean negativeTransactionAmount = (transactionRequest.getAmount().signum() == -1);
+		boolean negativeTransactionAmount = (transactionRequest.getAmount().signum() == -1);
 
-    if (negativeTransactionAmount) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative transfer amount");
-    }
+		if (negativeTransactionAmount) {
+			throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative transfer amount");
+		}
 
-    Optional<Account> debtorAccount =
-        accountRepository.findAccountByBban(transactionRequest.getDebtorBBAN());
-    if (debtorAccount.isEmpty()) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Debtor account not found");
-    }
-    Optional<Account> creditorAccount =
-        accountRepository.findAccountByBban(transactionRequest.getCreditorBBAN());
-    if (creditorAccount.isEmpty()) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Creditor account not found");
-    }
+		Optional<Account> debtorAccount = accountRepository.findAccountByBban(transactionRequest.getDebtorBBAN());
+		if (debtorAccount.isEmpty()) {
+			throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Debtor account not found");
+		}
+		Optional<Account> creditorAccount = accountRepository.findAccountByBban(transactionRequest.getCreditorBBAN());
+		if (creditorAccount.isEmpty()) {
+			throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Creditor account not found");
+		}
 
-    boolean negativeFunds = ((debtorAccount.get().getBalance().subtract(transactionRequest.getAmount())).signum() == -1);
-    if (negativeFunds) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(402), "Insufficient funds");
-    }
+		boolean negativeFunds = ((debtorAccount.get().getBalance().subtract(transactionRequest.getAmount()))
+			.signum() == -1);
+		if (negativeFunds) {
+			throw new ResponseStatusException(HttpStatusCode.valueOf(402), "Insufficient funds");
+		}
 
-    try {
-      Transaction savedTransaction = new Transaction();
-      savedTransaction.setDebtorAccount(debtorAccount.get());
-      savedTransaction.setCreditorAccount(creditorAccount.get());
-      savedTransaction.setAmount(transactionRequest.getAmount());
+		try {
+			Transaction savedTransaction = new Transaction();
+			savedTransaction.setDebtorAccount(debtorAccount.get());
+			savedTransaction.setCreditorAccount(creditorAccount.get());
+			savedTransaction.setAmount(transactionRequest.getAmount());
 
-      BigDecimal debtorBalance = (
-          debtorAccount.get().getBalance()).subtract(transactionRequest.getAmount()
-      );
+			BigDecimal debtorBalance = (debtorAccount.get().getBalance()).subtract(transactionRequest.getAmount());
 
-      BigDecimal creditorBalance = (
-          creditorAccount.get().getBalance().add(transactionRequest.getAmount())
-      );
+			BigDecimal creditorBalance = (creditorAccount.get().getBalance().add(transactionRequest.getAmount()));
 
-      accountRepository.updateBalance(debtorBalance, debtorAccount.get().getBban());
-      accountRepository.updateBalance(creditorBalance, creditorAccount.get().getBban());
-      transactionRepository.save(savedTransaction);
+			accountRepository.updateBalance(debtorBalance, debtorAccount.get().getBban());
+			accountRepository.updateBalance(creditorBalance, creditorAccount.get().getBban());
+			transactionRepository.save(savedTransaction);
 
-    } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
-    }
-  }
-
+		}
+		catch (Exception e) {
+			throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
+		}
+	}
 
 }

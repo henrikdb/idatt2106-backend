@@ -7,9 +7,10 @@ import java.sql.Timestamp;
 @Data
 public final class DailyChallengeProgressDTO {
 
-  private Long id;
+	private Long id;
 
-  private int challengeDay;
+	private int challengeDay;
 
-  private Timestamp completedAt;
+	private Timestamp completedAt;
+
 }

@@ -12,7 +12,11 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeaderboardEntry {
-    private User user;
-    private int score;
-    private long rank;
+
+	private User user;
+
+	private int score;
+
+	private long rank;
+
 }

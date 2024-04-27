@@ -13,16 +13,17 @@ import lombok.NonNull;
 @Table(name = "image")
 public class Image {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "image_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "image_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "name", nullable = false)
-  private String name;
+	@NonNull
+	@Column(name = "name", nullable = false)
+	private String name;
 
-  @Lob
-  @Column(name = "data", length = Integer.MAX_VALUE)
-  private byte[] data;
+	@Lob
+	@Column(name = "data", length = Integer.MAX_VALUE)
+	private byte[] data;
+
 }

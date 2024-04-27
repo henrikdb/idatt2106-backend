@@ -9,5 +9,7 @@ import java.util.List;
 
 @Service
 public interface ChallengeService {
-  List<Challenge> generateSavingGoalChallenges (Goal goal, User user);
+
+	List<Challenge> generateSavingGoalChallenges(Goal goal, User user);
+
 }

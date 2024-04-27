@@ -7,8 +7,12 @@ import java.sql.Timestamp;
 @Data
 public final class ProfileDTO {
 
-  private long id;
-  private String firstName;
-  private String lastName;
-  private Timestamp createdAt;
+	private long id;
+
+	private String firstName;
+
+	private String lastName;
+
+	private Timestamp createdAt;
+
 }

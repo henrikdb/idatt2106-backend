@@ -18,96 +18,105 @@ import org.springframework.stereotype.Service;
 @Service
 public class BudgetServiceImpl implements BudgetService {
 
-  @Autowired
-  private BudgetRepository budgetRepository;
+	@Autowired
+	private BudgetRepository budgetRepository;
 
-  @Autowired
-  private ExpenseRepository expenseRepository;
+	@Autowired
+	private ExpenseRepository expenseRepository;
 
-  @Override
-  public List<Budget> findBudgetsByUserId(Long userId) {
-    return budgetRepository.findBudgetsByUserId(userId);
-  }
+	@Override
+	public List<Budget> findBudgetsByUserId(Long userId) {
+		return budgetRepository.findBudgetsByUserId(userId);
+	}
 
-  @Override
-  public List<Expense> findExpensesByBudgetId(Long budgetId) {
-    return expenseRepository.findExpensesByBudgetId(budgetId);
-  }
+	@Override
+	public List<Expense> findExpensesByBudgetId(Long budgetId) {
+		return expenseRepository.findExpensesByBudgetId(budgetId);
+	}
 
-  @Override
-  public Budget createBudget(Budget budget) {
-    budget.setCreatedAt(Timestamp.from(Instant.now()));
-    try {
-      return budgetRepository.save(budget);
-    } catch (DataIntegrityViolationException e) {
-      throw new DataIntegrityViolationException("Error creating budget");
-    }
-  }
+	@Override
+	public Budget createBudget(Budget budget) {
+		budget.setCreatedAt(Timestamp.from(Instant.now()));
+		try {
+			return budgetRepository.save(budget);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Error creating budget");
+		}
+	}
 
-  @Override
-  public Budget updateBudget(Budget budget) {
-    try {
-      return budgetRepository.save(budget);
-    } catch (DataIntegrityViolationException e) {
-      throw new DataIntegrityViolationException("Error updating budget");
-    }
-  }
+	@Override
+	public Budget updateBudget(Budget budget) {
+		try {
+			return budgetRepository.save(budget);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Error updating budget");
+		}
+	}
 
-  @Override
-  public Budget findBudgetById(Long budgetId) {
-    Optional<Budget> optionalBudget = budgetRepository.findBudgetById(budgetId);
-    if (optionalBudget.isPresent()) {
-      return optionalBudget.get();
-    } else {
-      throw new BudgetNotFoundException();
-    }
-  }
+	@Override
+	public Budget findBudgetById(Long budgetId) {
+		Optional<Budget> optionalBudget = budgetRepository.findBudgetById(budgetId);
+		if (optionalBudget.isPresent()) {
+			return optionalBudget.get();
+		}
+		else {
+			throw new BudgetNotFoundException();
+		}
+	}
 
-  @Override
-  public void deleteBudgetById(Long budgetId) {
-    Optional<Budget> optionalBudget = budgetRepository.findBudgetById(budgetId);
-    if (optionalBudget.isPresent()) {
-      budgetRepository.delete(optionalBudget.get());
-    } else {
-      throw new BudgetNotFoundException();
-    }
-  }
+	@Override
+	public void deleteBudgetById(Long budgetId) {
+		Optional<Budget> optionalBudget = budgetRepository.findBudgetById(budgetId);
+		if (optionalBudget.isPresent()) {
+			budgetRepository.delete(optionalBudget.get());
+		}
+		else {
+			throw new BudgetNotFoundException();
+		}
+	}
 
-  @Override
-  public Expense createExpense(Expense expense) {
-    try {
-      return expenseRepository.save(expense);
-    } catch (DataIntegrityViolationException e) {
-      throw new DataIntegrityViolationException("Error creating expense");
-    }
-  }
+	@Override
+	public Expense createExpense(Expense expense) {
+		try {
+			return expenseRepository.save(expense);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Error creating expense");
+		}
+	}
 
-  @Override
-  public Expense updateExpense(Expense expense) {
-    try {
-      return expenseRepository.save(expense);
-    } catch (DataIntegrityViolationException e) {
-      throw new DataIntegrityViolationException("Error updating expense");
-    }
-  }
+	@Override
+	public Expense updateExpense(Expense expense) {
+		try {
+			return expenseRepository.save(expense);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Error updating expense");
+		}
+	}
 
-  @Override
-  public Expense findExpenseById(Long expenseId) {
-    Optional<Expense> optionalExpense = expenseRepository.findExpenseById(expenseId);
-    if (optionalExpense.isPresent()) {
-      return optionalExpense.get();
-    } else {
-      throw new ExpenseNotFoundException();
-    }
-  }
+	@Override
+	public Expense findExpenseById(Long expenseId) {
+		Optional<Expense> optionalExpense = expenseRepository.findExpenseById(expenseId);
+		if (optionalExpense.isPresent()) {
+			return optionalExpense.get();
+		}
+		else {
+			throw new ExpenseNotFoundException();
+		}
+	}
 
-  @Override
-  public void deleteExpenseById(Long expenseId) {
-    Optional<Expense> optionalExpense = expenseRepository.findExpenseById(expenseId);
-    if (optionalExpense.isPresent()) {
-      expenseRepository.delete(optionalExpense.get());
-    } else {
-      throw new ExpenseNotFoundException();
-    }
-  }
+	@Override
+	public void deleteExpenseById(Long expenseId) {
+		Optional<Expense> optionalExpense = expenseRepository.findExpenseById(expenseId);
+		if (optionalExpense.isPresent()) {
+			expenseRepository.delete(optionalExpense.get());
+		}
+		else {
+			throw new ExpenseNotFoundException();
+		}
+	}
+
 }

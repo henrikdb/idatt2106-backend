@@ -13,23 +13,24 @@ import org.springframework.stereotype.Service;
 @Service
 public interface BudgetService {
 
-  List<Budget> findBudgetsByUserId(Long userId);
+	List<Budget> findBudgetsByUserId(Long userId);
 
-  List<Expense> findExpensesByBudgetId(Long budgetId);
+	List<Expense> findExpensesByBudgetId(Long budgetId);
 
-  Budget createBudget(Budget budget);
+	Budget createBudget(Budget budget);
 
-  Budget updateBudget(Budget budget);
+	Budget updateBudget(Budget budget);
 
-  Budget findBudgetById(Long budgetId);
+	Budget findBudgetById(Long budgetId);
 
-  void deleteBudgetById(Long budgetId);
+	void deleteBudgetById(Long budgetId);
 
-  Expense createExpense(Expense expense);
+	Expense createExpense(Expense expense);
 
-  Expense updateExpense(Expense expense);
+	Expense updateExpense(Expense expense);
 
-  Expense findExpenseById(Long expenseId);
+	Expense findExpenseById(Long expenseId);
 
-  void deleteExpenseById(Long expenseId);
+	void deleteExpenseById(Long expenseId);
+
 }

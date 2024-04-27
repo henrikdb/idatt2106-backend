@@ -25,20 +25,21 @@ import lombok.NonNull;
 @Table(name = "badge")
 public class Badge {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "badge_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "badge_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "badge_name", nullable = false)
-  private String badgeName;
+	@NonNull
+	@Column(name = "badge_name", nullable = false)
+	private String badgeName;
 
-  @NonNull
-  @Column(name = "criteria", nullable = false)
-  private String criteria;
+	@NonNull
+	@Column(name = "criteria", nullable = false)
+	private String criteria;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "badge_id")
-  private List<BadgeUser> badgeUserList;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "badge_id")
+	private List<BadgeUser> badgeUserList;
+
 }

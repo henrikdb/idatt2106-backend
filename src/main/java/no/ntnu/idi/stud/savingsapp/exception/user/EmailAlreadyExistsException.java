@@ -5,10 +5,11 @@ package no.ntnu.idi.stud.savingsapp.exception.user;
  */
 public final class EmailAlreadyExistsException extends RuntimeException {
 
-  /**
-   * Constructs a UserAlreadyExistsException with the default message.
-   */
-  public EmailAlreadyExistsException() {
-    super("Email already exists");
-  }
+	/**
+	 * Constructs a UserAlreadyExistsException with the default message.
+	 */
+	public EmailAlreadyExistsException() {
+		super("Email already exists");
+	}
+
 }

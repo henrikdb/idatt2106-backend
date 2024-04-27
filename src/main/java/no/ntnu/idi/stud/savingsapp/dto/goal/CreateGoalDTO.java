@@ -10,15 +10,16 @@ import java.util.List;
 @Data
 public final class CreateGoalDTO {
 
-  @NonNull
-  private String goalName;
+	@NonNull
+	private String goalName;
 
-  @NonNull
-  private String description;
+	@NonNull
+	private String description;
 
-  @NonNull
-  private int targetAmount;
+	@NonNull
+	private int targetAmount;
 
-  @NonNull
-  private Timestamp targetDate;
+	@NonNull
+	private Timestamp targetDate;
+
 }

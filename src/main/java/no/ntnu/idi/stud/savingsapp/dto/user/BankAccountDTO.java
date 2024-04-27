@@ -7,8 +7,9 @@ import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
 @Data
 public class BankAccountDTO {
 
-  private Long bban;
+	private Long bban;
 
-  @Enumerator(value = BankAccountType.class)
-  private String bankAccountType;
+	@Enumerator(value = BankAccountType.class)
+	private String bankAccountType;
+
 }

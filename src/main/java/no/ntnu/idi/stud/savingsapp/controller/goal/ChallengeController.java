@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 @Tag(name = "GoalChallenge")
 public class ChallengeController {
-  @Autowired
-  private ChallengeService challengeService;
 
-  @Autowired
-  private ModelMapper modelMapper;
+	@Autowired
+	private ChallengeService challengeService;
 
-  public ResponseEntity<ChallengeDTO> getChallenge() {
-    return null;
-  }
+	@Autowired
+	private ModelMapper modelMapper;
+
+	public ResponseEntity<ChallengeDTO> getChallenge() {
+		return null;
+	}
+
 }

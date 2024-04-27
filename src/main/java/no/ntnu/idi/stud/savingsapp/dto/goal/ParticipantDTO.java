@@ -6,7 +6,8 @@ import no.ntnu.idi.stud.savingsapp.model.goal.participant.ParticipantRole;
 @Data
 public final class ParticipantDTO {
 
-  private ParticipantRole role;
+	private ParticipantRole role;
 
-  private ParticipantUserDTO user;
+	private ParticipantUserDTO user;
+
 }

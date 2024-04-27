@@ -9,6 +9,9 @@ import no.ntnu.idi.stud.savingsapp.bank.model.Account;
  */
 @Data
 public class BankProfileResponseDTO {
-  private Long ssn;
-  List<Account> accounts;
+
+	private Long ssn;
+
+	List<Account> accounts;
+
 }

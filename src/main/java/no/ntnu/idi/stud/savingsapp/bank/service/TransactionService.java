@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TransactionService {
 
-  /**
-   * Performs and saves a transaction between two accounts.
-   *
-   * @param transactionRequest The transaction to be performed, containing the bban of the creditor
-   *                           and debitor accounts in addition to the amount that is being
-   *                           transferred.
-   */
-  void saveTransaction(TransactionDTO transactionRequest);
+	/**
+	 * Performs and saves a transaction between two accounts.
+	 * @param transactionRequest The transaction to be performed, containing the bban of
+	 * the creditor and debitor accounts in addition to the amount that is being
+	 * transferred.
+	 */
+	void saveTransaction(TransactionDTO transactionRequest);
+
 }

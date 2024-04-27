@@ -22,32 +22,33 @@ import lombok.NonNull;
 @Table(name = "streak")
 public class Streak {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "streak_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "streak_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "current_streak", nullable = false)
-  private int currentStreak;
+	@NonNull
+	@Column(name = "current_streak", nullable = false)
+	private int currentStreak;
 
-  @NonNull
-  @Column(name = "current_streak_created_at", nullable = false)
-  private Timestamp currentStreakCreatedAt;
+	@NonNull
+	@Column(name = "current_streak_created_at", nullable = false)
+	private Timestamp currentStreakCreatedAt;
 
-  @NonNull
-  @Column(name = "current_streak_updated_at", nullable = false)
-  private Timestamp currentStreakUpdatedAt;
+	@NonNull
+	@Column(name = "current_streak_updated_at", nullable = false)
+	private Timestamp currentStreakUpdatedAt;
 
-  @NonNull
-  @Column(name = "highest_streak", nullable = false)
-  private int highestStreak;
+	@NonNull
+	@Column(name = "highest_streak", nullable = false)
+	private int highestStreak;
 
-  @NonNull
-  @Column(name = "highest_streak_created_at", nullable = false)
-  private Timestamp highestStreakCreatedAt;
+	@NonNull
+	@Column(name = "highest_streak_created_at", nullable = false)
+	private Timestamp highestStreakCreatedAt;
 
-  @NonNull
-  @Column(name = "highest_streak_ended_at")
-  private Timestamp highestStreakEndedAt;
+	@NonNull
+	@Column(name = "highest_streak_ended_at")
+	private Timestamp highestStreakEndedAt;
+
 }

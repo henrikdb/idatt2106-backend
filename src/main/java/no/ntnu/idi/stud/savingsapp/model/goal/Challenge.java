@@ -19,36 +19,37 @@ import lombok.NonNull;
 @Table(name = "challenge")
 public class Challenge {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "challenge_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "challenge_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "potential_saving_amount", nullable = false)
-  private int potentialSavingAmount;
+	@NonNull
+	@Column(name = "potential_saving_amount", nullable = false)
+	private int potentialSavingAmount;
 
-  @NonNull
-  @Column(name = "points", nullable = false)
-  private int points;
+	@NonNull
+	@Column(name = "points", nullable = false)
+	private int points;
 
-  @NonNull
-  @Column(name = "days", nullable = false)
-  private int days;
+	@NonNull
+	@Column(name = "days", nullable = false)
+	private int days;
 
-  @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
+	@NonNull
+	@Column(name = "created_at", nullable = false)
+	private Timestamp createdAt;
 
-  @ManyToOne
-  @JoinColumn(name = "goal_id")
-  private Goal goal;
+	@ManyToOne
+	@JoinColumn(name = "goal_id")
+	private Goal goal;
 
-  @ManyToOne
-  @JoinColumn (name = "challenge_template_id")
-  private ChallengeTemplate challengeTemplate;
+	@ManyToOne
+	@JoinColumn(name = "challenge_template_id")
+	private ChallengeTemplate challengeTemplate;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "challenge_id")
-  private List<DailyChallengeProgress> dailyChallengeProgressList;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "challenge_id")
+	private List<DailyChallengeProgress> dailyChallengeProgressList;
+
 }

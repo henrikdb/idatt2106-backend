@@ -14,13 +14,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class BadgeUserId implements Serializable {
 
-  @ManyToOne
-  @JoinColumn(name = "badge_id")
-  private Badge badge;
+	@ManyToOne
+	@JoinColumn(name = "badge_id")
+	private Badge badge;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
-
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 }

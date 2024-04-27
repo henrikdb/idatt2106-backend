@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Represents the progress of daily challenges.
- * This entity keeps track of when challenges are completed, and whihc day they need to be
- * completed at.
+ * Represents the progress of daily challenges. This entity keeps track of when challenges
+ * are completed, and whihc day they need to be completed at.
  */
 @Data
 @NoArgsConstructor
@@ -24,16 +23,17 @@ import lombok.NonNull;
 @Table(name = "daily_challenge_progress")
 public class DailyChallengeProgress {
 
-  @Id()
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "daily_challenge_progess_id")
-  private Long id;
+	@Id()
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "daily_challenge_progess_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "challenge_day", nullable = false)
-  private int challengeDay;
+	@NonNull
+	@Column(name = "challenge_day", nullable = false)
+	private int challengeDay;
 
-  @NonNull
-  @Column(name = "completed_at", nullable = false)
-  private Timestamp completedAt;
+	@NonNull
+	@Column(name = "completed_at", nullable = false)
+	private Timestamp completedAt;
+
 }

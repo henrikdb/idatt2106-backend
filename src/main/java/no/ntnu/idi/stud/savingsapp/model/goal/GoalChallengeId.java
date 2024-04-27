@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class GoalChallengeId implements Serializable {
 
-  @ManyToOne
-  @JoinColumn(name = "goal_id")
-  private Goal goal;
+	@ManyToOne
+	@JoinColumn(name = "goal_id")
+	private Goal goal;
 
-  @ManyToOne
-  @JoinColumn(name = "challenge_id")
-  private Challenge challenge;
+	@ManyToOne
+	@JoinColumn(name = "challenge_id")
+	private Challenge challenge;
+
 }

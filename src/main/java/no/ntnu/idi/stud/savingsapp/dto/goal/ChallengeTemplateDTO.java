@@ -6,13 +6,14 @@ import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 @Data
 public final class ChallengeTemplateDTO {
 
-  private long id;
+	private long id;
 
-  private String challengeText;
+	private String challengeText;
 
-  private int challengeMinLength;
+	private int challengeMinLength;
 
-  private int challengeMaxLength;
+	private int challengeMaxLength;
 
-  private ChallengeType challengeType;
+	private ChallengeType challengeType;
+
 }

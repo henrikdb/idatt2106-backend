@@ -29,25 +29,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-  @MockBean
-  private UserService userService;
+	@MockBean
+	private UserService userService;
 
-  private User user;
+	private User user;
 
-  @BeforeEach
-  public void setup() {
-    user = new User();
-    user.setId(1L);
-    user.setRole(Role.USER);
-    user.setEmail("test@example.com");
-    user.setFirstName("John");
-    user.setLastName("Doe");
-  }
+	@BeforeEach
+	public void setup() {
+		user = new User();
+		user.setId(1L);
+		user.setRole(Role.USER);
+		user.setEmail("test@example.com");
+		user.setFirstName("John");
+		user.setLastName("Doe");
+	}
 
-  @Test
+	@Test
   void getUser_Success() throws Exception {
     when(userService.findById(user.getId())).thenReturn(user);
 
@@ -56,7 +56,7 @@ public class UserControllerTest {
         .andExpect(status().isOk());
   }
 
-  @Test
+	@Test
   void getUser_NotFound() throws Exception {
     when(userService.findById(anyLong())).thenThrow(UserNotFoundException.class);
 
@@ -65,7 +65,7 @@ public class UserControllerTest {
         .andExpect(status().isNotFound());
   }
 
-  @Test
+	@Test
   void getProfile_Success() throws Exception {
     when(userService.findById(anyLong())).thenReturn(user);
 
@@ -75,51 +75,48 @@ public class UserControllerTest {
         .andExpect(status().isOk());
   }
 
-  @Test
-  void updateProfile_Success() throws Exception {
-    UserUpdateDTO updateDTO = new UserUpdateDTO();
-    updateDTO.setFirstName("Jane");
-    updateDTO.setLastName("Test");
-    updateDTO.setEmail("new@email.com");
-    updateDTO.setPassword("NewPassword1");
+	@Test
+	void updateProfile_Success() throws Exception {
+		UserUpdateDTO updateDTO = new UserUpdateDTO();
+		updateDTO.setFirstName("Jane");
+		updateDTO.setLastName("Test");
+		updateDTO.setEmail("new@email.com");
+		updateDTO.setPassword("NewPassword1");
 
-    User updatedUser = user;
-    updatedUser.setFirstName("Jane");
-    updatedUser.setLastName("Test");
-    updatedUser.setEmail("new@email.com");
-    updatedUser.setPassword("NewPassword1");
+		User updatedUser = user;
+		updatedUser.setFirstName("Jane");
+		updatedUser.setLastName("Test");
+		updatedUser.setEmail("new@email.com");
+		updatedUser.setPassword("NewPassword1");
 
-    when(userService.findById(anyLong())).thenReturn(user);
-    when(userService.update(any(User.class))).thenReturn(updatedUser);
+		when(userService.findById(anyLong())).thenReturn(user);
+		when(userService.update(any(User.class))).thenReturn(updatedUser);
 
-    mvc.perform(patch("/api/users")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtil.toJson(updateDTO))
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(status().isOk());
-  }
+		mvc.perform(patch("/api/users").contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(updateDTO))
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(status().isOk());
+	}
 
-  @Test
-  void resetPassword_ValidEmail_ReturnsAccepted() throws Exception {
-    doNothing().when(userService).initiatePasswordReset("user@example.com");
+	@Test
+	void resetPassword_ValidEmail_ReturnsAccepted() throws Exception {
+		doNothing().when(userService).initiatePasswordReset("user@example.com");
 
-    mvc.perform(post("/api/users/reset-password")
-            .contentType(MediaType.TEXT_PLAIN_VALUE)
-            .content("user@example.com"))
-        .andExpect(status().isAccepted());
-  }
+		mvc.perform(
+				post("/api/users/reset-password").contentType(MediaType.TEXT_PLAIN_VALUE).content("user@example.com"))
+			.andExpect(status().isAccepted());
+	}
 
-  @Test
-  void confirmPassword_ValidToken_ReturnsNoContent() throws Exception {
-    PasswordResetDTO resetDTO = new PasswordResetDTO();
-    resetDTO.setToken("valid-token");
-    resetDTO.setPassword("NewPassword123");
+	@Test
+	void confirmPassword_ValidToken_ReturnsNoContent() throws Exception {
+		PasswordResetDTO resetDTO = new PasswordResetDTO();
+		resetDTO.setToken("valid-token");
+		resetDTO.setPassword("NewPassword123");
 
-    doNothing().when(userService).confirmPasswordReset(resetDTO.getToken(), resetDTO.getPassword());
+		doNothing().when(userService).confirmPasswordReset(resetDTO.getToken(), resetDTO.getPassword());
 
-    mvc.perform(post("/api/users/confirm-password")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtil.toJson(resetDTO)))
-        .andExpect(status().isNoContent());
-  }
+		mvc.perform(post("/api/users/confirm-password").contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(resetDTO))).andExpect(status().isNoContent());
+	}
+
 }

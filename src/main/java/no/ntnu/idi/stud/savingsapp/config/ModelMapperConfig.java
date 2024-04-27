@@ -16,27 +16,28 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class ModelMapperConfig {
 
-  /**
-   * Configures and provides the ModelMapper bean.
-   *
-   * @return ModelMapper bean configured with custom mappings.
-   */
-  @Bean
-  public ModelMapper modelMapper() {
-    ModelMapper modelMapper = new ModelMapper();
-    modelMapper.addConverter(new StringToTimestampConverter());
-    return modelMapper;
-  }
+	/**
+	 * Configures and provides the ModelMapper bean.
+	 * @return ModelMapper bean configured with custom mappings.
+	 */
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.addConverter(new StringToTimestampConverter());
+		return modelMapper;
+	}
 
-  private static class StringToTimestampConverter implements Converter<String, Timestamp> {
+	private static class StringToTimestampConverter implements Converter<String, Timestamp> {
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @Override
-    public Timestamp convert(MappingContext<String, Timestamp> mappingContext) {
-      String source = mappingContext.getSource();
-      LocalDateTime dateTime = LocalDateTime.parse(source, this.formatter);
-      return Timestamp.valueOf(dateTime);
-    }
-  }
+		@Override
+		public Timestamp convert(MappingContext<String, Timestamp> mappingContext) {
+			String source = mappingContext.getSource();
+			LocalDateTime dateTime = LocalDateTime.parse(source, this.formatter);
+			return Timestamp.valueOf(dateTime);
+		}
+
+	}
+
 }

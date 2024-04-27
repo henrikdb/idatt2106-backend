@@ -15,21 +15,21 @@ import java.time.Instant;
 @Component
 public final class TokenUtils {
 
-  /**
-   * Generates a JWT (JSON Web Token) for the given user.
-   *
-   * @param user The user for whom the token is generated.
-   * @return The generated JWT token as a string.
-   */
-  public static String generateToken(final User user) {
-    final Instant now = Instant.now();
-    final Algorithm hmac512 = Algorithm.HMAC512(TokenProperties.SECRET);
-    return JWT.create()
-        .withSubject(String.valueOf(user.getId()))
-        .withClaim("user_role", user.getRole().name())
-        .withIssuer("sparesti")
-        .withIssuedAt(now)
-        .withExpiresAt(now.plusMillis(Duration.ofMinutes(TokenProperties.DURATION).toMillis()))
-        .sign(hmac512);
-  }
+	/**
+	 * Generates a JWT (JSON Web Token) for the given user.
+	 * @param user The user for whom the token is generated.
+	 * @return The generated JWT token as a string.
+	 */
+	public static String generateToken(final User user) {
+		final Instant now = Instant.now();
+		final Algorithm hmac512 = Algorithm.HMAC512(TokenProperties.SECRET);
+		return JWT.create()
+			.withSubject(String.valueOf(user.getId()))
+			.withClaim("user_role", user.getRole().name())
+			.withIssuer("sparesti")
+			.withIssuedAt(now)
+			.withExpiresAt(now.plusMillis(Duration.ofMinutes(TokenProperties.DURATION).toMillis()))
+			.sign(hmac512);
+	}
+
 }

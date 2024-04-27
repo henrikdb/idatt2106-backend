@@ -25,16 +25,17 @@ import lombok.NonNull;
 @Table(name = "difficulty_level")
 public class DifficultyLevel {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "difficulty_level_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "difficulty_level_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "difficulty_level_text", nullable = false)
-  private String diffucultyLevelText;
+	@NonNull
+	@Column(name = "difficulty_level_text", nullable = false)
+	private String diffucultyLevelText;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "difficulty_level_id")
-  private List<Challenge> challengeList;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "difficulty_level_id")
+	private List<Challenge> challengeList;
+
 }

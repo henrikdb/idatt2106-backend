@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public final class ParticipantUserDTO {
 
-  private String firstName;
+	private String firstName;
 
-  private String lastName;
+	private String lastName;
+
 }

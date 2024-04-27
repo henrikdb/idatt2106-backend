@@ -17,11 +17,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class FriendId implements Serializable {
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "friend_id")
-  private User friend;
+	@ManyToOne
+	@JoinColumn(name = "friend_id")
+	private User friend;
+
 }

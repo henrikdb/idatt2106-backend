@@ -16,31 +16,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GoalServiceImpl implements GoalService {
-  @Autowired
-  private UserService userService;
 
-  @Autowired
-  private GoalRepository goalRepository;
+	@Autowired
+	private UserService userService;
 
-  @Autowired
-  private ChallengeSerivceImpl goalChallengeSerivce;
+	@Autowired
+	private GoalRepository goalRepository;
 
+	@Autowired
+	private ChallengeSerivceImpl goalChallengeSerivce;
 
-  public Goal createGoal (Goal goal, Long userID) {
-    goal.setChallenges(goalChallengeSerivce.generateSavingGoalChallenges(goal, userService.findById(userID)));
-    goal.setCreatedAt(Timestamp.from(Instant.now()));
-    Participant creator = new Participant();
-    creator.setUser(userService.findById(userID));
-    creator.setRole(ParticipantRole.CREATOR);
+	public Goal createGoal(Goal goal, Long userID) {
+		goal.setChallenges(goalChallengeSerivce.generateSavingGoalChallenges(goal, userService.findById(userID)));
+		goal.setCreatedAt(Timestamp.from(Instant.now()));
+		Participant creator = new Participant();
+		creator.setUser(userService.findById(userID));
+		creator.setRole(ParticipantRole.CREATOR);
 
-    goal.setParticipants(Arrays.asList(creator));
+		goal.setParticipants(Arrays.asList(creator));
 
-    System.out.println(goal);
+		System.out.println(goal);
 
-    return goalRepository.save(goal);
-  }
+		return goalRepository.save(goal);
+	}
 
-  public List<Goal> getGoalList (Long userID) {
-    return goalRepository.findByParticipants_User_Id(userID);
-  }
+	public List<Goal> getGoalList(Long userID) {
+		return goalRepository.findByParticipants_User_Id(userID);
+	}
+
 }

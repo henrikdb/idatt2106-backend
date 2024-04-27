@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChallengeTemplateRepository extends JpaRepository<ChallengeTemplate, Long> {
-    
-    List<ChallengeTemplate> findAllByChallengeType(ChallengeType challengeType);
+
+	List<ChallengeTemplate> findAllByChallengeType(ChallengeType challengeType);
+
 }
