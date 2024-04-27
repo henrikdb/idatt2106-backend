@@ -15,6 +15,7 @@ services:
   
 stages:
   - compile_and_test
+  - format_and_commit
   - generate_site_reports
   - modify_generated_site_reports
   - publish_pages
@@ -36,6 +37,16 @@ compile_and_test:
       junit:
         - target/surefire-reports/TEST-*.xml
         - target/failsafe-reports/TEST-*.xml
+  when: always
+
+format_and_commit:
+  stage: compile_and_test
+  script:
+    - ./mvnw spring-javaformat:apply
+    - git config --global user.name "Spring Robot"
+    - git config --global user.email "robot@example.com"
+    - git add .
+    - git commit -m "Committing spring-javaformat changes"
   when: always
 
 generate_site_reports:
