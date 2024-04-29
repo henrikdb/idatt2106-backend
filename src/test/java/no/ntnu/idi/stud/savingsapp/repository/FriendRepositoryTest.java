@@ -37,49 +37,29 @@ public class FriendRepositoryTest {
 
     @BeforeEach
     void init() {
-        user1 = new User(
-            null,                      
-            "User",                   
-            "User",      
-            "user@example.com", 
-            null,  
-            null, 
-            "SomeEncryptedPassword1", 
-            new Timestamp(System.currentTimeMillis()), 
-            Role.USER,                 
-            Collections.emptyList(),  
-            null,
-            null,       
-            null);        
-        user2 = new User(
-            null,                        
-            "User2",                  
-            "Five",                   
-            "user5@example.com", 
-            null,          
-            null,              
-            "SomeEncryptedPassword2", 
-            new Timestamp(System.currentTimeMillis()),
-            Role.USER,                
-            Collections.emptyList(),  
-            null,           
-            null,     
-            null);   
+        user1 = new User();
+        user1.setFirstName("User");
+        user1.setLastName("User");
+        user1.setEmail("user@example.com");
+        user1.setPassword("SomeEncryptedPassword1");
+        user1.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user1.setRole(Role.USER);
+
+        user2 = new User();
+        user2.setFirstName("User2");
+        user2.setLastName("Five");
+        user2.setEmail("user5@example.com");
+        user2.setPassword("SomeEncryptedPassword2");
+        user2.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user2.setRole(Role.USER);
         
-        user3 = new User(
-            null,                      
-            "User3",                   
-            "Three",      
-            "user3@example.com", 
-            null,  
-            null, 
-            "SomeEncryptedPassword3", 
-            new Timestamp(System.currentTimeMillis()), 
-            Role.USER,                 
-            Collections.emptyList(),  
-            null,
-            null,       
-            null);
+        user3 = new User();
+        user3.setFirstName("User3");
+        user3.setLastName("Three");
+        user3.setEmail("user3@example.com");
+        user3.setPassword("SomeEncryptedPassword3");
+        user3.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user3.setRole(Role.USER);
 
         // Persist all users 
         entityManager.persist(user1);          
