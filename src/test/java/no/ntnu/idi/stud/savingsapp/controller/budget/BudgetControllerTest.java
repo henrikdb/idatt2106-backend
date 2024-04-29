@@ -40,7 +40,6 @@ public class BudgetControllerTest {
 
 
   @Test
-  @WithMockUser()
   void shouldGetAllBudgetsByUserId() throws Exception {
     mvc.perform(MockMvcRequestBuilders.get("/api/budget")
             .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
@@ -61,4 +60,15 @@ public class BudgetControllerTest {
             + ".172+00:00"));
       }
 
+    @Test
+    @WithMockUser
+    void shouldGetBudgetByBudgetId() throws Exception {
+      mvc.perform(MockMvcRequestBuilders.get("/api/budget/1"))
+          .andExpect(MockMvcResultMatchers.status().isOk())
+          .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+          .andExpect(MockMvcResultMatchers.jsonPath("$.budgetName").value("April 2024"))
+          .andExpect(MockMvcResultMatchers.jsonPath("$.budgetAmount").value(10000.00))
+          .andExpect(MockMvcResultMatchers.jsonPath("$.expenseAmount").value(5000.00))
+          .andExpect(MockMvcResultMatchers.jsonPath("$.createdAt").value("2024-04-26T07:56:18.172+00:00"));
+    }
 }
