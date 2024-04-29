@@ -1,6 +1,5 @@
 package no.ntnu.idi.stud.savingsapp.dto.goal;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,5 +34,5 @@ public final class GoalDTO {
 
   private List<ChallengeDTO> challenges;
 
-  private List<ParticipantDTO> participants;
+  private UserDTO user;
 }
