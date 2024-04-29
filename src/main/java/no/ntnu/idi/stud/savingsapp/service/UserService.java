@@ -37,6 +37,16 @@ public interface UserService {
   User update(User user);
 
   /**
+   * Updates the password of a user.
+   *
+   * @param id The ID of the user
+   * @param oldPassword The old password
+   * @param newPassword The new password
+   * @return The updated User object, persisted in the database.
+   */
+  User updatePassword(long id, String oldPassword, String newPassword);
+
+  /**
    * Retrieves a user by their email address.
    *
    * @param email The email address to search for in the user database.
