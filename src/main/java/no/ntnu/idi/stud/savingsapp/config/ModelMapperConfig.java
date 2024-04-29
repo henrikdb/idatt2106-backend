@@ -24,7 +24,7 @@ public class ModelMapperConfig {
   @Bean
   public ModelMapper modelMapper() {
     ModelMapper modelMapper = new ModelMapper();
-    modelMapper.addConverter(new StringToTimestampConverter());
+    //modelMapper.addConverter(new StringToTimestampConverter());
     return modelMapper;
   }
 
