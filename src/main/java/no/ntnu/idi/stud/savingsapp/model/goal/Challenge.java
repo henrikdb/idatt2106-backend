@@ -41,10 +41,6 @@ public class Challenge {
   private Timestamp createdAt;
 
   @ManyToOne
-  @JoinColumn(name = "goal_id")
-  private Goal goal;
-
-  @ManyToOne
   @JoinColumn (name = "challenge_template_id")
   private ChallengeTemplate challengeTemplate;
 
