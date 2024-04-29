@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 /**
@@ -30,7 +29,7 @@ public class Goal {
 
   @NonNull
   @Column(name = "goal_name", nullable = false)
-  private String GoalName;
+  private String goalName;
 
   @NonNull
   @Column(name = "goal_description", nullable = false)
@@ -48,11 +47,13 @@ public class Goal {
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
-  @OneToMany(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "goal_id")
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "goal_challenge",
+  joinColumns = @JoinColumn(name = "goal_id"),
+  inverseJoinColumns = @JoinColumn(name = "challenge_id"))
   private List<Challenge> challenges;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "goal_id")
-  private List<Participant> participants;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 }
