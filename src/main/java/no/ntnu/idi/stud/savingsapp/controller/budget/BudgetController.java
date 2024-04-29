@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import no.ntnu.idi.stud.savingsapp.dto.budget.BudgetRequestDTO;
 import no.ntnu.idi.stud.savingsapp.dto.budget.BudgetResponseDTO;
@@ -72,6 +73,7 @@ public class BudgetController {
     for (Budget budget : budgets) {
       budgetDTOs.add(modelMapper.map(budget, BudgetResponseDTO.class));
     }
+    Collections.reverse(budgetDTOs);
     return ResponseEntity.ok(budgetDTOs);
   }
 
@@ -117,7 +119,7 @@ public class BudgetController {
   /**
    * Updates a budget.
    *
-   * @param identity The security context of the authenticated user.
+   * @param budgetId The budget's id.
    * @param request The budget request.
    * @return ResponseEntity.
    */
@@ -126,11 +128,13 @@ public class BudgetController {
       @ApiResponse(responseCode = "200", description = "Successfully updated budget"),
       @ApiResponse(responseCode = "500", description = "Budget is not found")
   })
-  @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE,
+  @PostMapping(value = "/update/{budgetId}", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> updateBudget(@AuthenticationPrincipal AuthIdentity identity, @RequestBody BudgetResponseDTO request) {
-    Budget budget = modelMapper.map(request, Budget.class);
-    budget.setUser(userService.findById(identity.getId()));
+  public ResponseEntity<?> updateBudget(@PathVariable Long budgetId, @RequestBody BudgetRequestDTO request) {
+    Budget budget = budgetService.findBudgetById(budgetId);
+    budget.setBudgetName(request.getBudgetName());
+    budget.setBudgetAmount(request.getBudgetAmount());
+    budget.setExpenseAmount(request.getExpenseAmount());
     budgetService.updateBudget(budget);
     return ResponseEntity.ok().build();
   }
@@ -210,6 +214,7 @@ public class BudgetController {
     for (Expense expense : expenses) {
       expenseDTOs.add(modelMapper.map(expense, ExpenseResponseDTO.class));
     }
+    Collections.reverse(expenseDTOs);
     return ResponseEntity.ok(expenseDTOs);
   }
 
