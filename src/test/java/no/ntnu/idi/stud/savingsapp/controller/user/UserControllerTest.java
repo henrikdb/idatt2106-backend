@@ -81,13 +81,11 @@ public class UserControllerTest {
     updateDTO.setFirstName("Jane");
     updateDTO.setLastName("Test");
     updateDTO.setEmail("new@email.com");
-    updateDTO.setPassword("NewPassword1");
 
     User updatedUser = user;
     updatedUser.setFirstName("Jane");
     updatedUser.setLastName("Test");
     updatedUser.setEmail("new@email.com");
-    updatedUser.setPassword("NewPassword1");
 
     when(userService.findById(anyLong())).thenReturn(user);
     when(userService.update(any(User.class))).thenReturn(updatedUser);

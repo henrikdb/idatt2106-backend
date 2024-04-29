@@ -10,5 +10,6 @@ public final class ProfileDTO {
   private long id;
   private String firstName;
   private String lastName;
+  private Long profileImage;
   private Timestamp createdAt;
 }
