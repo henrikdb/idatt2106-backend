@@ -20,8 +20,7 @@ public final class UserUpdateDTO {
   @Email(message = "Invalid email")
   private String email;
 
-  @Password(nullable = true)
-  private String password;
+  private Long profileImage;
 
   @Valid
   private ConfigurationDTO configuration;
