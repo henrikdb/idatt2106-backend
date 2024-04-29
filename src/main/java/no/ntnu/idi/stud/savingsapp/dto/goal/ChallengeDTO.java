@@ -18,5 +18,7 @@ public final class ChallengeDTO {
 
   private Timestamp createdAt;
 
+  private ChallengeTemplateDTO challengeTemplate;
+
   private List<DailyChallengeProgressDTO> dailyChallengeProgressList;
 }
