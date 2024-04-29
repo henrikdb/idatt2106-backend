@@ -115,6 +115,28 @@ public class UserServiceImpl implements UserService {
   }
 
   /**
+   * Updates the password of a user.
+   *
+   * @param id The ID of the user
+   * @param oldPassword The old password
+   * @param newPassword The new password
+   * @return The updated User object, persisted in the database.
+   * @throws InvalidCredentialsException if the old password is invalid.
+   */
+  @Override
+  public User updatePassword(long id, String oldPassword, String newPassword) {
+    User user = findById(id);
+    boolean match = passwordEncoder.matches(oldPassword, user.getPassword());
+    if (match) {
+      String encodedPassword = passwordEncoder.encode(newPassword);
+      user.setPassword(encodedPassword);
+    } else {
+      throw new InvalidCredentialsException("Old password is invalid");
+    }
+    return userRepository.save(user);
+  }
+
+  /**
    * Retrieves a user by their email address.
    *
    * @param email The email address to search for in the database.

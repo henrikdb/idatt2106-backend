@@ -8,11 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
-import no.ntnu.idi.stud.savingsapp.dto.user.BankAccountDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.PasswordResetDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.ProfileDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserUpdateDTO;
+import no.ntnu.idi.stud.savingsapp.dto.user.*;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
@@ -134,6 +130,18 @@ public class UserController {
     }
     User updatedUser = userService.update(user);
     UserDTO userDTO = modelMapper.map(updatedUser, UserDTO.class);
+    return ResponseEntity.ok(userDTO);
+  }
+
+  @Operation(summary = "Update a password", description = "Update the password of the authenticated user")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully updated password")
+  })
+  @PatchMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserDTO> updatePassword(@AuthenticationPrincipal AuthIdentity identity,
+                                        @RequestBody @Valid PasswordUpdateDTO updateDTO) {
+    User user = userService.updatePassword(identity.getId(), updateDTO.getOldPassword(), updateDTO.getNewPassword());
+    UserDTO userDTO = modelMapper.map(user, UserDTO.class);
     return ResponseEntity.ok(userDTO);
   }
 
