@@ -13,9 +13,13 @@ import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Experience;
+import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
+import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,10 +27,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Controller handling user related requests.
  */
@@ -201,4 +207,28 @@ public class UserController {
         bankAccountDTO.getBban(),
         identity.getId());
   }
+
+  @Operation(summary = "Search for users by name and filter", description = "Returns a list of users whose names contain the specified search term.")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "Successfully retrieved list of users")
+  })
+  @GetMapping("/search/{searchTerm}/{filter}")
+  public ResponseEntity<List<UserDTO>> getUsersByNameAndFilter(
+          @AuthenticationPrincipal AuthIdentity identity,
+          @PathVariable String searchTerm,
+          @PathVariable SearchFilter filter) {
+      try {
+          List<User> users = userService.getUsersByNameAndFilter(identity.getId(), searchTerm, filter);
+          List<UserDTO> userDTOs = new ArrayList<>();
+          for(User user : users) {
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            userDTOs.add(userDTO);
+          }
+          return ResponseEntity.ok(userDTOs);
+      } catch (IllegalArgumentException ex) {
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid filter", ex);
+      }
+  }
 }
+
+

@@ -11,6 +11,7 @@ import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
+import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
@@ -275,5 +276,17 @@ public class UserServiceImpl implements UserService {
     return friendsUser;
   }
 
+  @Override
+  public List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter) {
+      List<User> users = userRepository.findUsersByName(searchTerm);
+      users.removeIf(user -> user.getId().equals(userId));
+      switch (filter) {
+          case FRIENDS:
+              List<User> friends = getFriends(userId);
+              users.removeAll(friends);
+              break;
+      }
+      return users;
+}
 
 }

@@ -1,7 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.FriendId;

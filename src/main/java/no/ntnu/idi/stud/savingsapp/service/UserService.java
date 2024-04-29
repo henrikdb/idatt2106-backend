@@ -1,7 +1,9 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 import java.util.List;
@@ -92,4 +94,6 @@ public interface UserService {
   List<User> getFriends(Long userId);
 
   List<User> getFriendRequests(Long userId);
+
+  List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter);
 }
