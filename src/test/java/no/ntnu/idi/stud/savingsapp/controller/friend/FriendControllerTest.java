@@ -82,4 +82,17 @@ public class FriendControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
   }
+
+  @Test
+  @WithMockUser
+  void deleteFriendShouldDeleteFriend() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.delete("/api/friends/7")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+      
+    mvc.perform(MockMvcRequestBuilders.get("/api/friends")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
+  }
 }
