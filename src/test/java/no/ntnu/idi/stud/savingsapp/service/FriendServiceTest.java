@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
@@ -19,8 +20,11 @@ import no.ntnu.idi.stud.savingsapp.model.user.FriendId;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.FriendRepository;
 import no.ntnu.idi.stud.savingsapp.service.impl.FriendServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
 public class FriendServiceTest {
     @Mock
     private FriendRepository friendRepository;
