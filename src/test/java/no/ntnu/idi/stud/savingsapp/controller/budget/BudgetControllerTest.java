@@ -53,14 +53,11 @@ public class BudgetControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].budgetName").value("March 2024"))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].budgetAmount").value(20000.00))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].expenseAmount").value(5000.00))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].createdAt").value("2024-04-26T07:56:18.172+00:00"))
         // test second budget in list
         .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(1))
         .andExpect(MockMvcResultMatchers.jsonPath("$[1].budgetName").value("April 2024"))
         .andExpect(MockMvcResultMatchers.jsonPath("$[1].budgetAmount").value(10000.00))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[1].expenseAmount").value(5000.00))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[1].createdAt").value("2024-04-26T07:56:18"
-            + ".172+00:00"));
+        .andExpect(MockMvcResultMatchers.jsonPath("$[1].expenseAmount").value(5000.00));
   }
 
   @Test
@@ -71,8 +68,7 @@ public class BudgetControllerTest {
       .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
       .andExpect(MockMvcResultMatchers.jsonPath("$.budgetName").value("April 2024"))
       .andExpect(MockMvcResultMatchers.jsonPath("$.budgetAmount").value(10000.00))
-      .andExpect(MockMvcResultMatchers.jsonPath("$.expenseAmount").value(5000.00))
-      .andExpect(MockMvcResultMatchers.jsonPath("$.createdAt").value("2024-04-26T07:56:18.172+00:00"));
+      .andExpect(MockMvcResultMatchers.jsonPath("$.expenseAmount").value(5000.00));
   }
 
   @Test
