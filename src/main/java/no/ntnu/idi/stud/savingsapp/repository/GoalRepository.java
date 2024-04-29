@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
 
-  List<Goal> findByParticipants_User_Id (Long userId);
+  List<Goal> findByUser_Id (Long userId);
 }
