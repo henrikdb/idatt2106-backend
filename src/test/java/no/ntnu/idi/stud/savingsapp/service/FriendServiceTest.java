@@ -54,6 +54,4 @@ public class FriendServiceTest {
         assertEquals(1, result.size());
         assertEquals(friendEntity, result.get(0));
     }
-
-    
 }

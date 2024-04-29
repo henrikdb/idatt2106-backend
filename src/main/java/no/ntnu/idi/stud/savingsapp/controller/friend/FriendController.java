@@ -18,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,14 +79,37 @@ public class FriendController {
 
     @Operation(summary = "Accept a friend request", description = "Accepts a friend request from another user.")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Friend request successfully accepted")
+        @ApiResponse(responseCode = "200", description = "Friend request successfully accepted"),
+        @ApiResponse(responseCode = "404", description = "Friend request not found"),
     })
     @PutMapping("/{friendId}")
     public ResponseEntity<?> acceptFriendRequest(@AuthenticationPrincipal AuthIdentity identity, @PathVariable long friendId) {
         User user = userService.findById(identity.getId());
         User friend = userService.findById(friendId);
         Friend friendRequest = friendService.getFriendRequest(user, friend);
+        if (friendRequest == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No friend request found.");
+        }
         friendService.acceptFriendRequest(friendRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Delete a friend or cancel a friend request", description = "Deletes an existing friend from your friend list or cancels a received friend request.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Friend successfully deleted or friend request cancelled"),
+        @ApiResponse(responseCode = "404", description = "Friend or friend request not found"),
+    })
+    @DeleteMapping("/{friendId}")
+    public ResponseEntity<?> deleteFriendOrFriendRequest(@AuthenticationPrincipal AuthIdentity identity, @PathVariable long friendId) {
+        User user = userService.findById(identity.getId());
+        User friend = userService.findById(friendId);
+
+        Friend friendStatus = friendService.getFriendStatus(user, friend);
+        if (friendStatus == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No friend relationship or friend request found.");
+        }
+
+        friendService.deleteFriendOrFriendRequest(friendStatus);
         return ResponseEntity.ok().build();
     }
 
