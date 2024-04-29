@@ -8,12 +8,14 @@ import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.EmailService;
+import no.ntnu.idi.stud.savingsapp.service.FriendService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +28,8 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private FriendService friendService;
 
   @Autowired
   private PasswordResetTokenRepository tokenRepository;
@@ -237,5 +244,36 @@ public class UserServiceImpl implements UserService {
     update(user);
     return account;
   }
+
+  @Override
+  public List<User> getFriends(Long userId) {
+    List<Friend> friendsFriend = friendService.getFriends(userId);
+    List<User> friendsUser = new ArrayList<>();
+
+    for(Friend friend : friendsFriend) {
+      if(friend.getId().getUser().getId() != userId) {
+        friendsUser.add(friend.getId().getUser());
+      } else {
+        friendsUser.add(friend.getId().getFriend());
+      }
+    }
+    return friendsUser;
+  }
+
+  @Override
+  public List<User> getFriendRequests(Long userId) {
+    List<Friend> friendsFriend = friendService.getFriendRequests(userId);
+    List<User> friendsUser = new ArrayList<>();
+
+    for(Friend friend : friendsFriend) {
+      if(friend.getId().getUser().getId() != userId) {
+        friendsUser.add(friend.getId().getUser());
+      } else {
+        friendsUser.add(friend.getId().getFriend());
+      }
+    }
+    return friendsUser;
+  }
+
 
 }
