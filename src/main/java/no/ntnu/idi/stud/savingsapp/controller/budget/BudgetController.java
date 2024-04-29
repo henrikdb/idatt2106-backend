@@ -108,7 +108,8 @@ public class BudgetController {
   })
   @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Budget> createBudget(@AuthenticationPrincipal AuthIdentity identity, @RequestBody BudgetRequestDTO request) {
+  public ResponseEntity<?> createBudget(@AuthenticationPrincipal AuthIdentity identity,
+      @RequestBody BudgetRequestDTO request) {
     Budget budget = modelMapper.map(request, Budget.class);
     budget.setUser(userService.findById(identity.getId()));
     budget.setCreatedAt(Timestamp.from(Instant.now()));
