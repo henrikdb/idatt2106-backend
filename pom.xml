@@ -159,8 +159,8 @@
 						<exclude>no/ntnu/idi/stud/savingsapp/utils/**/*</exclude>
 						<exclude>no/ntnu/idi/stud/savingsapp/security/**/*</exclude>
 						<exclude>no/ntnu/idi/stud/savingsapp/model/**/*</exclude>
-						<exclude>no/ntnu/idi/stud/savinfsapp/bank/model/**/*</exclude>
-						<exclude>no/ntnu/idi/stud/savinfsapp/bank/dto/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/bank/model/**/*</exclude>
+						<exclude>no/ntnu/idi/stud/savingsapp/bank/dto/**/*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
