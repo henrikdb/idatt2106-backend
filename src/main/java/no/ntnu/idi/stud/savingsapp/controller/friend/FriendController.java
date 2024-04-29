@@ -12,11 +12,9 @@ import no.ntnu.idi.stud.savingsapp.service.FriendService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
+import java.util.ArrayList;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -92,6 +90,11 @@ public class FriendController {
     }
 
     private List<UserDTO> convertToDto(List<User> users) {
-        return users.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for(User user : users) {
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            userDTOs.add(userDTO);
+        }
+        return userDTOs;
     }
 }

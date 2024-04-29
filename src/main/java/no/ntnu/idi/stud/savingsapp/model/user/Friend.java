@@ -27,7 +27,6 @@ public class Friend {
   @Column(name = "pending", nullable = false)
   private boolean pending;
 
-  @NonNull
   @Column(name = "created_at")
   private Timestamp createdAt;
 }

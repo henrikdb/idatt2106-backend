@@ -24,8 +24,7 @@ import no.ntnu.idi.stud.savingsapp.service.LeaderboardService;
 import no.ntnu.idi.stud.savingsapp.UserUtil;
 import no.ntnu.idi.stud.savingsapp.controller.user.UserControllerTest;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FriendControllerTest {
     
 }

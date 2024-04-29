@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.sql.Timestamp;
 
-import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +59,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Friend getFriendRequest(User user, User friend) {
-      FriendId friendId = new FriendId(user, friend);
+      FriendId friendId = new FriendId(friend, user);
       Optional<Friend> friendRequest = friendRepository.findById(friendId);
       if(friendRequest.isPresent()) {
         return friendRequest.get();
@@ -73,7 +72,4 @@ public class FriendServiceImpl implements FriendService {
     public void acceptFriendRequest(Friend friendRequest) {
       friendRepository.acceptFriendRequest(friendRequest.getId());
     }
-
-
-
 }
