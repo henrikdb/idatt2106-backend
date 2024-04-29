@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
-import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
-import no.ntnu.idi.stud.savingsapp.model.goal.participant.ParticipantRole;
 import no.ntnu.idi.stud.savingsapp.repository.GoalRepository;
 import no.ntnu.idi.stud.savingsapp.service.GoalService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
@@ -29,11 +27,8 @@ public class GoalServiceImpl implements GoalService {
   public Goal createGoal (Goal goal, Long userID) {
     goal.setChallenges(goalChallengeSerivce.generateSavingGoalChallenges(goal, userService.findById(userID)));
     goal.setCreatedAt(Timestamp.from(Instant.now()));
-    Participant creator = new Participant();
-    creator.setUser(userService.findById(userID));
-    creator.setRole(ParticipantRole.CREATOR);
 
-    goal.setParticipants(Arrays.asList(creator));
+    goal.setUser(userService.findById(userID));
 
     System.out.println(goal);
 
@@ -41,6 +36,6 @@ public class GoalServiceImpl implements GoalService {
   }
 
   public List<Goal> getGoalList (Long userID) {
-    return goalRepository.findByParticipants_User_Id(userID);
+    return goalRepository.findByUser_Id(userID);
   }
 }
