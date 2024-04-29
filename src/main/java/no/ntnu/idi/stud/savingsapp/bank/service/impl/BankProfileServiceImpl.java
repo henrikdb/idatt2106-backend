@@ -1,7 +1,10 @@
 package no.ntnu.idi.stud.savingsapp.bank.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import no.ntnu.idi.stud.savingsapp.bank.dto.BankProfileDTO;
 import no.ntnu.idi.stud.savingsapp.bank.dto.BankProfileResponseDTO;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.model.BankProfile;
 import no.ntnu.idi.stud.savingsapp.bank.repository.BankProfileRepository;
 import no.ntnu.idi.stud.savingsapp.bank.service.BankProfileService;
@@ -27,12 +30,20 @@ public class BankProfileServiceImpl implements BankProfileService {
    */
   @Override
   public BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO) {
+
+    if (bankProfileDTO.getSsn() < 1) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative ssn");
+    }
+
     BankProfile newBankProfile = new BankProfile();
+    List<Account> newEmptyAccountList = new ArrayList<>();
     BankProfileResponseDTO savedProfileResponse = new BankProfileResponseDTO();
+
     newBankProfile.setSsn(bankProfileDTO.getSsn());
     try {
       BankProfile savedBankProfile = bankProfileRepository.save(newBankProfile);
       savedProfileResponse.setSsn(savedBankProfile.getSsn());
+      savedProfileResponse.setAccounts(newEmptyAccountList);
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatusCode.valueOf(400),
