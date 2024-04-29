@@ -2,11 +2,16 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.sql.Timestamp;
 
+import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
+import no.ntnu.idi.stud.savingsapp.model.user.FriendId;
+import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.FriendRepository;
 import no.ntnu.idi.stud.savingsapp.service.FriendService;
 
@@ -36,5 +41,39 @@ public class FriendServiceImpl implements FriendService {
     public List<Friend> getFriendRequests(Long userId) {
       return friendRepository.findAllById_FriendAndPendingTrue(userId);
     }
+
+    @Override
+    public void addFriend(User user, User friend) {
+      FriendId friendId = new FriendId();
+      friendId.setFriend(friend);
+      friendId.setUser(user);
+      friendRepository.save(new Friend(friendId, false, new Timestamp(System.currentTimeMillis())));
+    }
+
+    @Override
+    public void addFriendRequest(User user, User friend) {
+      FriendId friendId = new FriendId();
+      friendId.setFriend(friend);
+      friendId.setUser(user);
+      friendRepository.save(new Friend(friendId, true, new Timestamp(System.currentTimeMillis())));
+    }
+
+    @Override
+    public Friend getFriendRequest(User user, User friend) {
+      FriendId friendId = new FriendId(user, friend);
+      Optional<Friend> friendRequest = friendRepository.findById(friendId);
+      if(friendRequest.isPresent()) {
+        return friendRequest.get();
+      } else {
+        return null; // TODO
+      }
+    }
+
+    @Override 
+    public void acceptFriendRequest(Friend friendRequest) {
+      friendRepository.acceptFriendRequest(friendRequest.getId());
+    }
+
+
 
 }

@@ -20,10 +20,10 @@ import lombok.NonNull;
 @Table(name = "friend")
 public class Friend {
 
+  @NonNull
   @EmbeddedId
   private FriendId id;
 
-  @NonNull
   @Column(name = "pending", nullable = false)
   private boolean pending;
 
