@@ -14,4 +14,5 @@ public final class UserDTO {
   private String email;
   private Timestamp createdAt;
   private String role;
+  private String subscriptionLevel;
 }
