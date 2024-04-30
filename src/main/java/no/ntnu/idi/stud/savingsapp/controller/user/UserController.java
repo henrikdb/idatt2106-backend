@@ -15,6 +15,7 @@ import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Experience;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
@@ -28,14 +29,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+/**
+ * Controller handling user related requests.
+ */
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.ArrayList;
-/**
- * Controller handling user related requests.
- */
+
 @CrossOrigin
 @RestController
 @Validated
@@ -225,6 +227,18 @@ public class UserController {
             userDTOs.add(userDTO);
           }
           return ResponseEntity.ok(userDTOs);
+  }
+
+  @Operation(summary = "Update User Subscription Level", description = "Updates the subscription level of the current user")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Subscription level updated successfully")
+  })
+  @PutMapping("/subscription/{subscriptionLevel}")
+  public ResponseEntity<?> updateSubscriptionLevel(
+          @AuthenticationPrincipal AuthIdentity identity,
+          @PathVariable @Enumerator(value = SubscriptionLevel.class, message = "Invalid subscription level") String subscriptionLevel) {
+            userService.updateSubscriptionLevel(identity.getId(), SubscriptionLevel.valueOf(subscriptionLevel));
+            return ResponseEntity.ok().build();
   }
 }
 
