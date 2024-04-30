@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.model.user;
 import jakarta.persistence.*;
+import java.sql.Timestamp;
 import lombok.*;
 
 @Data
@@ -22,7 +23,7 @@ public class Feedback {
   @Column(name = "message", nullable = false)
   private String message;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "sender_id", nullable = false)
-  private User sender;
+  @NonNull
+  @Column(name = "created_at", nullable = false)
+  private Timestamp createdAt;
 }
