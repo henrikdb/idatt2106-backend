@@ -2,7 +2,6 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
@@ -21,7 +20,7 @@ public class GoalServiceImpl implements GoalService {
   private GoalRepository goalRepository;
 
   @Autowired
-  private ChallengeSerivceImpl goalChallengeSerivce;
+  private ChallengeServiceImpl goalChallengeSerivce;
 
 
   public Goal createGoal (Goal goal, Long userID) {
