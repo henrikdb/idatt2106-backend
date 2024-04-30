@@ -259,6 +259,18 @@ public class UserController {
     List<FeedbackResponseDTO> feedbackResponseDTOS = feedbacks.stream().map(quiz -> modelMapper.map(quiz, FeedbackResponseDTO.class)).toList();
     return ResponseEntity.ok(feedbackResponseDTOS);
   }
+
+  @Operation(summary = "Update User Subscription Level", description = "Updates the subscription level of the current user")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Subscription level updated successfully")
+  })
+  @PutMapping("/subscription/{subscriptionLevel}")
+  public ResponseEntity<?> updateSubscriptionLevel(
+          @AuthenticationPrincipal AuthIdentity identity,
+          @PathVariable @Enumerator(value = SubscriptionLevel.class, message = "Invalid subscription level") String subscriptionLevel) {
+            userService.updateSubscriptionLevel(identity.getId(), SubscriptionLevel.valueOf(subscriptionLevel));
+            return ResponseEntity.ok().build();
+  }
 }
 
 

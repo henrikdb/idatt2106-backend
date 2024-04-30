@@ -3,11 +3,15 @@ package no.ntnu.idi.stud.savingsapp.repository;
 import java.util.List;
 import java.util.Optional;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Repository interface for {@link User} entities.
@@ -146,7 +150,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "FROM ranked_users  " +
   "WHERE user_id = :userId  ) " +
   // Get user attributes from ranked_users
-  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru.configuration_id " +  
+  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
+      + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
+      + ".configuration_id, ru.profile_image, ru.subscription_level " +
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -166,7 +172,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "FROM ranked_users " +
   "WHERE user_id = :userId ) " +
   // Get user attributes from ranked_users
-  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru.configuration_id " +  
+  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
+      + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
+      + ".configuration_id, ru.profile_image, ru.subscription_level " +
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -186,7 +194,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "FROM ranked_users " +
   "WHERE user_id = :userId ) " +
   // Get user attributes from ranked_users
-  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru.configuration_id " +  
+  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
+      + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
+      + ".configuration_id, ru.profile_image, ru.subscription_level " +
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -246,4 +256,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM user u WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE %:searchTerm%", nativeQuery = true)
     List<User> findUsersByName(@Param("searchTerm") String searchTerm);
+    
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.subscriptionLevel = :subscriptionLevel WHERE u.id = :userId")
+    void updateSubscriptionLevel(@Param("userId") Long userId, @Param("subscriptionLevel") SubscriptionLevel subscriptionLevel);
 }

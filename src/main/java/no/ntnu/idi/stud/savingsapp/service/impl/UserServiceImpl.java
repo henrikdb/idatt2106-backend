@@ -13,6 +13,7 @@ import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.FeedbackRepository;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
@@ -251,6 +252,12 @@ public class UserServiceImpl implements UserService {
     return account;
   }
 
+  /**
+   * Retrieves a list of {@link User} objects representing the friends of the specified user.
+   *
+   * @param userId The ID of the user whose friends are to be retrieved
+   * @return a list of {@link User} instances representing the user's friends
+   */
   @Override
   public List<User> getFriends(Long userId) {
     List<Friend> friendsFriend = friendService.getFriends(userId);
@@ -266,6 +273,12 @@ public class UserServiceImpl implements UserService {
     return friendsUser;
   }
 
+  /**
+   * Retrieves a list of {@link User} objects representing the friend requests of the specified user.
+   *
+   * @param userId The ID of the user whose friend requests are to be retrieved
+   * @return a list of {@link User} instances representing the user's friend requests
+   */
   @Override
   public List<User> getFriendRequests(Long userId) {
     List<Friend> friendsFriend = friendService.getFriendRequests(userId);
@@ -281,6 +294,15 @@ public class UserServiceImpl implements UserService {
     return friendsUser;
   }
 
+  /**
+   * Retrieves a list of User entities based on a search term and a specified filter.
+   *
+   * @param userId The ID of the user. Used to exclude that user and all of its friends
+   * from the result.
+   * @param searchTerm The search term used to filter user names.
+   * @param filter A filter that is used to filter based on a category.
+   * @return A list of User objects that match the search criteria and filter.
+   */
   @Override
   public List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter) {
       List<User> users = userRepository.findUsersByName(searchTerm);
@@ -294,6 +316,16 @@ public class UserServiceImpl implements UserService {
       return users;
   }
 
+  /**
+   * Updates the subscription level of a specified user.
+   *
+   * @param userId The ID of the user whose subscription level is to be updated.
+   * @param subscriptionLevel The new SubscriptionLevel to assign to the user.
+   */
+  @Override
+  public void updateSubscriptionLevel(Long userId, SubscriptionLevel subscriptionLevel) {
+    userRepository.updateSubscriptionLevel(userId, subscriptionLevel);
+  }
   /**
    * Sends feedback from an email.
    *

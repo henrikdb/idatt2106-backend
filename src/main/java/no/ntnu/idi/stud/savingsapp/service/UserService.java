@@ -4,6 +4,7 @@ import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface UserService {
   /**
    * Authenticates a user with the provided email and password.
    *
-   * @param email    The email address of the user.
+   * @param email The email address of the user.
    * @param password The password associated with the user's account.
    * @return The authenticated user object if login is successful, or null otherwise.
    */
@@ -44,7 +45,7 @@ public interface UserService {
   /**
    * Updates the password of a user.
    *
-   * @param id          The ID of the user
+   * @param id The ID of the user
    * @param oldPassword The old password
    * @param newPassword The new password
    * @return The updated User object, persisted in the database.
@@ -75,10 +76,9 @@ public interface UserService {
   void initiatePasswordReset(String email);
 
   /**
-   * Completes the password reset process by updating the user's password based on the provided
-   * reset token.
+   * Completes the password reset process by updating the user's password based on the provided reset token.
    *
-   * @param token    The password reset token that was sent to the user.
+   * @param token The password reset token that was sent to the user.
    * @param password The new password to set for the user.
    */
   void confirmPasswordReset(String token, String password);
@@ -92,11 +92,40 @@ public interface UserService {
    */
   Account selectBankAccount(BankAccountType bankAccountType, Long bban, Long userId);
 
+  /**
+   * Retrieves a list of {@link User} objects representing the friends of the specified user.
+   *
+   * @param userId The ID of the user whose friends are to be retrieved
+   * @return a list of {@link User} instances representing the user's friends
+   */
   List<User> getFriends(Long userId);
 
+  /**
+   * Retrieves a list of {@link User} objects representing the friend requests of the specified user.
+   *
+   * @param userId The ID of the user whose friend requests are to be retrieved
+   * @return a list of {@link User} instances representing the user's friend requests
+   */
   List<User> getFriendRequests(Long userId);
 
+  /**
+   * Retrieves a list of User entities based on a search term and a specified filter.
+   *
+   * @param userId The ID of the user. Used to exclude that user and all of its friends
+   * from the result.
+   * @param searchTerm The search term used to filter user names.
+   * @param filter A filter that is used to filter based on a category.
+   * @return A list of User objects that match the search criteria and filter.
+   */
   List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter);
+
+  /**
+   * Updates the subscription level of a specified user.
+   *
+   * @param userId The ID of the user whose subscription level is to be updated.
+   * @param subscriptionLevel The new SubscriptionLevel to assign to the user.
+   */
+  void updateSubscriptionLevel(Long userId, SubscriptionLevel subscriptionLevel);
 
   /**
    * Sends feedback from an email.
