@@ -16,6 +16,7 @@ import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Experience;
 import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
