@@ -107,7 +107,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    * @param e The exception.
    * @return A ResponseEntity containing the error response.
    */
-  @ExceptionHandler({UserNotFoundException.class})
+  @ExceptionHandler({UserNotFoundException.class, GoalNotFoundException.class,
+          ChallengeNotFoundException.class})
   public ResponseEntity<ExceptionResponse> handleNotFound(Exception e) {
     return ExceptionResponse.toResponseEntity(HttpStatus.NOT_FOUND, e.getMessage());
   }
