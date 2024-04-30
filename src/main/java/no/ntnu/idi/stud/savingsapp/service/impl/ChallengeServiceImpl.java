@@ -42,14 +42,14 @@ public class ChallengeServiceImpl implements ChallengeService {
    * @param goal
    * @param user
    */
+  @Override
   public List<Challenge> generateSavingGoalChallenges (Goal goal, User user) {
 
     List<Challenge> generatedChallenge = new ArrayList<>();
 
-    for (ChallengeType challengeType : user.getConfiguration().getChallengeTypes()) {
-      typeChallengeListMap.put(challengeType,
-        challengeTemplateRepository.findAllByChallengeType(challengeType));
-    }
+    List<ChallengeTemplate> templates = challengeTemplateRepository
+            .findAllByChallengeTypeIn(user.getConfiguration().getChallengeTypes());
+    Collections.shuffle(templates);
 
     // Needs to get time lenght of savingGoal
     LocalDateTime givenDateTime = goal.getTargetDate().toLocalDateTime();
@@ -67,7 +67,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         // Does not fill out exact max number of total days
         // But keeps withing range of max days
         int minDays = challenge.getChallengeMinLength();
-        int maxDays = challenge.getChallengeMaxLength();
+        int maxDays = Math.min(challenge.getChallengeMaxLength(), daysDifferent);
         int range = maxDays - minDays + 1;
         int allocatedDays = minDays + new Random().nextInt(range);
 
@@ -97,7 +97,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         savingChallenge.setChallengeTemplate(challenge);
         savingChallenge.setCreatedAt(Timestamp.from(Instant.now()));
         generatedChallenge.add(savingChallenge);
-        count++; // increment the counter
       }
       if (!generatedChallenge.isEmpty() && generatedChallenge.get(generatedChallenge.size() - 1).getEndDate().toInstant().equals(goal.getTargetDate().toInstant())) {
         break;

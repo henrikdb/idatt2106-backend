@@ -54,5 +54,5 @@ public class Challenge {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "challenge_id")
-  private List<DailyChallengeProgress> dailyChallengeProgressList;
+  private List<Progress> progressList;
 }
