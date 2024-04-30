@@ -1,7 +1,5 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 import no.ntnu.idi.stud.savingsapp.model.budget.Budget;
 import no.ntnu.idi.stud.savingsapp.model.budget.Expense;

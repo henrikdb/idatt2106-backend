@@ -33,11 +33,9 @@ public class ChallengeTemplate {
   @Column(name = "challenge_text", nullable = false)
   private String challengeText;
 
-  @NonNull
   @Column(name = "challenge_min_lenght", nullable = false)
   private int challengeMinLength;
 
-  @NonNull
   @Column(name = "challenge_max_lenght", nullable = false)
   private int challengeMaxLength;
 

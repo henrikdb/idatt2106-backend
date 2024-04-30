@@ -27,7 +27,6 @@ public class Streak {
   @Column(name = "streak_id")
   private Long id;
 
-  @NonNull
   @Column(name = "current_streak", nullable = false)
   private int currentStreak;
 
@@ -39,7 +38,6 @@ public class Streak {
   @Column(name = "current_streak_updated_at", nullable = false)
   private Timestamp currentStreakUpdatedAt;
 
-  @NonNull
   @Column(name = "highest_streak", nullable = false)
   private int highestStreak;
 

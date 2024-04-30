@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
-import no.ntnu.idi.stud.savingsapp.model.user.User;
 
 /**
  * Represents a saving goal.
@@ -36,7 +35,6 @@ public class Goal {
   @Column(name = "goal_description", nullable = false)
   private String description;
 
-  @NonNull
   @Column(name = "target_amount", nullable = false)
   private int targetAmount;
 

@@ -15,7 +15,6 @@ import no.ntnu.idi.stud.savingsapp.model.goal.ChallengeTemplate;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
-import no.ntnu.idi.stud.savingsapp.repository.ChallengeRepository;
 import no.ntnu.idi.stud.savingsapp.repository.ChallengeTemplateRepository;
 import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChallengeSerivceImpl implements ChallengeService {
 
-  private ChallengeRepository challengeRepository;
   private ChallengeTemplateRepository challengeTemplateRepository;
 
   /**

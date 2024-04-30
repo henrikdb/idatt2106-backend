@@ -29,7 +29,6 @@ public class DailyChallengeProgress {
   @Column(name = "daily_challenge_progess_id")
   private Long id;
 
-  @NonNull
   @Column(name = "challenge_day", nullable = false)
   private int challengeDay;
 
