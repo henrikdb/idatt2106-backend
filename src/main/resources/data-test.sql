@@ -136,3 +136,9 @@ INSERT INTO expense (expense_id, amount, description, budget_id) VALUES
 (4, 2000, 'FIFA Points', 2),
 (5, 10000, 'Rent', 2),
 (6, 8000, 'Girlfriend', 2);
+
+-- Inserting Feedbacks
+INSERT INTO feedback (id, email, message, created_at) VALUES
+(1, 'user@exmaple.com', 'This is a very good website', '2024-04-30 11:13:42.833664'),
+(2, 'admin@exmaple.com', 'This is a very bad website', '2024-04-30 11:13:42.833664'),
+(3, 'user@exmaple.com', 'This is a very good website', '2024-04-30 11:13:42.833664');
