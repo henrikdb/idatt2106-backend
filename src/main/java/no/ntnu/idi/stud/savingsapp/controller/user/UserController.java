@@ -259,9 +259,11 @@ public class UserController {
     List<Feedback> feedbacks = userService.getFeedback();
     List<FeedbackResponseDTO> feedbackResponseDTOS = feedbacks.stream().map(quiz -> modelMapper.map(quiz, FeedbackResponseDTO.class)).toList();
     return ResponseEntity.ok(feedbackResponseDTOS);
+  }
+  
   @Operation(summary = "Get X amount of random users", description = "Get X amount of random users that fit the filter")
   @ApiResponses({
-      @ApiResponse(responseCode = "200", description = "Successfully retrieved list of users")
+      @ApiResponse(responseCode = "200", description = "Successfully retrieved list of users"),
   })
   @GetMapping("/search/random/{amount}/{filter}")
   public ResponseEntity<List<UserDTO>> getRandomUsers(
