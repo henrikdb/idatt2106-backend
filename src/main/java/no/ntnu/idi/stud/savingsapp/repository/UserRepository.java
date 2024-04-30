@@ -244,5 +244,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.savingsAccount = :account WHERE u = :user")
     void updateSavingsAccount(@Param("user") User user,@Param("account") Account account);
 
-
+    @Query(value = "SELECT * FROM user u WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE %:searchTerm%", nativeQuery = true)
+    List<User> findUsersByName(@Param("searchTerm") String searchTerm);
 }

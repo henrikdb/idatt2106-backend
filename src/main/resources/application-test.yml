@@ -5,6 +5,8 @@ spring:
     url: jdbc:mysql://129.241.98.39:3306/sparesti_test
     username: user
     password: Password1.
+    driver-class-name: com.mysql.cj.jdbc.Driver  
+
   jpa:
     hibernate:
       ddl-auto: create-drop
