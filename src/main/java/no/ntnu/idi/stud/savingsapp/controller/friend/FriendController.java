@@ -74,7 +74,7 @@ public class FriendController {
     public void addFriendRequest(@AuthenticationPrincipal AuthIdentity identity, @PathVariable long userId) {
         User user = userService.findById(identity.getId());
         User friend = userService.findById(userId);
-        friendService.addFriendRequest(friend, user);
+        friendService.addFriendRequest(user, friend);
     }
 
     @Operation(summary = "Accept a friend request", description = "Accepts a friend request from another user.")
