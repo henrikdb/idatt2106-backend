@@ -21,12 +21,12 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "daily_challenge_progress")
-public class DailyChallengeProgress {
+@Table(name = "progress")
+public class Progress {
 
   @Id()
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "daily_challenge_progess_id")
+  @Column(name = "progess_id")
   private Long id;
 
   @NonNull
