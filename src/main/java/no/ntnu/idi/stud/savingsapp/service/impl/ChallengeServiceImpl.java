@@ -61,7 +61,6 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     //Use templates of tasks and fill them in
     Timestamp currentDate = Timestamp.from(Instant.now());
-    while (true) {
       for (ChallengeTemplate challenge : templates) {
         // Calculate amount of days for a challenge
         // Does not fill out exact max number of total days
@@ -98,13 +97,9 @@ public class ChallengeServiceImpl implements ChallengeService {
         savingChallenge.setCreatedAt(Timestamp.from(Instant.now()));
         generatedChallenge.add(savingChallenge);
       }
-      if (!generatedChallenge.isEmpty() && generatedChallenge.get(generatedChallenge.size() - 1).getEndDate().toInstant().equals(goal.getTargetDate().toInstant())) {
-        break;
-      }
+      return generatedChallenge;
     }
-    Collections.shuffle(generatedChallenge);
-    return generatedChallenge;
-  }
+
 
   @Override
   public void updateProgress(long userId, long id, int day) {
