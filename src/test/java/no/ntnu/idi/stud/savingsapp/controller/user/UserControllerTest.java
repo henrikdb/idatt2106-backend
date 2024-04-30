@@ -6,11 +6,8 @@ import no.ntnu.idi.stud.savingsapp.dto.user.PasswordResetDTO;
 import no.ntnu.idi.stud.savingsapp.dto.user.UserUpdateDTO;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
-import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
-import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
-import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,16 +16,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;

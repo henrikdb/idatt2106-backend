@@ -24,15 +24,12 @@ public class Challenge {
   @Column(name = "challenge_id")
   private Long id;
 
-  @NonNull
   @Column(name = "potential_saving_amount", nullable = false)
   private int potentialSavingAmount;
 
-  @NonNull
   @Column(name = "points", nullable = false)
   private int points;
 
-  @NonNull
   @Column(name = "days", nullable = false)
   private int days;
 

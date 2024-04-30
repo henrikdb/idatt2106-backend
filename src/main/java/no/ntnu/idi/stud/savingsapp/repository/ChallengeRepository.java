@@ -1,6 +1,5 @@
 package no.ntnu.idi.stud.savingsapp.repository;
 
-import no.ntnu.idi.stud.savingsapp.model.goal.DifficultyLevel;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

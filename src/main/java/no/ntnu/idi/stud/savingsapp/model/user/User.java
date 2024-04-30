@@ -88,6 +88,12 @@ public class User implements UserDetails{
       inverseJoinColumns = @JoinColumn(name = "badge_id"))
   private List<Badge> badges;
 
+  @ManyToMany
+  @JoinTable(name = "inventory",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "item_id"))
+  private List<Store> items;
+
   @OneToOne
   @JoinColumn(name = "point_id")
   private Point point;

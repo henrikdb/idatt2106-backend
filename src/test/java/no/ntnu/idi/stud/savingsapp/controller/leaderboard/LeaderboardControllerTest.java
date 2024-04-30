@@ -22,7 +22,6 @@ import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardType;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
 import no.ntnu.idi.stud.savingsapp.service.LeaderboardService;
 import no.ntnu.idi.stud.savingsapp.UserUtil;
-import no.ntnu.idi.stud.savingsapp.controller.user.UserControllerTest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
