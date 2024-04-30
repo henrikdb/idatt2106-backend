@@ -1,8 +1,8 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
@@ -115,7 +115,7 @@ public interface UserService {
    * from the result depending on filter.
    * @param searchTerm The search term used to filter user names. 
    * @param filter A filter that is used to filter based on a category.
-   * @return A list of User objects that match the search criteria and filter. 
+   * @return A list of User objects that match the search criteria and filter.
    */
   List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter);
 
@@ -136,4 +136,19 @@ public interface UserService {
    * @param subscriptionLevel The new SubscriptionLevel to assign to the user.
    */
   void updateSubscriptionLevel(Long userId, SubscriptionLevel subscriptionLevel);
+
+  /**
+   * Sends feedback from an email.
+   *
+   * @param email   The email.
+   * @param message The message.
+   */
+  void sendFeedback(String email, String message);
+
+  /**
+   * Get all feedback.
+   *
+   * @return A list containing all feedback.
+   */
+  List<Feedback> getFeedback();
 }

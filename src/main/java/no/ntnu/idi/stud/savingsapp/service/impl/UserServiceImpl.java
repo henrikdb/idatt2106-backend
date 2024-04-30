@@ -1,7 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import jakarta.mail.MessagingException;
-import jakarta.validation.OverridesAttribute;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
@@ -9,12 +8,14 @@ import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
+import no.ntnu.idi.stud.savingsapp.repository.FeedbackRepository;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.EmailService;
@@ -64,6 +65,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   AccountService accountService;
+
+  @Autowired
+  FeedbackRepository feedbackRepository;
 
   /**
    * Authenticates a user with the provided email and password.
@@ -297,9 +301,9 @@ public class UserServiceImpl implements UserService {
    *
    * @param userId The ID of the user. Used to exclude that user and all of its friends
    * from the result.
-   * @param searchTerm The search term used to filter user names. 
+   * @param searchTerm The search term used to filter user names.
    * @param filter A filter that is used to filter based on a category.
-   * @return A list of User objects that match the search criteria and filter. 
+   * @return A list of User objects that match the search criteria and filter.
    */
   @Override
   public List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter) {
@@ -351,5 +355,26 @@ public class UserServiceImpl implements UserService {
   @Override
   public void updateSubscriptionLevel(Long userId, SubscriptionLevel subscriptionLevel) {
     userRepository.updateSubscriptionLevel(userId, subscriptionLevel);
+  }
+  /**
+   * Sends feedback from an email.
+   *
+   * @param email The email.
+   * @param message The message.
+   */
+  @Override
+  public void sendFeedback(String email, String message) {
+    Feedback feedback = Feedback.builder().email(email).message(message).createdAt(Timestamp.from(Instant.now())).build();
+    feedbackRepository.save(feedback);
+  }
+
+  /**
+   * Get all feedback.
+   *
+   * @return A list containing all feedback.
+   */
+  @Override
+  public List<Feedback> getFeedback() {
+    return feedbackRepository.findAll();
   }
 }

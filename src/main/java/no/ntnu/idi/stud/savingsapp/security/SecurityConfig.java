@@ -49,7 +49,7 @@ public class SecurityConfig {
         .disable()
         .authorizeHttpRequests(auth -> {
           auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-              .requestMatchers("/swagger/**", "/api/auth/**", "/api/users/reset-password",
+              .requestMatchers("/swagger/**", "/api/auth/**", "/api/users/reset-password", "/api/users/send-feedback",
               "/api/users/confirm-password", "/api/question/**", "/api/images/**").permitAll().anyRequest().authenticated();
         })
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
