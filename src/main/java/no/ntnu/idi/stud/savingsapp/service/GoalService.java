@@ -7,13 +7,8 @@ import java.util.List;
 
 @Service
 public interface GoalService {
-  /**
-   *
-   * @param userID
-   * @param goal
-   * @return the goal that has been created
-   */
-  Goal createGoal (Goal goal, Long userID);
 
-  List<Goal> getGoalList (Long userID);
+  Goal createGoal(Goal goal, long userId);
+
+  List<Goal> getGoalList(long userId);
 }

@@ -1,5 +1,8 @@
 package no.ntnu.idi.stud.savingsapp.controller.goal;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import no.ntnu.idi.stud.savingsapp.dto.goal.CreateGoalDTO;
 import no.ntnu.idi.stud.savingsapp.dto.goal.GoalDTO;
@@ -17,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/goal")
+@RequestMapping("/api/goals")
 @EnableAutoConfiguration
-@Tag(name = "goal")
+@Tag(name = "Goal")
 public class GoalController {
   @Autowired
   private GoalService goalService;
@@ -33,8 +36,14 @@ public class GoalController {
     return null;
   }
 
-  @PostMapping(value = "/createGoal")
-  public ResponseEntity<GoalDTO> createGoal(@AuthenticationPrincipal AuthIdentity identity, @RequestBody CreateGoalDTO request) {
+  @Operation(summary = "Create a goal", description = "Create a new goal")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Successfully created a goal")
+  })
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping
+  public ResponseEntity<GoalDTO> createGoal(@AuthenticationPrincipal AuthIdentity identity,
+                                            @RequestBody CreateGoalDTO request) {
     Goal createGoal = modelMapper.map(request, Goal.class);
     Goal goal = goalService.createGoal(createGoal, identity.getId());
     GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);

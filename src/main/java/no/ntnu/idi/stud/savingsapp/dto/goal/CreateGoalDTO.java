@@ -7,12 +7,11 @@ import lombok.NonNull;
 public final class CreateGoalDTO {
 
   @NonNull
-  private String goalName;
+  private String name;
 
   @NonNull
   private String description;
 
-  @NonNull
   private int targetAmount;
 
   @NonNull

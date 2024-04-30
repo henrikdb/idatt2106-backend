@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,9 +31,11 @@ public class Progress {
   @Column(name = "progess_id")
   private Long id;
 
-  @NonNull
   @Column(name = "challenge_day", nullable = false)
-  private int challengeDay;
+  private int day;
+
+  @Column(name = "progress_amount", nullable = false)
+  private BigDecimal amount;
 
   @NonNull
   @Column(name = "completed_at", nullable = false)

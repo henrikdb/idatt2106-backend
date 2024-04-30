@@ -1,8 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.dto.goal;
 
-import jakarta.persistence.Column;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,20 +9,12 @@ import java.util.List;
 public final class ChallengeDTO {
 
   private long id;
-
-  private int potentialSavingAmount;
-
+  private int amount;
   private int points;
-
-  private int days;
-
+  private int checkDays;
+  private int totalDays;
   private Timestamp startDate;
-
   private Timestamp endDate;
-
-  private Timestamp createdAt;
-
   private ChallengeTemplateDTO challengeTemplate;
-
   private List<ProgressDTO> progressList;
 }

@@ -29,13 +29,12 @@ public class Goal {
 
   @NonNull
   @Column(name = "goal_name", nullable = false)
-  private String goalName;
+  private String name;
 
   @NonNull
   @Column(name = "goal_description", nullable = false)
   private String description;
 
-  @NonNull
   @Column(name = "target_amount", nullable = false)
   private int targetAmount;
 
@@ -49,8 +48,8 @@ public class Goal {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "goal_challenge",
-  joinColumns = @JoinColumn(name = "goal_id"),
-  inverseJoinColumns = @JoinColumn(name = "challenge_id"))
+      joinColumns = @JoinColumn(name = "goal_id"),
+      inverseJoinColumns = @JoinColumn(name = "challenge_id"))
   private List<Challenge> challenges;
 
   @ManyToOne

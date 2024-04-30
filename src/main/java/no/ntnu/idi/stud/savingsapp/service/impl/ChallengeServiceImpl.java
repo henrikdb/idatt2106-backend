@@ -1,22 +1,15 @@
 package no.ntnu.idi.stud.savingsapp.service.impl;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.*;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.time.LocalDateTime;
-
 import no.ntnu.idi.stud.savingsapp.exception.goal.ChallengeNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.goal.GoalNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.goal.InvalidChallengeDayException;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
-import no.ntnu.idi.stud.savingsapp.model.goal.ChallengeTemplate;
+import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
-import no.ntnu.idi.stud.savingsapp.model.goal.Progress;
+import no.ntnu.idi.stud.savingsapp.model.goal.ChallengeTemplate;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
+import no.ntnu.idi.stud.savingsapp.model.goal.Progress;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.ChallengeRepository;
 import no.ntnu.idi.stud.savingsapp.repository.ChallengeTemplateRepository;
@@ -25,84 +18,89 @@ import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+
 @Service
 public class ChallengeServiceImpl implements ChallengeService {
+
+  private static final Random random = new Random();
 
   @Autowired
   private ChallengeRepository challengeRepository;
 
   @Autowired
-  private ChallengeTemplateRepository challengeTemplateRepository;
+  private ChallengeTemplateRepository templateRepository;
 
   @Autowired
   private GoalRepository goalRepository;
 
-  /**
-   *
-   * @param goal
-   * @param user
-   */
   @Override
-  public List<Challenge> generateSavingGoalChallenges (Goal goal, User user) {
+  public List<Challenge> generateChallenges(Goal goal, User user) {
+    ChallengeTemplate t1 = new ChallengeTemplate();
+    t1.setChallengeType(ChallengeType.NO_COFFEE);
+    t1.setAmount(40);
+    t1.setChallengeText("Spar {amount} kr på kaffe hver dag i [dager} dager");
+    ChallengeTemplate t2 = new ChallengeTemplate();
+    t2.setChallengeType(ChallengeType.EAT_PACKED_LUNCH);
+    t2.setAmount(100);
+    t2.setChallengeText("Spar {amount} kr ved å ta med deg matpakke");
 
-    List<Challenge> generatedChallenge = new ArrayList<>();
-
-    List<ChallengeTemplate> templates = challengeTemplateRepository
-            .findAllByChallengeTypeIn(user.getConfiguration().getChallengeTypes());
+    List<ChallengeTemplate> templates = Arrays.asList(t1, t2);
+        //templateRepository.findAllByChallengeTypeIn(user.getConfiguration().getChallengeTypes());
     Collections.shuffle(templates);
 
-    // Needs to get time lenght of savingGoal
-    LocalDateTime givenDateTime = goal.getTargetDate().toLocalDateTime();
-    int daysDifferent = (int) ChronoUnit.DAYS.between(LocalDate.now(), givenDateTime);
+    LocalDateTime targetDate = goal.getTargetDate().toLocalDateTime();
+    int remainingDays = (int) ChronoUnit.DAYS.between(LocalDate.now(), targetDate);
 
-    // Getting amount of money for savingGoal
-    double targetAmount = goal.getTargetAmount();
-    double amountPerDay = targetAmount / daysDifferent;
+    List<Challenge> challenges = new ArrayList<>();
+    int i = 0;
 
-    //Use templates of tasks and fill them in
-    Timestamp currentDate = Timestamp.from(Instant.now());
-      for (ChallengeTemplate challenge : templates) {
-        // Calculate amount of days for a challenge
-        // Does not fill out exact max number of total days
-        // But keeps withing range of max days
-        int minDays = challenge.getChallengeMinLength();
-        int maxDays = Math.min(challenge.getChallengeMaxLength(), daysDifferent);
-        int range = maxDays - minDays + 1;
-        int allocatedDays = minDays + new Random().nextInt(range);
+    int a = 0;
 
-        //Calculate amount
-        double amount = amountPerDay * allocatedDays;
+    while (remainingDays > 0) {
+      int totalDays = Math.min(random.nextInt(23) + 7, remainingDays);
+      int checkDays = user.getConfiguration().getCommitment().getCheckDays(totalDays);
+      ChallengeTemplate template = templates.get(i++ % templates.size());
+      Challenge challenge = new Challenge();
+      challenge.setChallengeTemplate(template);
+      challenge.setPotentialSavingAmount(template.getAmount() * checkDays);
+      challenge.setPoints(totalDays * 10);
+      challenge.setCheckDays(checkDays);
+      challenge.setTotalDays(totalDays);
 
-        //Calculate points for challenge
-        int points = allocatedDays * 10;
-
-        // Now create a savingChallenge object
-        Challenge savingChallenge = new Challenge();
-        savingChallenge.setPotentialSavingAmount((int) amount);
-        savingChallenge.setPoints(points);
-        savingChallenge.setDays(allocatedDays);
-
-        //Calculate days in dates
-        if (generatedChallenge.isEmpty()) {
-          Timestamp startDate = Timestamp.from(Instant.now());
-          savingChallenge.setStartDate(startDate);
-          savingChallenge.setEndDate(Timestamp.from(startDate.toInstant().plus(allocatedDays, ChronoUnit.DAYS)));
-        } else {
-          Timestamp startDate = Timestamp.from(generatedChallenge.get(generatedChallenge.size() - 1).getEndDate().toInstant().plus(1, ChronoUnit.DAYS));
-          savingChallenge.setStartDate(startDate);
-          savingChallenge.setEndDate(Timestamp.from(startDate.toInstant().plus(allocatedDays, ChronoUnit.DAYS)));
-        }
-
-        savingChallenge.setChallengeTemplate(challenge);
-        savingChallenge.setCreatedAt(Timestamp.from(Instant.now()));
-        generatedChallenge.add(savingChallenge);
+      if (challenges.isEmpty()) {
+        challenge.setStartDate(goal.getCreatedAt());
+      } else {
+        Timestamp lastEndDate = challenges.get(challenges.size() - 1).getEndDate();
+        LocalDate localDate = lastEndDate.toLocalDateTime().toLocalDate().plusDays(1);
+        Timestamp timestamp = Timestamp.valueOf(localDate.atStartOfDay());
+        challenge.setStartDate(timestamp);
       }
-      return generatedChallenge;
-    }
+      Timestamp lastEndDate = challenge.getStartDate();
+      LocalDate localDate = lastEndDate.toLocalDateTime().toLocalDate().plusDays(totalDays);
+      Timestamp timestamp = Timestamp.valueOf(localDate.atStartOfDay());
+      challenge.setEndDate(timestamp);
 
+      if (challenge.getEndDate().after(goal.getTargetDate())) {
+        break;
+      }
+
+      challenges.add(challenge);
+      a += challenge.getPotentialSavingAmount();
+      remainingDays -= totalDays;
+    }
+    System.out.println("a: " + a);
+    return challenges;
+  }
 
   @Override
-  public void updateProgress(long userId, long id, int day) {
+  public void updateProgress(long userId, long id, int day, BigDecimal amount) {
     Optional<Goal> goalOptional = goalRepository.findByChallenges_Id(id);
     if (goalOptional.isPresent()) {
       Goal goal = goalOptional.get();
@@ -117,17 +115,18 @@ public class ChallengeServiceImpl implements ChallengeService {
       }
       List<Progress> progressList = challenge.getProgressList();
 
-      if (progressList.stream().anyMatch(p -> p.getChallengeDay() == day)) {
+      if (progressList.stream().anyMatch(p -> p.getDay() == day)) {
         throw new InvalidChallengeDayException("Day is already completed");
       }
 
-      if (day > challenge.getDays() || day < 1) {
+      if (day > challenge.getCheckDays() || day < 1) {
         throw new InvalidChallengeDayException("Day outside of range");
       }
 
       Progress progressToUpdate = new Progress();
-      progressToUpdate.setChallengeDay(day);
+      progressToUpdate.setDay(day);
       progressToUpdate.setCompletedAt(new Timestamp(System.currentTimeMillis()));
+      progressToUpdate.setAmount(amount);
       progressList.add(progressToUpdate);
 
       goalRepository.save(goal);

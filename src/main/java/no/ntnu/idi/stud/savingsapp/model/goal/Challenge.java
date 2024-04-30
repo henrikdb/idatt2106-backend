@@ -24,17 +24,17 @@ public class Challenge {
   @Column(name = "challenge_id")
   private Long id;
 
-  @NonNull
   @Column(name = "potential_saving_amount", nullable = false)
   private int potentialSavingAmount;
 
-  @NonNull
   @Column(name = "points", nullable = false)
   private int points;
 
-  @NonNull
-  @Column(name = "days", nullable = false)
-  private int days;
+  @Column(name = "check_days", nullable = false)
+  private int checkDays;
+
+  @Column(name = "total_days", nullable = false)
+  private int totalDays;
 
   @NonNull
   @Column(name = "start_date", nullable = false)
@@ -44,11 +44,7 @@ public class Challenge {
   @Column(name = "end_date", nullable = false)
   private Timestamp endDate;
 
-  @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
-
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn (name = "challenge_template_id")
   private ChallengeTemplate challengeTemplate;
 

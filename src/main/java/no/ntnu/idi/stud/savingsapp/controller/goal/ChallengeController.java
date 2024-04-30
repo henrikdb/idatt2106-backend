@@ -29,9 +29,11 @@ public class ChallengeController {
   private ModelMapper modelMapper;
 
   @PostMapping(value = "/updateChallengeState")
-  public ResponseEntity<Void> updateChallengeState(@AuthenticationPrincipal AuthIdentity identity, @RequestBody ChallengeUpdateStateDTO request) {
+  public ResponseEntity<Void> updateChallengeState(@AuthenticationPrincipal AuthIdentity identity,
+                                                   @RequestBody ChallengeUpdateStateDTO request) {
 
-    challengeService.updateProgress(identity.getId(), request.getChallengeId(), request.getChallengeDay());
+    challengeService.updateProgress(identity.getId(), request.getChallengeId(),
+        request.getChallengeDay(), request.getAmount());
 
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }

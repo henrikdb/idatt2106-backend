@@ -9,10 +9,7 @@ public final class ChallengeTemplateDTO {
   private long id;
 
   private String challengeText;
-
-  private int challengeMinLength;
-
-  private int challengeMaxLength;
+  private int amount;
 
   private ChallengeType challengeType;
 }
