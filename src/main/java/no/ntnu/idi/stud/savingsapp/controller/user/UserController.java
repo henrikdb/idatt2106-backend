@@ -208,7 +208,7 @@ public class UserController {
         identity.getId());
   }
 
-  @Operation(summary = "Search for users by name and filter", description = "Returns a list of users whose names contain the specified search term.")
+  @Operation(summary = "Search for users by name and filter", description = "Returns a list of users whose names contain the specified search term and match the filter.")
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "Successfully retrieved list of users")
   })
@@ -216,18 +216,15 @@ public class UserController {
   public ResponseEntity<List<UserDTO>> getUsersByNameAndFilter(
           @AuthenticationPrincipal AuthIdentity identity,
           @PathVariable String searchTerm,
-          @PathVariable SearchFilter filter) {
-      try {
-          List<User> users = userService.getUsersByNameAndFilter(identity.getId(), searchTerm, filter);
+          @PathVariable @Enumerator(value = SearchFilter.class,
+          message = "Invalid filter") String filter) {
+          List<User> users = userService.getUsersByNameAndFilter(identity.getId(), searchTerm, SearchFilter.valueOf(filter));
           List<UserDTO> userDTOs = new ArrayList<>();
           for(User user : users) {
             UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             userDTOs.add(userDTO);
           }
           return ResponseEntity.ok(userDTOs);
-      } catch (IllegalArgumentException ex) {
-          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid filter", ex);
-      }
   }
 }
 

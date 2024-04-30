@@ -281,7 +281,7 @@ public class UserServiceImpl implements UserService {
       List<User> users = userRepository.findUsersByName(searchTerm);
       users.removeIf(user -> user.getId().equals(userId));
       switch (filter) {
-          case FRIENDS:
+          case NON_FRIENDS:
               List<User> friends = getFriends(userId);
               users.removeAll(friends);
               break;
