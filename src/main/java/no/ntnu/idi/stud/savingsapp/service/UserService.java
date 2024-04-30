@@ -112,13 +112,23 @@ public interface UserService {
    * Retrieves a list of User entities based on a search term and a specified filter.
    *
    * @param userId The ID of the user. Used to exclude that user and all of its friends
-   * from the result.
+   * from the result depending on filter.
    * @param searchTerm The search term used to filter user names. 
    * @param filter A filter that is used to filter based on a category.
    * @return A list of User objects that match the search criteria and filter. 
    */
   List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter);
 
+  /**
+   * Retrieves a list of randomly selected {@link User} objects based on the specified filter.
+   *
+   * @param userId The ID of the user. Used to exclude that user and all of its friends
+   * from the result depending on filter.
+   * @param amount The number of random users to retrieve.
+   * @param filter A filter that is used to filter based on a category.
+   * @return A list of randomly selected {@link User} objects.
+   */
+  List<User> getRandomUsers(Long userId, int amount, SearchFilter filter);
   /**
    * Updates the subscription level of a specified user.
    *
