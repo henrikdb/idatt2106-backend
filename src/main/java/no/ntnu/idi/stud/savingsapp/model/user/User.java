@@ -100,6 +100,10 @@ public class User implements UserDetails{
   @JoinColumn(name = "configuration_id")
   private Configuration configuration;
 
+  @Enumerated(EnumType.STRING)
+  @Column(name = "subscription_level", nullable = false)
+  private SubscriptionLevel subscriptionLevel = SubscriptionLevel.DEFAULT; 
+
   /**
    * Get the authorities granted to the user.
    *

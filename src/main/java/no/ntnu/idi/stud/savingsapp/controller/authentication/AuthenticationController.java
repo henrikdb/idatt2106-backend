@@ -67,7 +67,7 @@ public class AuthenticationController {
     User user = userService.login(request.getEmail(), request.getPassword());
     String token = TokenUtils.generateToken(user);
     return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
-        user.getLastName(), user.getRole().name(), token));
+        user.getLastName(), user.getRole().name(), user.getSubscriptionLevel().name(), token));
   }
 
   /**
@@ -92,7 +92,7 @@ public class AuthenticationController {
     User user = userService.register(requestUser);
     String token = TokenUtils.generateToken(user);
     return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
-        user.getLastName(), user.getRole().name(), token));
+        user.getLastName(), user.getRole().name(), user.getSubscriptionLevel().name(), token));
   }
 
   /**
