@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.hamcrest.Matchers.*;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -94,5 +96,35 @@ public class FriendControllerTest {
         .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
+  }
+
+  @Test
+  @WithMockUser
+  void getUsersByNameAndFilterNonFriendsShouldNotReturnYourself() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(1)))); 
+  }
+
+  @Test
+  @WithMockUser
+  void getUsersByNameAndFilterNonFriendsShouldNotReturnFriends() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(5))))
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(12)))); 
+  }
+
+  @Test
+  @WithMockUser
+  void getUsersByNameAdminAndFilterNonFriendsShouldReturnOnlyAdmin() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/admin/NON_FRIENDS")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(2))
+        .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Admin"));
   }
 }
