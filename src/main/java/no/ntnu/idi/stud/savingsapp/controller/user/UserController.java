@@ -9,11 +9,12 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.dto.user.*;
+import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Experience;
-import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
@@ -29,7 +30,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -225,6 +225,39 @@ public class UserController {
             userDTOs.add(userDTO);
           }
           return ResponseEntity.ok(userDTOs);
+  }
+
+  /**
+   * Sends feedback from an email.
+   */
+  @Operation(summary = "Send feedback", description = "Send feedback from an email.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Success")
+  })
+  @PostMapping("/send-feedback")
+  public ResponseEntity<Void> sendFeedback(@Validated @RequestBody FeedbackRequestDTO feedbackRequestDTO) {
+    userService.sendFeedback(feedbackRequestDTO.getEmail(), feedbackRequestDTO.getMessage());
+    return ResponseEntity.ok().build();
+  }
+
+  /**
+   * Get all feedback.
+   *
+   * @param identity The authenticated user's identity.
+   * @return A list containing all feedback.
+   */
+  @Operation(summary = "Send feedback", description = "Send feedback from a user.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Success")
+  })
+  @GetMapping("/get-feedback")
+  public ResponseEntity<List<FeedbackResponseDTO>> getFeedback(@AuthenticationPrincipal AuthIdentity identity) {
+    if (!identity.getRole().equalsIgnoreCase("ADMIN")) {
+      throw new PermissionDeniedException();
+    }
+    List<Feedback> feedbacks = userService.getFeedback();
+    List<FeedbackResponseDTO> feedbackResponseDTOS = feedbacks.stream().map(quiz -> modelMapper.map(quiz, FeedbackResponseDTO.class)).toList();
+    return ResponseEntity.ok(feedbackResponseDTOS);
   }
 }
 
