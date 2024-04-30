@@ -1,8 +1,8 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
@@ -19,7 +19,7 @@ public interface UserService {
   /**
    * Authenticates a user with the provided email and password.
    *
-   * @param email The email address of the user.
+   * @param email    The email address of the user.
    * @param password The password associated with the user's account.
    * @return The authenticated user object if login is successful, or null otherwise.
    */
@@ -44,7 +44,7 @@ public interface UserService {
   /**
    * Updates the password of a user.
    *
-   * @param id The ID of the user
+   * @param id          The ID of the user
    * @param oldPassword The old password
    * @param newPassword The new password
    * @return The updated User object, persisted in the database.
@@ -75,9 +75,10 @@ public interface UserService {
   void initiatePasswordReset(String email);
 
   /**
-   * Completes the password reset process by updating the user's password based on the provided reset token.
+   * Completes the password reset process by updating the user's password based on the provided
+   * reset token.
    *
-   * @param token The password reset token that was sent to the user.
+   * @param token    The password reset token that was sent to the user.
    * @param password The new password to set for the user.
    */
   void confirmPasswordReset(String token, String password);
@@ -96,4 +97,19 @@ public interface UserService {
   List<User> getFriendRequests(Long userId);
 
   List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter);
+
+  /**
+   * Sends feedback from an email.
+   *
+   * @param email   The email.
+   * @param message The message.
+   */
+  void sendFeedback(String email, String message);
+
+  /**
+   * Get all feedback.
+   *
+   * @return A list containing all feedback.
+   */
+  List<Feedback> getFeedback();
 }

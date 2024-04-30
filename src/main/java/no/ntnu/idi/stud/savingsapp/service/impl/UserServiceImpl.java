@@ -8,11 +8,13 @@ import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
+import no.ntnu.idi.stud.savingsapp.repository.FeedbackRepository;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.EmailService;
@@ -60,6 +62,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   AccountService accountService;
+
+  @Autowired
+  FeedbackRepository feedbackRepository;
 
   /**
    * Authenticates a user with the provided email and password.
@@ -287,6 +292,27 @@ public class UserServiceImpl implements UserService {
               break;
       }
       return users;
-}
+  }
 
+  /**
+   * Sends feedback from an email.
+   *
+   * @param email The email.
+   * @param message The message.
+   */
+  @Override
+  public void sendFeedback(String email, String message) {
+    Feedback feedback = Feedback.builder().email(email).message(message).createdAt(Timestamp.from(Instant.now())).build();
+    feedbackRepository.save(feedback);
+  }
+
+  /**
+   * Get all feedback.
+   *
+   * @return A list containing all feedback.
+   */
+  @Override
+  public List<Feedback> getFeedback() {
+    return feedbackRepository.findAll();
+  }
 }
