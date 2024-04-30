@@ -5,14 +5,11 @@ import no.ntnu.idi.stud.savingsapp.exception.goal.GoalNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.goal.InvalidChallengeDayException;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
-import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.ChallengeTemplate;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 import no.ntnu.idi.stud.savingsapp.model.goal.Progress;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
-import no.ntnu.idi.stud.savingsapp.repository.ChallengeRepository;
-import no.ntnu.idi.stud.savingsapp.repository.ChallengeTemplateRepository;
 import no.ntnu.idi.stud.savingsapp.repository.GoalRepository;
 import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,30 +23,36 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * Implementation of ChallengeService to manage challenges within goals.
+ */
 @Service
 public class ChallengeServiceImpl implements ChallengeService {
 
   private static final Random random = new Random();
 
   @Autowired
-  private ChallengeRepository challengeRepository;
-
-  @Autowired
-  private ChallengeTemplateRepository templateRepository;
-
-  @Autowired
   private GoalRepository goalRepository;
 
+  /**
+   * Generates a list of challenges for a given goal based on the user's preferences and goal's target date.
+   * Each challenge is generated based on predefined templates and adjusted for the duration of the goal.
+   *
+   * @param goal The goal for which to generate challenges.
+   * @param user The user who owns the goal.
+   * @return A list of generated Challenge objects.
+   */
   @Override
   public List<Challenge> generateChallenges(Goal goal, User user) {
     ChallengeTemplate t1 = new ChallengeTemplate();
     t1.setChallengeType(ChallengeType.NO_COFFEE);
     t1.setAmount(40);
-    t1.setChallengeText("Spar {amount} kr på kaffe hver dag i [dager} dager");
+    t1.setText("Spar {unit_amount} kr hver gang du kjøper kaffe, totalt {checkDays} ganger over " +
+        "{totalDays} dager. Dette gir deg en total besparelse på {total_amount} kr.");
     ChallengeTemplate t2 = new ChallengeTemplate();
     t2.setChallengeType(ChallengeType.EAT_PACKED_LUNCH);
     t2.setAmount(100);
-    t2.setChallengeText("Spar {amount} kr ved å ta med deg matpakke");
+    t2.setText("Spar {amount} kr ved å ta med deg matpakke");
 
     List<ChallengeTemplate> templates = Arrays.asList(t1, t2);
         //templateRepository.findAllByChallengeTypeIn(user.getConfiguration().getChallengeTypes());
@@ -61,15 +64,13 @@ public class ChallengeServiceImpl implements ChallengeService {
     List<Challenge> challenges = new ArrayList<>();
     int i = 0;
 
-    int a = 0;
-
     while (remainingDays > 0) {
       int totalDays = Math.min(random.nextInt(23) + 7, remainingDays);
       int checkDays = user.getConfiguration().getCommitment().getCheckDays(totalDays);
       ChallengeTemplate template = templates.get(i++ % templates.size());
       Challenge challenge = new Challenge();
-      challenge.setChallengeTemplate(template);
-      challenge.setPotentialSavingAmount(template.getAmount() * checkDays);
+      challenge.setTemplate(template);
+      challenge.setPotentialAmount(template.getAmount() * checkDays);
       challenge.setPoints(totalDays * 10);
       challenge.setCheckDays(checkDays);
       challenge.setTotalDays(totalDays);
@@ -92,13 +93,24 @@ public class ChallengeServiceImpl implements ChallengeService {
       }
 
       challenges.add(challenge);
-      a += challenge.getPotentialSavingAmount();
       remainingDays -= totalDays;
     }
-    System.out.println("a: " + a);
     return challenges;
   }
 
+  /**
+   * Updates the progress for a specific challenge on a specified day with a given amount.
+   * Validates user permissions, challenge existence, and the validity of the specified day.
+   *
+   * @param userId The ID of the user updating the challenge.
+   * @param id The ID of the challenge to update.
+   * @param day The day of the challenge to mark as completed.
+   * @param amount The amount saved or achieved on the specified day.
+   * @throws PermissionDeniedException if the user does not own the goal associated with the challenge.
+   * @throws ChallengeNotFoundException if the challenge cannot be found within the goal.
+   * @throws InvalidChallengeDayException if the specified day is invalid or already completed.
+   * @throws GoalNotFoundException if the goal associated with the challenge is not found.
+   */
   @Override
   public void updateProgress(long userId, long id, int day, BigDecimal amount) {
     Optional<Goal> goalOptional = goalRepository.findByChallenges_Id(id);
@@ -123,11 +135,11 @@ public class ChallengeServiceImpl implements ChallengeService {
         throw new InvalidChallengeDayException("Day outside of range");
       }
 
-      Progress progressToUpdate = new Progress();
-      progressToUpdate.setDay(day);
-      progressToUpdate.setCompletedAt(new Timestamp(System.currentTimeMillis()));
-      progressToUpdate.setAmount(amount);
-      progressList.add(progressToUpdate);
+      Progress progress = new Progress();
+      progress.setDay(day);
+      progress.setCompletedAt(Timestamp.from(Instant.now()));
+      progress.setAmount(amount);
+      progressList.add(progress);
 
       goalRepository.save(goal);
     } else {

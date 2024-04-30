@@ -3,6 +3,8 @@ package no.ntnu.idi.stud.savingsapp.dto.goal;
 import lombok.Data;
 import lombok.NonNull;
 
+import java.math.BigDecimal;
+
 @Data
 public final class CreateGoalDTO {
 
@@ -12,7 +14,7 @@ public final class CreateGoalDTO {
   @NonNull
   private String description;
 
-  private int targetAmount;
+  private BigDecimal targetAmount;
 
   @NonNull
   private String targetDate;

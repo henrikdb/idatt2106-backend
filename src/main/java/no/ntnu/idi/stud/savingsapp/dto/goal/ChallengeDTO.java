@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.dto.goal;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public final class ChallengeDTO {
 
   private long id;
-  private int amount;
+  private BigDecimal amount;
   private int points;
   private int checkDays;
   private int totalDays;

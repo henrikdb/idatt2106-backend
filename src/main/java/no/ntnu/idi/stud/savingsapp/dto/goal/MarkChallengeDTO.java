@@ -5,9 +5,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public final class ChallengeUpdateStateDTO {
+public final class MarkChallengeDTO {
 
-  private long challengeId;
-  private int challengeDay;
+  private long id;
+  private int day;
   private BigDecimal amount;
 }

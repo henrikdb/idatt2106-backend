@@ -28,7 +28,7 @@ public class ChallengeTemplate {
 
   @NonNull
   @Column(name = "challenge_text", nullable = false)
-  private String challengeText;
+  private String text;
 
   @Column(name = "challenge_amount", nullable = false)
   private int amount;

@@ -14,6 +14,9 @@ import no.ntnu.idi.stud.savingsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for managing goals.
+ */
 @Service
 public class GoalServiceImpl implements GoalService {
 
@@ -26,6 +29,13 @@ public class GoalServiceImpl implements GoalService {
   @Autowired
   private ChallengeService challengeService;
 
+  /**
+   * Creates a new goal for a specific user and generates associated challenges.
+   *
+   * @param goal The goal to be created, containing initial data.
+   * @param userId The ID of the user for whom the goal is being created.
+   * @return The newly created Goal, now populated with generated challenges and persisted in the database.
+   */
   @Override
   public Goal createGoal(Goal goal, long userId) {
     User user = userService.findById(userId);
@@ -36,7 +46,14 @@ public class GoalServiceImpl implements GoalService {
     return goalRepository.save(goal);
   }
 
-  public List<Goal> getGoalList(long userId) {
+  /**
+   * Retrieves all goals associated with a given user ID.
+   *
+   * @param userId The ID of the user whose goals are to be retrieved.
+   * @return A list of Goals associated with the specified user.
+   */
+  @Override
+  public List<Goal> getGoals(long userId) {
     return goalRepository.findByUser_Id(userId);
   }
 }

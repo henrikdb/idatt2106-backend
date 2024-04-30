@@ -24,8 +24,8 @@ public class Challenge {
   @Column(name = "challenge_id")
   private Long id;
 
-  @Column(name = "potential_saving_amount", nullable = false)
-  private int potentialSavingAmount;
+  @Column(name = "potential_amount", nullable = false)
+  private int potentialAmount;
 
   @Column(name = "points", nullable = false)
   private int points;
@@ -46,7 +46,7 @@ public class Challenge {
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn (name = "challenge_template_id")
-  private ChallengeTemplate challengeTemplate;
+  private ChallengeTemplate template;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "challenge_id")
