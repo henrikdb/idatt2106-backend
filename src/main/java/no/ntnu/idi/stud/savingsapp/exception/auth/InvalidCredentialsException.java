@@ -11,4 +11,11 @@ public class InvalidCredentialsException extends RuntimeException {
   public InvalidCredentialsException() {
     super("Invalid credentials");
   }
+
+  /**
+   * Constructs an InvalidCredentialsException with a custom message.
+   */
+  public InvalidCredentialsException(String string) {
+    super(string);
+  }
 }

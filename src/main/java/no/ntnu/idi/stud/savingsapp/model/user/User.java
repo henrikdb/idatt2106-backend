@@ -58,6 +58,9 @@ public class User implements UserDetails{
   @Column(name = "email", nullable = false, unique = true)
   private String email;
 
+  @Column(name = "profile_image")
+  private Long profileImage;
+
   @OneToOne
   @JoinColumn(name = "checking_account_id")
   private Account checkingAccount;

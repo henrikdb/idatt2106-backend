@@ -1,0 +1,34 @@
+server.port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://129.241.98.39:3306/sparesti_test
+    username: user
+    password: Password1.
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        '[format_sql]': true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+      data-locations: classpath:data-test.sql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sparesti050@gmail.com
+    password: cdxdjzkwapkbitej
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger/index.html
+  api-docs:
+    path: /swagger/api-docs

@@ -1,8 +1,13 @@
 package no.ntnu.idi.stud.savingsapp.service;
 
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,6 +40,16 @@ public interface UserService {
    * @return The updated User object, persisted in the database.
    */
   User update(User user);
+
+  /**
+   * Updates the password of a user.
+   *
+   * @param id The ID of the user
+   * @param oldPassword The old password
+   * @param newPassword The new password
+   * @return The updated User object, persisted in the database.
+   */
+  User updatePassword(long id, String oldPassword, String newPassword);
 
   /**
    * Retrieves a user by their email address.
@@ -75,4 +90,10 @@ public interface UserService {
    * @param bban            The Basic Bank Account Number, specifying the account.
    */
   Account selectBankAccount(BankAccountType bankAccountType, Long bban, Long userId);
+
+  List<User> getFriends(Long userId);
+
+  List<User> getFriendRequests(Long userId);
+
+  List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter);
 }

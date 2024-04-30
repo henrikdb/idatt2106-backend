@@ -8,15 +8,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
-import no.ntnu.idi.stud.savingsapp.dto.user.BankAccountDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.PasswordResetDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.ProfileDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserUpdateDTO;
+import no.ntnu.idi.stud.savingsapp.dto.user.*;
 import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
+import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
+import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
+import no.ntnu.idi.stud.savingsapp.model.configuration.Experience;
+import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
+import no.ntnu.idi.stud.savingsapp.validation.Enumerator;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -24,10 +27,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Controller handling user related requests.
  */
@@ -41,9 +46,6 @@ public class UserController {
 
   @Autowired
   private UserService userService;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
 
   @Autowired
   private ModelMapper modelMapper;
@@ -80,8 +82,7 @@ public class UserController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successfully got profile")
   })
-  @GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ProfileDTO> getProfile(@PathVariable long userId) {
     User user = userService.findById(userId);
     ProfileDTO profileDTO = modelMapper.map(user, ProfileDTO.class);
@@ -117,24 +118,36 @@ public class UserController {
     if (updateDTO.getEmail() != null) {
       user.setEmail(updateDTO.getEmail());
     }
-    if (updateDTO.getPassword() != null) {
-      String encodedPassword = passwordEncoder.encode(updateDTO.getPassword());
-      user.setPassword(encodedPassword);
+    if (updateDTO.getProfileImage() != null) {
+      user.setProfileImage(updateDTO.getProfileImage());
     }
-    /*if (updateDTO.getConfiguration().getCommitment() != null) {
-      user.getConfiguration().setCommitment(Commitment.valueOf(updateDTO.getConfiguration().getCommitment()));
-    }
-    if (updateDTO.getConfiguration().getExperience() != null) {
-      user.getConfiguration().setExperience(Experience.valueOf(updateDTO.getConfiguration().getExperience()));
-    }
-    if (updateDTO.getChallengeTypes() != null) {
-      for (String challengeType : updateDTO.getConfiguration().getChallengeTypes()) {
-        user.getConfiguration().getChallengeTypes().add(Cha);
+    if (updateDTO.getConfiguration() != null) {
+      if (updateDTO.getConfiguration().getCommitment() != null) {
+        user.getConfiguration().setCommitment(Commitment.valueOf(updateDTO.getConfiguration().getCommitment()));
       }
-      // TODO
-    }*/
+      if (updateDTO.getConfiguration().getExperience() != null) {
+        user.getConfiguration().setExperience(Experience.valueOf(updateDTO.getConfiguration().getExperience()));
+      }
+      if (updateDTO.getConfiguration().getChallengeTypes() != null) {
+        for (String challengeType : updateDTO.getConfiguration().getChallengeTypes()) {
+          user.getConfiguration().getChallengeTypes().add(ChallengeType.valueOf(challengeType));
+        }
+      }
+    }
     User updatedUser = userService.update(user);
     UserDTO userDTO = modelMapper.map(updatedUser, UserDTO.class);
+    return ResponseEntity.ok(userDTO);
+  }
+
+  @Operation(summary = "Update a password", description = "Update the password of the authenticated user")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully updated password")
+  })
+  @PatchMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserDTO> updatePassword(@AuthenticationPrincipal AuthIdentity identity,
+                                        @RequestBody @Valid PasswordUpdateDTO updateDTO) {
+    User user = userService.updatePassword(identity.getId(), updateDTO.getOldPassword(), updateDTO.getNewPassword());
+    UserDTO userDTO = modelMapper.map(user, UserDTO.class);
     return ResponseEntity.ok(userDTO);
   }
 
@@ -194,4 +207,25 @@ public class UserController {
         bankAccountDTO.getBban(),
         identity.getId());
   }
+
+  @Operation(summary = "Search for users by name and filter", description = "Returns a list of users whose names contain the specified search term and match the filter.")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "Successfully retrieved list of users")
+  })
+  @GetMapping("/search/{searchTerm}/{filter}")
+  public ResponseEntity<List<UserDTO>> getUsersByNameAndFilter(
+          @AuthenticationPrincipal AuthIdentity identity,
+          @PathVariable String searchTerm,
+          @PathVariable @Enumerator(value = SearchFilter.class,
+          message = "Invalid filter") String filter) {
+          List<User> users = userService.getUsersByNameAndFilter(identity.getId(), searchTerm, SearchFilter.valueOf(filter));
+          List<UserDTO> userDTOs = new ArrayList<>();
+          for(User user : users) {
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            userDTOs.add(userDTO);
+          }
+          return ResponseEntity.ok(userDTOs);
+  }
 }
+
+

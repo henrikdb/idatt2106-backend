@@ -7,6 +7,7 @@ import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Composite Primary Key used in {@link Friend} entity.
@@ -17,10 +18,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class FriendId implements Serializable {
 
+  @NonNull
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
+  @NonNull
   @ManyToOne
   @JoinColumn(name = "friend_id")
   private User friend;

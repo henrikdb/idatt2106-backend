@@ -146,7 +146,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "FROM ranked_users  " +
   "WHERE user_id = :userId  ) " +
   // Get user attributes from ranked_users
-  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id " +  
+  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru.configuration_id " +  
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -166,7 +166,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "FROM ranked_users " +
   "WHERE user_id = :userId ) " +
   // Get user attributes from ranked_users
-  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id " +  
+  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru.configuration_id " +  
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -186,7 +186,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "FROM ranked_users " +
   "WHERE user_id = :userId ) " +
   // Get user attributes from ranked_users
-  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id " +  
+  "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role, ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru.configuration_id " +  
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -244,5 +244,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.savingsAccount = :account WHERE u = :user")
     void updateSavingsAccount(@Param("user") User user,@Param("account") Account account);
 
-
+    @Query(value = "SELECT * FROM user u WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE %:searchTerm%", nativeQuery = true)
+    List<User> findUsersByName(@Param("searchTerm") String searchTerm);
 }
