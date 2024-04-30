@@ -37,6 +37,14 @@ public class Challenge {
   private int days;
 
   @NonNull
+  @Column(name = "start_date", nullable = false)
+  private Timestamp startDate;
+
+  @NonNull
+  @Column(name = "end_date", nullable = false)
+  private Timestamp endDate;
+
+  @NonNull
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
