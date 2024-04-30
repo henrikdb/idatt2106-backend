@@ -35,4 +35,17 @@ public interface ChallengeService {
    * @throws IllegalArgumentException if the user does not have permission to update the challenge or if the day or amount parameters are invalid.
    */
   void updateProgress(long userId, long id, int day, BigDecimal amount);
+
+  /**
+   * Updates the saving amount for a specific challenge identified by its ID.
+   * This method allows modifying the potential saving target for a given challenge, ensuring that
+   * users can adjust their saving goals as needed.
+   *
+   * @param userId The ID of the user who owns the challenge. This is used to verify ownership
+   *               and permission to update the challenge.
+   * @param id     The ID of the challenge whose saving amount is to be updated.
+   * @param amount The new saving amount to be set for the challenge. This amount should
+   *               reflect the new target savings the user aims to achieve.
+   */
+  void updateSavingAmount(long userId, long id, BigDecimal amount);
 }

@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +33,7 @@ public class ChallengeTemplate {
   private String text;
 
   @Column(name = "challenge_amount", nullable = false)
-  private int amount;
+  private BigDecimal amount;
 
   @NonNull
   @Enumerated(EnumType.STRING)

@@ -46,12 +46,12 @@ public class ChallengeServiceImpl implements ChallengeService {
   public List<Challenge> generateChallenges(Goal goal, User user) {
     ChallengeTemplate t1 = new ChallengeTemplate();
     t1.setChallengeType(ChallengeType.NO_COFFEE);
-    t1.setAmount(40);
+    t1.setAmount(BigDecimal.valueOf(40));
     t1.setText("Spar {unit_amount} kr hver gang du kjøper kaffe, totalt {checkDays} ganger over " +
         "{totalDays} dager. Dette gir deg en total besparelse på {total_amount} kr.");
     ChallengeTemplate t2 = new ChallengeTemplate();
     t2.setChallengeType(ChallengeType.EAT_PACKED_LUNCH);
-    t2.setAmount(100);
+    t2.setAmount(BigDecimal.valueOf(100));
     t2.setText("Spar {amount} kr ved å ta med deg matpakke");
 
     List<ChallengeTemplate> templates = Arrays.asList(t1, t2);
@@ -70,7 +70,7 @@ public class ChallengeServiceImpl implements ChallengeService {
       ChallengeTemplate template = templates.get(i++ % templates.size());
       Challenge challenge = new Challenge();
       challenge.setTemplate(template);
-      challenge.setPotentialAmount(template.getAmount() * checkDays);
+      challenge.setPotentialAmount(template.getAmount());
       challenge.setPoints(totalDays * 10);
       challenge.setCheckDays(checkDays);
       challenge.setTotalDays(totalDays);
@@ -113,37 +113,75 @@ public class ChallengeServiceImpl implements ChallengeService {
    */
   @Override
   public void updateProgress(long userId, long id, int day, BigDecimal amount) {
-    Optional<Goal> goalOptional = goalRepository.findByChallenges_Id(id);
+    Goal goal = getGoalByChallengeId(id);
+    if (goal.getUser().getId() != userId) {
+      throw new PermissionDeniedException();
+    }
+
+    Challenge challenge = goal.getChallenges().stream().filter(c -> c.getId() == id).findFirst().orElse(null);
+    if (challenge == null) {
+      throw new ChallengeNotFoundException();
+    }
+    List<Progress> progressList = challenge.getProgressList();
+
+    if (progressList.stream().anyMatch(p -> p.getDay() == day)) {
+      throw new InvalidChallengeDayException("Day is already completed");
+    }
+    if (day > challenge.getCheckDays() || day < 1) {
+      throw new InvalidChallengeDayException("Day outside of range");
+    }
+
+    Progress progress = new Progress();
+    progress.setDay(day);
+    progress.setCompletedAt(Timestamp.from(Instant.now()));
+    progress.setAmount(amount);
+    progressList.add(progress);
+
+    goalRepository.save(goal);
+  }
+
+  /**
+   * Updates the potential saving amount for a specific challenge within a goal.
+   * This method ensures that only the owner of the goal can update the challenge, and verifies that the challenge exists.
+   *
+   * @param userId The ID of the user attempting to update the saving amount.
+   * @param id The ID of the challenge whose saving amount is being updated.
+   * @param amount The new saving amount to be set for the challenge.
+   * @throws PermissionDeniedException if the user trying to update the saving amount does not own the goal.
+   * @throws ChallengeNotFoundException if no challenge with the given ID can be found within the goal.
+   * @throws GoalNotFoundException if no goal containing the specified challenge can be found.
+   */
+  @Override
+  public void updateSavingAmount(long userId, long id, BigDecimal amount) {
+    Goal goal = getGoalByChallengeId(id);
+    if (goal.getUser().getId() != userId) {
+      throw new PermissionDeniedException();
+    }
+
+    Challenge challenge = goal.getChallenges().stream().filter(c -> c.getId() == id).findFirst().orElse(null);
+    if (challenge == null) {
+      throw new ChallengeNotFoundException();
+    }
+    challenge.setPotentialAmount(amount);
+
+    goalRepository.save(goal);
+  }
+
+  /**
+   * Retrieves a goal that contains a specific challenge identified by the challenge ID.
+   * This method is useful for operations requiring access to a goal based on one of its challenges,
+   * ensuring the challenge's existence within the goal structure.
+   *
+   * @param challengeId The ID of the challenge whose goal is to be retrieved.
+   * @return The Goal containing the specified challenge.
+   * @throws GoalNotFoundException If no goal containing the specified challenge can be found.
+   */
+  private Goal getGoalByChallengeId(long challengeId) {
+    Optional<Goal> goalOptional = goalRepository.findByChallenges_Id(challengeId);
     if (goalOptional.isPresent()) {
-      Goal goal = goalOptional.get();
-
-      if (goal.getUser().getId() != userId) {
-        throw new PermissionDeniedException();
-      } 
-
-      Challenge challenge = goal.getChallenges().stream().filter(c -> c.getId() == id).findFirst().orElse(null);
-      if (challenge == null) {
-        throw new ChallengeNotFoundException();
-      }
-      List<Progress> progressList = challenge.getProgressList();
-
-      if (progressList.stream().anyMatch(p -> p.getDay() == day)) {
-        throw new InvalidChallengeDayException("Day is already completed");
-      }
-
-      if (day > challenge.getCheckDays() || day < 1) {
-        throw new InvalidChallengeDayException("Day outside of range");
-      }
-
-      Progress progress = new Progress();
-      progress.setDay(day);
-      progress.setCompletedAt(Timestamp.from(Instant.now()));
-      progress.setAmount(amount);
-      progressList.add(progress);
-
-      goalRepository.save(goal);
+      return goalOptional.get();
     } else {
-      throw new GoalNotFoundException();
+      throw new ChallengeNotFoundException();
     }
   }
 }

@@ -81,6 +81,17 @@ public class GoalController {
     return ResponseEntity.ok(goalsDTO);
   }
 
+  /**
+   * Updates the progress of a specific challenge by marking a particular day as completed.
+   * This method allows users to record progress on challenges associated with their goals.
+   *
+   * @param identity The security context of the authenticated user, including user identification.
+   * @param request The data transfer object containing the challenge ID, the day to mark, and the amount saved.
+   * @return A ResponseEntity indicating the status of the operation.
+   * @apiNote This endpoint returns HTTP 202 (Accepted) on successful update, and may return HTTP 401
+   *          if the specified day is already marked as completed or is outside the allowed range.
+   *          Error details are provided in the response body.
+   */
   @Operation(summary = "Update a challenge", description = "Update a challenge day as completed")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successfully updated the challenge"),
@@ -89,9 +100,29 @@ public class GoalController {
   })
   @PostMapping(value = "/update-challenge", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> updateChallenge(@AuthenticationPrincipal AuthIdentity identity,
-                                            @RequestBody MarkChallengeDTO request) {
+                                              @RequestBody MarkChallengeDTO request) {
     challengeService.updateProgress(identity.getId(), request.getId(),
         request.getDay(), request.getAmount());
+    return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+  }
+
+  /**
+   * Updates the saving amount for a specific challenge. This allows users to modify the potential
+   * savings target for any challenge associated with their goals.
+   *
+   * @param identity The security context of the authenticated user.
+   * @param request The data transfer object containing the challenge ID and the new saving amount.
+   * @return A ResponseEntity indicating the success of the update operation.
+   * @apiNote This endpoint returns HTTP 202 (Accepted) on a successful update of the challenge amount.
+   */
+  @Operation(summary = "Update challenge saving amount", description = "Update the challenge saving amount")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully updated the challenge")
+  })
+  @PostMapping(value = "/update-challenge-amount", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> updateChallengeAmount(@AuthenticationPrincipal AuthIdentity identity,
+                                                    @RequestBody MarkChallengeDTO request) {
+    challengeService.updateSavingAmount(identity.getId(), request.getId(), request.getAmount());
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
 }

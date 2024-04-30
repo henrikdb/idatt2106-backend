@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.model.goal;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class Challenge {
   private Long id;
 
   @Column(name = "potential_amount", nullable = false)
-  private int potentialAmount;
+  private BigDecimal potentialAmount;
 
   @Column(name = "points", nullable = false)
   private int points;
