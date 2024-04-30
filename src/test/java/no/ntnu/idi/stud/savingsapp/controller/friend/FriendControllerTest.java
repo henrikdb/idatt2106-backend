@@ -104,7 +104,7 @@ public class FriendControllerTest {
     mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
         .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(1)))); 
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(3)))); 
   }
 
   @Test
@@ -126,5 +126,23 @@ public class FriendControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(2))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Admin"));
+  }
+
+  @Test
+  @WithMockUser
+  void getSevenRandomUsersShouldReturnSevenRandomUsers() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/random/7/NON_FRIENDS")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(7)));
+  }
+
+  @Test
+  @WithMockUser
+  void getRandomUsersShouldNotIncludeYourself() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/random/100/NON_FRIENDS")
+        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(3)))); 
   }
 }

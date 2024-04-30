@@ -20,6 +20,7 @@ import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.EmailService;
 import no.ntnu.idi.stud.savingsapp.service.FriendService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatusCode;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.Collections;
 
 /**
  * Implementation of the UserService interface for user-related operations.
@@ -311,6 +313,34 @@ public class UserServiceImpl implements UserService {
       }
       return users;
   }
+
+  /**
+   * Retrieves a list of randomly selected {@link User} objects based on the specified filter.
+   *
+   * @param userId The ID of the user. Used to exclude that user and all of its friends
+   * from the result depending on filter.
+   * @param amount The number of random users to retrieve.
+   * @param filter A filter that is used to filter based on a category.
+   * @return A list of randomly selected {@link User} objects.
+   */
+  @Override
+  public List<User> getRandomUsers(Long userId, int amount, SearchFilter filter) {
+    List<User> users = userRepository.findAll();
+      users.removeIf(user -> user.getId().equals(userId));
+      switch (filter) {
+          case NON_FRIENDS:
+              List<User> friends = getFriends(userId);
+              users.removeAll(friends);
+              break;
+      }
+      
+      Collections.shuffle(users);
+      while(users.size() > amount) {
+        users.remove(users.get(users.size() - 1));
+      }
+      return users;
+  }
+
 
   /**
    * Updates the subscription level of a specified user.
