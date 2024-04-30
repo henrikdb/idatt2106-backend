@@ -3,11 +3,15 @@ package no.ntnu.idi.stud.savingsapp.repository;
 import java.util.List;
 import java.util.Optional;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
+import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Repository interface for {@link User} entities.
@@ -246,4 +250,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM user u WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE %:searchTerm%", nativeQuery = true)
     List<User> findUsersByName(@Param("searchTerm") String searchTerm);
+    
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.subscriptionLevel = :subscriptionLevel WHERE u.id = :userId")
+    void updateSubscriptionLevel(@Param("userId") Long userId, @Param("subscriptionLevel") SubscriptionLevel subscriptionLevel);
 }
