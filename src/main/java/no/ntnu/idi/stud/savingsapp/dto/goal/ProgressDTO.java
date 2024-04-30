@@ -5,7 +5,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public final class DailyChallengeProgressDTO {
+public final class ProgressDTO {
 
   private Long id;
 
