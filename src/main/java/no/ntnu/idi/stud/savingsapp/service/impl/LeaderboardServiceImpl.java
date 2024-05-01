@@ -244,4 +244,14 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         leaderboard.setEntries(entries);
         return leaderboard;
     }
+
+    /**
+     * Get the total sum of the total points of all users.
+     * 
+     * @return Long 
+     */
+    @Override
+    public long getSumTotalEarnedPoints() {
+        return userRepository.getSumTotalEarnedPoints();
+    }
 }
