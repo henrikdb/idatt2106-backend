@@ -2,14 +2,21 @@ package no.ntnu.idi.stud.savingsapp.controller.leaderboard;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +32,7 @@ import no.ntnu.idi.stud.savingsapp.UserUtil;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class LeaderboardControllerTest {
 
     @Autowired
@@ -32,6 +40,9 @@ public class LeaderboardControllerTest {
 
     @MockBean
     private LeaderboardService leaderboardService;
+
+    @InjectMocks
+    private LeaderboardController leaderboardController;
 
     private User user1;
     private User user2;
@@ -282,5 +293,15 @@ public class LeaderboardControllerTest {
                 .param("entryCount", "2")
                 .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user1))))
             .andExpect(status().isOk());
+    }
+
+    @Test
+    void getTotalEarnedPointsReturns5000() throws Exception {
+        when(leaderboardService.getSumTotalEarnedPoints()).thenReturn(5000L);
+
+        mvc.perform(get("/api/leaderboard/total-points")
+            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user1))))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().string("5000"));
     }
 }
