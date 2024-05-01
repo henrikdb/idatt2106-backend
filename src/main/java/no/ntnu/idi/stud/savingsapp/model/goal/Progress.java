@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,16 +23,19 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "daily_challenge_progress")
-public class DailyChallengeProgress {
+@Table(name = "progress")
+public class Progress {
 
   @Id()
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "daily_challenge_progess_id")
+  @Column(name = "progess_id")
   private Long id;
 
   @Column(name = "challenge_day", nullable = false)
-  private int challengeDay;
+  private int day;
+
+  @Column(name = "progress_amount", nullable = false)
+  private BigDecimal amount;
 
   @NonNull
   @Column(name = "completed_at", nullable = false)

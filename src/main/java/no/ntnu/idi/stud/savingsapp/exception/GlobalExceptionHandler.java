@@ -3,6 +3,9 @@ package no.ntnu.idi.stud.savingsapp.exception;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
+import no.ntnu.idi.stud.savingsapp.exception.goal.ChallengeNotFoundException;
+import no.ntnu.idi.stud.savingsapp.exception.goal.GoalNotFoundException;
+import no.ntnu.idi.stud.savingsapp.exception.goal.InvalidChallengeDayException;
 import no.ntnu.idi.stud.savingsapp.exception.image.ImageNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.question.QuestionTypeNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
@@ -56,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    * @param e The exception.
    * @return A ResponseEntity containing the error response.
    */
-  @ExceptionHandler({ConstraintViolationException.class})
+  @ExceptionHandler({ConstraintViolationException.class, InvalidChallengeDayException.class})
   public ResponseEntity<ExceptionResponse> handleBadRequest(Exception e) {
     String error = e.getMessage();
     if (e instanceof ConstraintViolationException constraintViolationException) {
@@ -108,7 +111,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    * @param e The exception.
    * @return A ResponseEntity containing the error response.
    */
-  @ExceptionHandler({UserNotFoundException.class, ImageNotFoundException.class})
+  @ExceptionHandler({UserNotFoundException.class, ImageNotFoundException.class,
+      GoalNotFoundException.class, ChallengeNotFoundException.class})
   public ResponseEntity<ExceptionResponse> handleNotFound(Exception e) {
     return ExceptionResponse.toResponseEntity(HttpStatus.NOT_FOUND, e.getMessage());
   }

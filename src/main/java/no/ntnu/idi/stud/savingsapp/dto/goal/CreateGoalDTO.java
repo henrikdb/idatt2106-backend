@@ -2,23 +2,20 @@ package no.ntnu.idi.stud.savingsapp.dto.goal;
 
 import lombok.Data;
 import lombok.NonNull;
-import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 
-import java.sql.Timestamp;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Data
 public final class CreateGoalDTO {
 
   @NonNull
-  private String goalName;
+  private String name;
 
   @NonNull
   private String description;
 
-  @NonNull
-  private int targetAmount;
+  private BigDecimal targetAmount;
 
   @NonNull
-  private Timestamp targetDate;
+  private String targetDate;
 }

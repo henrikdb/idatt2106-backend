@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.model.goal;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -24,28 +25,31 @@ public class Challenge {
   @Column(name = "challenge_id")
   private Long id;
 
-  @Column(name = "potential_saving_amount", nullable = false)
-  private int potentialSavingAmount;
+  @Column(name = "potential_amount", nullable = false)
+  private BigDecimal potentialAmount;
 
   @Column(name = "points", nullable = false)
   private int points;
 
-  @Column(name = "days", nullable = false)
-  private int days;
+  @Column(name = "check_days", nullable = false)
+  private int checkDays;
+
+  @Column(name = "total_days", nullable = false)
+  private int totalDays;
 
   @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
+  @Column(name = "start_date", nullable = false)
+  private Timestamp startDate;
 
-  @ManyToOne
-  @JoinColumn(name = "goal_id")
-  private Goal goal;
+  @NonNull
+  @Column(name = "end_date", nullable = false)
+  private Timestamp endDate;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn (name = "challenge_template_id")
-  private ChallengeTemplate challengeTemplate;
+  private ChallengeTemplate template;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "challenge_id")
-  private List<DailyChallengeProgress> dailyChallengeProgressList;
+  private List<Progress> progressList;
 }
