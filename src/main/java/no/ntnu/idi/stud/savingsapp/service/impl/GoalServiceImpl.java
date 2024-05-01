@@ -3,7 +3,10 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
+import no.ntnu.idi.stud.savingsapp.exception.goal.ChallengeNotFoundException;
+import no.ntnu.idi.stud.savingsapp.exception.goal.GoalNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
@@ -55,5 +58,15 @@ public class GoalServiceImpl implements GoalService {
   @Override
   public List<Goal> getGoals(long userId) {
     return goalRepository.findByUser_Id(userId);
+  }
+
+  @Override
+  public Goal getGoal(long goalId) {
+    Optional<Goal> optionalGoal = goalRepository.findById(goalId);
+    if (optionalGoal.isPresent()) {
+      return optionalGoal.get();
+    } else {
+      throw new GoalNotFoundException();
+    }
   }
 }

@@ -125,4 +125,11 @@ public class GoalController {
     challengeService.updateSavingAmount(identity.getId(), request.getId(), request.getAmount());
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
+
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<GoalDTO> getGoal(@RequestParam Long id) {
+    Goal goal = goalService.getGoal(id);
+    GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
+    return ResponseEntity.ok(goalDTO);
+  }
 }
