@@ -377,8 +377,27 @@ public class UserServiceImpl implements UserService {
     return feedbackRepository.findAll();
   }
 
+  /**
+   * Check if the user has more than or equal to
+   * amount of current points as points
+   * 
+   * @param user the user
+   * @param points the amount of points to compare with
+   * @return true or false
+   */
   @Override
   public Boolean hasMorePoints(User user, int points) {
     return user.getPoint().getCurrentPoints() >= points;
+  }
+
+  /**
+   * Deduct a number of current points from the user
+   *
+   * @param userId The user
+   * @param points The amount of current points to deduct
+   */
+  @Override
+  public void deductPoints(Long userId, int points) {
+    userRepository.deductPoints(userId, points);
   }
 }
