@@ -31,4 +31,6 @@ public interface GoalService {
    *         The list may be empty if the user has no goals.
    */
   List<Goal> getGoals(long userId);
+
+  Goal getGoal(long goalId);
 }
