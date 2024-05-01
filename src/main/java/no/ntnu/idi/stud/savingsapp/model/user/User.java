@@ -57,7 +57,7 @@ public class User implements UserDetails{
   private String lastName;
 
   @NonNull
-  @Column(name = "email", nullable = false, unique = true)
+  @Column(name = "email", unique = true)
   private String email;
 
   @Column(name = "profile_image")
@@ -72,8 +72,11 @@ public class User implements UserDetails{
   private Account savingsAccount;
 
   @NonNull
-  @Column(name = "password", nullable = false)
+  @Column(name = "password")
   private String password;
+
+  @Column(name = "bankid_sub", unique = true)
+  private String bankIdSub;
 
   @NonNull
   @Column(name = "created_at", nullable = false)

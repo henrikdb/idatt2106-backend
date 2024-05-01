@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
@@ -21,13 +22,26 @@ import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.FriendService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
@@ -110,6 +124,83 @@ public class UserServiceImpl implements UserService {
       return userRepository.save(user);
     } catch (DataIntegrityViolationException e) {
       throw new EmailAlreadyExistsException();
+    }
+  }
+
+  /**
+   * Authenticates a user by exchanging a BankID authorization code for an access token and retrieves user information.
+   * This method contacts the BankID service to obtain an access token using the provided authorization code and then
+   * fetches the user details from the BankID userinfo endpoint. If the user is new, it registers them in the database.
+   *
+   * @param code  The authorization code provided by the BankID authentication flow.
+   * @param state The state parameter to ensure the response corresponds to the request made by the user.
+   * @return A {@link User} object populated with details retrieved from BankID if authentication is successful,
+   *         or null if an error occurs during the process.
+   */
+  @Override
+  public User bankIDAuth(String code, String state) {
+    try {
+      String tokenUrl = "https://preprod.signicat.com/oidc/token";
+      HttpPost httpPost = new HttpPost(tokenUrl);
+      httpPost.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.toString());
+      httpPost.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + "ZGVtby1wcmVwcm9kOm1xWi1fNzUtZjJ3TnNpUVRPTmI3T240YUFaN3pjMjE4bXJSVmsxb3VmYTg=");
+      List<NameValuePair> params = new ArrayList<>();
+      params.add(new BasicNameValuePair("client_id", "demo-preprod"));
+      params.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/redirect"));
+      params.add(new BasicNameValuePair("grant_type", "authorization_code"));
+      params.add(new BasicNameValuePair("code", code));
+      httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
+      final String content = postRequest(httpPost);
+      // parse response
+      JSONObject jsonObject = new ObjectMapper().readValue(content, JSONObject.class);
+      String accessToken = (String) jsonObject.get("access_token");
+
+      //get userinfo
+      HttpPost httpPost_userinfo = new HttpPost("https://preprod.signicat.com/oidc/userinfo");
+      httpPost_userinfo.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.toString());
+      httpPost_userinfo.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+      final String content_userinfo = postRequest(httpPost_userinfo);
+      JSONObject jsonObject2 = new ObjectMapper().readValue(content_userinfo, JSONObject.class);
+
+      String sub = (String) jsonObject2.get("sub");
+      Optional<User> optionalUser = userRepository.findByBankIdSub(sub);
+      if (optionalUser.isPresent()) {
+        return optionalUser.get();
+      }
+      User user = new User();
+      user.setRole(Role.USER);
+      user.setCreatedAt(Timestamp.from(Instant.now()));
+      user.setBankIdSub(sub);
+      user.setFirstName((String) jsonObject2.get("given_name"));
+      user.setLastName((String) jsonObject2.get("family_name"));
+      userRepository.save(user);
+      return user;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   * Sends an HTTP POST request and returns the response content as a string.
+   * This method is used internally to communicate with external services like BankID.
+   *
+   * @param httpPost The {@link HttpPost} object configured with the URL, headers, and body of the request.
+   * @return A string containing the response body.
+   * @throws Exception If the HTTP request fails or the server response indicates an error.
+   */
+  protected String postRequest(final HttpPost httpPost) throws Exception {
+    try {
+      CloseableHttpClient httpClient = HttpClientBuilder.create().useSystemProperties().build();
+      CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
+      final int status = httpResponse.getStatusLine().getStatusCode();
+      if (status == HttpStatus.SC_FORBIDDEN || status / 100 != 2) {
+        throw new Exception("Something went wrong!! Handle this properly!!!");
+      }
+      final String content = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
+      return content;
+    } catch (final Exception e) {
+      throw new Exception(e.getMessage());
     }
   }
 

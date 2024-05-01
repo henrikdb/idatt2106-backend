@@ -1,10 +1,5 @@
 package no.ntnu.idi.stud.savingsapp.controller.authentication;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
-import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
-import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,10 +7,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import no.ntnu.idi.stud.savingsapp.dto.auth.AuthenticationResponse;
+import no.ntnu.idi.stud.savingsapp.dto.auth.BankIDRequest;
 import no.ntnu.idi.stud.savingsapp.dto.auth.LoginRequest;
 import no.ntnu.idi.stud.savingsapp.dto.auth.SignUpRequest;
 import no.ntnu.idi.stud.savingsapp.exception.ExceptionResponse;
+import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
+import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
+import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 import no.ntnu.idi.stud.savingsapp.utils.TokenUtils;
@@ -91,6 +92,32 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> signup(@RequestBody @Valid SignUpRequest request) {
     User requestUser = modelMapper.map(request, User.class);
     User user = userService.register(requestUser);
+    String token = TokenUtils.generateToken(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
+        user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
+        user.getSubscriptionLevel().name(), token));
+  }
+
+  /**
+   * Handles authentication requests using BankID.
+   * This method processes an authentication request by taking a unique code and state from the BankID request,
+   * verifies the user, and returns an authentication token along with user details.
+   *
+   * @param request The request body containing the authentication details required by BankID,
+   *                specifically a 'code' and 'state' used for user verification.
+   * @return A ResponseEntity object containing the user's authentication details including a JWT token
+   *         if the authentication is successful.
+   * @apiNote This method is protected by security requirements that must be met before the
+   *          authentication can proceed.
+   */
+  @Operation(summary = "Authenticate a BankID request", description = "Authenticate a BankID request")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "If the authentication is successful")
+  })
+  @SecurityRequirements
+  @PostMapping(value = "/bank-id")
+  public ResponseEntity<AuthenticationResponse> bankIdAuthentication(@RequestBody BankIDRequest request) {
+    User user = userService.bankIDAuth(request.getCode(), request.getState());
     String token = TokenUtils.generateToken(user);
     return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
         user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
