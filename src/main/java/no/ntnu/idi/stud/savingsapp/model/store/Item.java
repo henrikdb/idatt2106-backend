@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.user;
+package no.ntnu.idi.stud.savingsapp.model.store;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,8 +19,8 @@ import no.ntnu.idi.stud.savingsapp.model.image.Image;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "store")
-public class Store {
+@Table(name = "item")
+public class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "item_id")

@@ -34,4 +34,12 @@ public interface LeaderboardService {
      */
     Leaderboard getSurrounding(LeaderboardType type, LeaderboardFilter filter, int entryCount, Long userId);
 
+    /**
+     * Get the total sum of the total points of all users.
+     * 
+     * @return Long 
+     */
+    long getSumTotalEarnedPoints();
+
+
 }

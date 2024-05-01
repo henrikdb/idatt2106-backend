@@ -1,3 +1,4 @@
+
 -- Inserting points
 INSERT INTO point (point_id, current_points, total_earned_points) 
 VALUES 
@@ -17,6 +18,7 @@ VALUES
 (14, 260, 980),
 (15, 280, 1050);
 
+
 -- Inserting streaks
 INSERT INTO streak (streak_id, current_streak, current_streak_created_at, current_streak_updated_at, highest_streak, highest_streak_created_at, highest_streak_ended_at) 
 VALUES 
@@ -35,6 +37,25 @@ VALUES
 (13, 9, '2024-04-28 12:45:00', '2024-04-28 12:45:03', 11, '2024-04-28 12:45:00', '2025-04-28 12:45:00'),
 (14, 7, '2024-04-29 15:00:00', '2024-04-29 15:00:03', 8, '2024-04-29 15:00:00', '2025-04-29 15:00:00'),
 (15, 3, '2024-04-30 17:30:00', '2024-04-30 17:30:03', 4, '2024-04-30 17:30:00', '2025-04-30 17:30:00');
+
+-- Inserting points
+INSERT INTO point (point_id, current_points, total_earned_points) 
+VALUES 
+(1, 120, 500), 
+(2, 150, 600),
+(3, 200, 700),
+(4, 180, 550),
+(5, 220, 800),
+(6, 160, 530),
+(7, 190, 620),
+(8, 250, 900),
+(9, 170, 480),
+(10, 210, 750),
+(11, 230, 850),
+(12, 270, 1000),
+(13, 240, 920),
+(14, 260, 980),
+(15, 280, 1050);
 
 -- Inserting users (PASSWORD = John1)
 INSERT INTO user (user_id, first_name, last_name, password, email, created_at, role, point_id, streak_id) 
@@ -130,3 +151,20 @@ INSERT INTO badge (badge_id, badge_name, criteria, image_id) VALUES
 INSERT INTO badge_user (earned_at, user_id, badge_id) VALUES
 ('2024-05-01 11:13:42.833664', 1, 1),
 ('2024-05-01 11:13:42.833664', 1, 2);
+
+-- Inserting items
+INSERT INTO item (item_id, price, image_id, item_name) VALUES 
+(1, 100, null, 'Item 1'),
+(2, 200, null, 'Item 2'),
+(3, 150, null, 'Item 3'),
+(4, 300, null, 'Item 4'),
+(5, 250, null, 'Item 5');
+
+-- Inserting inventory
+INSERT INTO inventory (bought_at, item_id, user_id) 
+VALUES 
+('2024-04-16 15:00:00', 1, 1),
+('2024-04-17 10:30:00', 2, 2),
+('2024-04-18 08:45:00', 3, 3),
+('2024-04-19 12:15:00', 4, 4),
+('2024-04-20 17:20:00', 5, 5);
