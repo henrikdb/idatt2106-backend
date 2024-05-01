@@ -2,7 +2,7 @@
 -- Inserting points
 INSERT INTO point (point_id, current_points, total_earned_points) 
 VALUES 
-(1, 120, 3000),
+(1, 120, 500),
 (2, 150, 600),
 (3, 200, 700),
 (4, 180, 550),
@@ -144,8 +144,8 @@ INSERT INTO feedback (feedback_id, email, message, created_at) VALUES
 -- Inserting Badges
 INSERT INTO badge (badge_id, badge_name, criteria, image_id) VALUES
 (1, 'Saving Champ', 100, null),
-(2, 'Saving Master', 1000, null),
-(3, 'Saving Lord 69', 2000, null);
+(2, 'Saving Master', 300, null),
+(3, 'Saving Lord 69', 500, null);
 
 -- Inserting BadgeUser
 INSERT INTO badge_user (earned_at, user_id, badge_id) VALUES

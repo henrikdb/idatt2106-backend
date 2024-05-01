@@ -28,7 +28,7 @@ public class LeaderboardServiceTest {
 
     assertThat(leaderboard.getEntries()).hasSize(3);
     assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(3000);
+    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(1050);
   }
 
   @Test
@@ -59,7 +59,7 @@ public class LeaderboardServiceTest {
 
     assertThat(leaderboard.getEntries()).hasSize(3);
     assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(3000);
+    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(1000);
   }
 
   @Test
