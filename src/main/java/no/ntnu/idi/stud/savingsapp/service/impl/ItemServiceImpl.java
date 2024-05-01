@@ -75,6 +75,7 @@ public class ItemServiceImpl implements ItemService {
         InventoryId inventoryId = new InventoryId(item, user);
         if(userService.hasMorePoints(user, item.getPrice())) {
             inventoryRepository.save(new Inventory(inventoryId, new Timestamp(System.currentTimeMillis())));
+            userService.deductPoints(user.getId(), item.getPrice());
             return true;
         } else {
             return false;

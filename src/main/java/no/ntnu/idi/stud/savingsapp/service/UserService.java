@@ -161,4 +161,12 @@ public interface UserService {
    * @return true or false
    */
   Boolean hasMorePoints(User user, int points);
+
+  /**
+   * Deduct a number of current points from the user
+   *
+   * @param userId The user
+   * @param points The amount of current points to deduct
+   */
+  void deductPoints(Long userId, int points);
 }
