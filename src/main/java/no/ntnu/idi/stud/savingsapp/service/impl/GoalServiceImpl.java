@@ -2,20 +2,24 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 
+import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
-import no.ntnu.idi.stud.savingsapp.model.goal.participant.Participant;
-import no.ntnu.idi.stud.savingsapp.model.goal.participant.ParticipantRole;
+import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.GoalRepository;
+import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
 import no.ntnu.idi.stud.savingsapp.service.GoalService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for managing goals.
+ */
 @Service
 public class GoalServiceImpl implements GoalService {
+
   @Autowired
   private UserService userService;
 
@@ -23,24 +27,33 @@ public class GoalServiceImpl implements GoalService {
   private GoalRepository goalRepository;
 
   @Autowired
-  private ChallengeSerivceImpl goalChallengeSerivce;
+  private ChallengeService challengeService;
 
-
-  public Goal createGoal (Goal goal, Long userID) {
-    goal.setChallenges(goalChallengeSerivce.generateSavingGoalChallenges(goal, userService.findById(userID)));
+  /**
+   * Creates a new goal for a specific user and generates associated challenges.
+   *
+   * @param goal The goal to be created, containing initial data.
+   * @param userId The ID of the user for whom the goal is being created.
+   * @return The newly created Goal, now populated with generated challenges and persisted in the database.
+   */
+  @Override
+  public Goal createGoal(Goal goal, long userId) {
+    User user = userService.findById(userId);
     goal.setCreatedAt(Timestamp.from(Instant.now()));
-    Participant creator = new Participant();
-    creator.setUser(userService.findById(userID));
-    creator.setRole(ParticipantRole.CREATOR);
-
-    goal.setParticipants(Arrays.asList(creator));
-
-    System.out.println(goal);
-
+    goal.setUser(user);
+    List<Challenge> challenges = challengeService.generateChallenges(goal, user);
+    goal.setChallenges(challenges);
     return goalRepository.save(goal);
   }
 
-  public List<Goal> getGoalList (Long userID) {
-    return goalRepository.findByParticipants_User_Id(userID);
+  /**
+   * Retrieves all goals associated with a given user ID.
+   *
+   * @param userId The ID of the user whose goals are to be retrieved.
+   * @return A list of Goals associated with the specified user.
+   */
+  @Override
+  public List<Goal> getGoals(long userId) {
+    return goalRepository.findByUser_Id(userId);
   }
 }

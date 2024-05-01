@@ -14,9 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 
-/**
- * Represents a challenge template need to achieve a {@link Goal}
- */
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,13 +30,10 @@ public class ChallengeTemplate {
 
   @NonNull
   @Column(name = "challenge_text", nullable = false)
-  private String challengeText;
+  private String text;
 
-  @Column(name = "challenge_min_lenght", nullable = false)
-  private int challengeMinLength;
-
-  @Column(name = "challenge_max_lenght", nullable = false)
-  private int challengeMaxLength;
+  @Column(name = "challenge_amount", nullable = false)
+  private BigDecimal amount;
 
   @NonNull
   @Enumerated(EnumType.STRING)

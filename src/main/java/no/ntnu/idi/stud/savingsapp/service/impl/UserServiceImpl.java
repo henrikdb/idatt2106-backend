@@ -18,7 +18,6 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.FeedbackRepository;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
-import no.ntnu.idi.stud.savingsapp.service.EmailService;
 import no.ntnu.idi.stud.savingsapp.service.FriendService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 
