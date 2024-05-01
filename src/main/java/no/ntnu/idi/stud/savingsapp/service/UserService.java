@@ -35,6 +35,20 @@ public interface UserService {
   User register(User user);
 
   /**
+   * Authenticates a user using the BankID authentication mechanism.
+   * This method processes the authentication by using a unique code and state received from the BankID service.
+   *
+   * @param code  The unique authorization code received from BankID after the user's successful authorization.
+   *              This code is used to request the access token from BankID servers.
+   * @param state The state parameter initially sent by the application to BankID to prevent CSRF attacks.
+   *              This should match the state stored in the session or a similar safe place to ensure that
+   *              the response corresponds to the user's request.
+   * @return A User object representing the authenticated user. This object includes user-specific data
+   *         such as user ID, profile details, and roles, if authentication is successful.
+   */
+  User bankIDAuth(String code, String state);
+
+  /**
    * Updates the information of an existing user.
    *
    * @param user The User object containing updated information.

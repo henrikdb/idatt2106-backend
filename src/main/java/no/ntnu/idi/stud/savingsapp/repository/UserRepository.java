@@ -41,6 +41,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
       String firstName, String lastName);
 
   /**
+   * Finds a user by their BankID subject identifier.
+   * This method queries the database to locate a user entity associated with the specified BankID subject identifier.
+   * The 'sub' is a unique identifier assigned by BankID to a user and is used to match a user in the application's database.
+   *
+   * @param sub The unique subject identifier provided by BankID for a user.
+   * @return An {@link Optional<User>} containing the user if found, or an empty Optional if no user is associated with the given sub.
+   */
+  Optional<User> findByBankIdSub(String sub);
+
+  /**
    * Finds the top X users with the highest total earned points.
    * @param entryCount The maximum number of users to return.
    * @return A list of users sorted by total earned points in descending order.
