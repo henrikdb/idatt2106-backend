@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequestMapping("/api/budget")
 @EnableAutoConfiguration
-@Tag(name = "User")
+@Tag(name = "Budget")
 public class BudgetController {
 
   @Autowired

@@ -1,3 +1,24 @@
+
+-- Inserting points
+INSERT INTO point (point_id, current_points, total_earned_points) 
+VALUES 
+(1, 120, 500),
+(2, 150, 600),
+(3, 200, 700),
+(4, 180, 550),
+(5, 220, 800),
+(6, 160, 530),
+(7, 190, 620),
+(8, 250, 900),
+(9, 170, 480),
+(10, 210, 750),
+(11, 230, 850),
+(12, 270, 1000),
+(13, 240, 920),
+(14, 260, 980),
+(15, 280, 1050);
+
+
 -- Inserting streaks
 INSERT INTO streak (streak_id, current_streak, current_streak_created_at, current_streak_updated_at, highest_streak, highest_streak_created_at, highest_streak_ended_at) 
 VALUES 
@@ -115,10 +136,21 @@ INSERT INTO expense (expense_id, amount, description, budget_id) VALUES
 (6, 8000, 'Girlfriend', 2);
 
 -- Inserting Feedbacks
-INSERT INTO feedback (id, email, message, created_at) VALUES
+INSERT INTO feedback (feedback_id, email, message, created_at) VALUES
 (1, 'user@exmaple.com', 'This is a very good website', '2024-04-30 11:13:42.833664'),
 (2, 'admin@exmaple.com', 'This is a very bad website', '2024-04-30 11:13:42.833664'),
 (3, 'user@exmaple.com', 'This is a very good website', '2024-04-30 11:13:42.833664');
+
+-- Inserting Badges
+INSERT INTO badge (badge_id, badge_name, criteria, image_id) VALUES
+(1, 'Saving Champ', 100, null),
+(2, 'Saving Master', 300, null),
+(3, 'Saving Lord 69', 500, null);
+
+-- Inserting BadgeUser
+INSERT INTO badge_user (earned_at, user_id, badge_id) VALUES
+('2024-05-01 11:13:42.833664', 1, 1),
+('2024-05-01 11:13:42.833664', 1, 2);
 
 -- Inserting items
 INSERT INTO item (item_id, price, image_id, item_name) VALUES 
