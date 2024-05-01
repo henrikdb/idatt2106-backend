@@ -151,4 +151,14 @@ public interface UserService {
    * @return A list containing all feedback.
    */
   List<Feedback> getFeedback();
+
+  /**
+   * Check if the user has more than or equal to
+   * amount of current points as points
+   * 
+   * @param user the user
+   * @param points the amount of points to compare with
+   * @return true or false
+   */
+  Boolean hasMorePoints(User user, int points);
 }

@@ -377,4 +377,9 @@ public class UserServiceImpl implements UserService {
   public List<Feedback> getFeedback() {
     return feedbackRepository.findAll();
   }
+
+  @Override
+  public Boolean hasMorePoints(User user, int points) {
+    return user.getPoint().getCurrentPoints() >= points;
+  }
 }

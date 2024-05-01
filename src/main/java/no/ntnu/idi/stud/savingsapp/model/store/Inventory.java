@@ -1,4 +1,4 @@
-package no.ntnu.idi.stud.savingsapp.model.user;
+package no.ntnu.idi.stud.savingsapp.model.store;
 
 import java.sql.Timestamp;
 
