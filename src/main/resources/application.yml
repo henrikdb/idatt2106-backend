@@ -2,7 +2,7 @@ server.port: 8080
 
 spring:
   datasource:
-    url: jdbc:mysql://129.241.98.39:3306/test_victor
+    url: jdbc:mysql://129.241.98.39:3306/sparesti
     username: user
     password: Password1.
   jpa:
