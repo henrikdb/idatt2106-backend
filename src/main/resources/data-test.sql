@@ -1,7 +1,7 @@
 -- Inserting points
 INSERT INTO point (point_id, current_points, total_earned_points) 
 VALUES 
-(1, 120, 500), 
+(1, 120, 3000),
 (2, 150, 600),
 (3, 200, 700),
 (4, 180, 550),
@@ -74,29 +74,6 @@ VALUES
 (14, 3, TRUE, '2024-04-16 15:00:00'),
 (15, 4, FALSE, '2024-04-16 15:00:00');
 
--- Inserting questions
-INSERT INTO question (question_id, question_text) VALUES
-(1, 'In which degree are you willing to make changes?'),
-(2, 'How much experience do you have with saving money?'),
-(3, 'Which challenges are suitable for you?');
-
--- Inserting answers
-INSERT INTO answer (answer_id, answer_text, question_id) VALUES
-(1, 'Low', 1),
-(2, 'Medium', 1),
-(3, 'High', 1),
-(4, 'Beginner', 2),
-(5, 'Some experience', 2),
-(6, 'Expert', 2),
-(7, 'Make packed lunch', 3),
-(8, 'Stop shopping', 3),
-(9, 'Drop coffee', 3),
-(10, 'Quit subscription', 3),
-(11, 'Drop car', 3),
-(12, 'Short showers', 3),
-(13, 'Exercise outside', 3),
-(14, 'Make budget', 3);
-
 -- Inserting bank profiles
 INSERT INTO bank_profile (bank_profile_id, ssn) VALUES
 -- SSN(Social security number):
@@ -138,7 +115,18 @@ INSERT INTO expense (expense_id, amount, description, budget_id) VALUES
 (6, 8000, 'Girlfriend', 2);
 
 -- Inserting Feedbacks
-INSERT INTO feedback (id, email, message, created_at) VALUES
+INSERT INTO feedback (feedback_id, email, message, created_at) VALUES
 (1, 'user@exmaple.com', 'This is a very good website', '2024-04-30 11:13:42.833664'),
 (2, 'admin@exmaple.com', 'This is a very bad website', '2024-04-30 11:13:42.833664'),
 (3, 'user@exmaple.com', 'This is a very good website', '2024-04-30 11:13:42.833664');
+
+-- Inserting Badges
+INSERT INTO badge (badge_id, badge_name, criteria, image_id) VALUES
+(1, 'Saving Champ', 100, null),
+(2, 'Saving Master', 1000, null),
+(3, 'Saving Lord 69', 2000, null);
+
+-- Inserting BadgeUser
+INSERT INTO badge_user (earned_at, user_id, badge_id) VALUES
+('2024-05-01 11:13:42.833664', 1, 1),
+('2024-05-01 11:13:42.833664', 1, 2);
