@@ -49,7 +49,27 @@ Gets generated when running mvn clean test and are located in:
 ```bash
 /target/site/jacoco/index.html
 ```
+## Database
+To configure the database go to **src/main/resources/application.yml**
 
+Here is the current configuration:
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://129.241.98.39:3306/sparesti
+    username: user
+    password: Password1.
+```
+To configure the test database go to **src/test/resources/application.yml**
+
+Here is the current configuration:
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://129.241.98.39:3306/sparesti_test
+    username: user
+    password: Password1.
+```
 ## Contributors
 The individuals who contributed to the project:
 - Anders Høvik
