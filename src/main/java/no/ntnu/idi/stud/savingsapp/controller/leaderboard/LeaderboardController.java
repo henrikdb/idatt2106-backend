@@ -1,5 +1,8 @@
 package no.ntnu.idi.stud.savingsapp.controller.leaderboard;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import no.ntnu.idi.stud.savingsapp.dto.leaderboard.LeaderboardDTO;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.Leaderboard;
@@ -79,4 +82,14 @@ public class LeaderboardController {
     LeaderboardDTO leaderboardDTO = modelMapper.map(leaderboard, LeaderboardDTO.class);
     return ResponseEntity.ok(leaderboardDTO);
   }
+
+  @Operation(summary = "Get sum of total points globally", description = "Get the sum of the total points of all users globally")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved total points")
+    })
+  @GetMapping(value = "/total-points", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> getTotalPoints() {
+        long totalPoints = leaderboardService.getSumTotalEarnedPoints();
+        return ResponseEntity.ok(totalPoints);
+    }
 }

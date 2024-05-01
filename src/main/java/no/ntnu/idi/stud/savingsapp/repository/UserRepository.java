@@ -261,4 +261,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.subscriptionLevel = :subscriptionLevel WHERE u.id = :userId")
     void updateSubscriptionLevel(@Param("userId") Long userId, @Param("subscriptionLevel") SubscriptionLevel subscriptionLevel);
+
+    @Query(value = "SELECT SUM(total_earned_points) FROM point", nativeQuery = true)
+    long getSumTotalEarnedPoints();
 }
