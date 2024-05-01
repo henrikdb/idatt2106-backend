@@ -21,6 +21,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Configuration;
+import no.ntnu.idi.stud.savingsapp.model.store.Item;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -92,7 +94,7 @@ public class User implements UserDetails{
   @JoinTable(name = "inventory",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "item_id"))
-  private List<Store> items;
+  private List<Item> items;
 
   @OneToOne
   @JoinColumn(name = "point_id")
