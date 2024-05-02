@@ -6,14 +6,20 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
   SPRING_PROFILES_ACTIVE: gitlab-ci 
   DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
-
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
 
 services:
   - name: mysql:latest
     alias: mysql
     variables:
-      MYSQL_ROOT_PASSWORD: "root"  # TODO Set this in GitLab's CI/CD environment variables for security reasons
+      MYSQL_ROOT_PASSWORD: "root"  
       MYSQL_DATABASE: "sparesti"
+
+  - name: docker:dind
+    alias: docker
+    variables:
+      DOCKER_TLS_CERTDIR: ""
   
 stages:
   - compile_and_test
@@ -44,6 +50,8 @@ Docker Build:
   image: docker:latest
   services:
     - docker:dind
+  before_script:
+    - until docker info; do echo "Waiting for Docker to start..."; sleep 1; done
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --tag $DOCKER_IMAGE .
