@@ -7,6 +7,16 @@ variables:
 stages:
   - deploy
 
+Docker Build:
+  stage: docker-build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --tag $DOCKER_IMAGE .
+    - docker push $DOCKER_IMAGE
+
 deploy:
   stage: deploy
   image: ubuntu:latest
