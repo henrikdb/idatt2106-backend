@@ -18,4 +18,4 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - cat ~/.ssh/id_rsa
   script: 
-    - ssh root@159.223.211.3 
+    - ssh root@159.223.211.3 -i ~/.ssh/id_rsa
