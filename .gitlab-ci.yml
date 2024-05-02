@@ -4,7 +4,7 @@ variables:
   DOCKER_HOST: "tcp://docker:2375"
   DOCKER_TLS_CERTDIR: ""
   MAVEN_CLI_OPTS: "-s ci_settings.xml --batch-mode"
-  DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+  DOCKER_IMAGE: "registry.stud.idi.ntnu.no:5050/idatt2106-2024-07/backend:$CI_COMMIT_SHA"
 
 services:
   - name: docker:dind
@@ -19,6 +19,11 @@ Docker Build:
   before_script:
     - docker info  # Check Docker daemon info to ensure connectivity
   script:
+    - echo "Logging into Docker Registry"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.stud.idi.ntnu.no:5050
-    - docker build -t registry.stud.idi.ntnu.no:5050/idatt2106-2024-07/backend .
-    - docker push registry.stud.idi.ntnu.no:5050/idatt2106-2024-07/backend
+    - echo "Building Docker Image"
+    - docker build --tag $DOCKER_IMAGE .
+    - echo "Pushing Docker Image"
+    - docker push $DOCKER_IMAGE
+  after_script:
+    - echo "Review any cleanup or final steps"
