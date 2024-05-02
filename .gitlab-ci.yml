@@ -18,7 +18,7 @@ Docker Build:
   script:
     - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
     - docker build --tag testimage .
-    - docker push testimage
+    - docker push registry.gitlab.com/henrikberg/testimage
 
 deploy:
   stage: deploy
