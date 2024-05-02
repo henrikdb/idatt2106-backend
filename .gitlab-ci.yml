@@ -3,13 +3,6 @@ image: maven:3.8.5-openjdk-17
 variables:
   SPRING_PROFILES_ACTIVE: gitlab-ci 
 
-services:
-  - name: mysql:latest
-    alias: mysql
-    variables:
-      MYSQL_ROOT_PASSWORD: "root"  
-      MYSQL_DATABASE: "sparesti"
-
 cache:
   key: "${CI_COMMIT_REF_SLUG}" # Branch-specific cache keys to have separate caches across branches.
   paths:
@@ -21,6 +14,12 @@ stages:
 
 build_test_project:
   stage: build_test
+  services:
+    - name: mysql:latest
+      alias: mysql
+      variables:
+        MYSQL_ROOT_PASSWORD: "root"  
+        MYSQL_DATABASE: "sparesti"
   script:
     - mvn clean test
   when: always
