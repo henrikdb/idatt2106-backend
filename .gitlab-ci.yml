@@ -17,8 +17,8 @@ Docker Build:
     - dind
   script:
     - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
-    - docker build --tag testimage .
-    - docker push registry.gitlab.com/henrikberg/testimage
+    - docker build --tag latest .
+    - docker push registry.gitlab.com/henrikberg/latest
 
 deploy:
   stage: deploy
