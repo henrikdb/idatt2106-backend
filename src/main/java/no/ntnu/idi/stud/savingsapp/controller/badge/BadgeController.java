@@ -4,13 +4,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import no.ntnu.idi.stud.savingsapp.dto.badge.BadgeDTO;
+import no.ntnu.idi.stud.savingsapp.model.notification.Notification;
+import no.ntnu.idi.stud.savingsapp.model.notification.NotificationType;
 import no.ntnu.idi.stud.savingsapp.model.user.Badge;
 import no.ntnu.idi.stud.savingsapp.model.user.BadgeUserId;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.BadgeService;
+import no.ntnu.idi.stud.savingsapp.service.NotificationService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller handling b
- * related requests.
+ * Controller handling badge related requests.
  */
 @CrossOrigin
 @RestController
@@ -40,6 +44,9 @@ public class BadgeController {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private NotificationService notificationService;
 
   @Autowired
   private ModelMapper modelMapper;
@@ -121,7 +128,7 @@ public class BadgeController {
   /**
    * Updates the unlocked badges for the user by checking if
    * a user's score matches the badges criteria, and if so adds
-   * the badge to the user.
+   * the badge to the user and sends a notification that the badge is unlocked.
    *
    * @param identity The security context of the authenticated user.
    * @return ResponseEntity containing a list of newly unlocked badges.
@@ -135,11 +142,13 @@ public class BadgeController {
   public ResponseEntity<?> updateUnlockedBadges(@AuthenticationPrincipal AuthIdentity identity) {
     User user = userService.findById(identity.getId());
     System.out.println(user.getPoint().getTotalEarnedPoints());
-
     List<Badge> badges = badgeService.findNewlyUnlockedBadgesByUserId(identity.getId());
     for (Badge badge : badges) {
       BadgeUserId badgeUserId = new BadgeUserId(badge, user);
       badgeService.addBadgeToUser(badgeUserId);
+      Notification notification = new Notification(null, user, "You have unlocked a new badge " + badge.getBadgeName(), true,
+          NotificationType.BADGE, Timestamp.from(Instant.now()));
+      notificationService.updateNotification(notification);
     }
     List<BadgeDTO> badgeDTOS = badges.stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).toList();
     return ResponseEntity.ok(badgeDTOS);

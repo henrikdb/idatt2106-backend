@@ -4,11 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.sql.Timestamp;
+import java.time.Instant;
 import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
+import no.ntnu.idi.stud.savingsapp.model.notification.Notification;
+import no.ntnu.idi.stud.savingsapp.model.notification.NotificationType;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.FriendService;
+import no.ntnu.idi.stud.savingsapp.service.NotificationService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 
 import java.util.List;
@@ -37,11 +42,13 @@ public class FriendController {
 
     private final UserService userService;
     private final FriendService friendService;
+    private final NotificationService notificationService;
     private final ModelMapper modelMapper;
 
-    public FriendController(UserService userService, FriendService friendService, ModelMapper modelMapper) {
+    public FriendController(UserService userService, FriendService friendService, NotificationService notificationService, ModelMapper modelMapper) {
         this.userService = userService;
         this.friendService = friendService;
+        this.notificationService = notificationService;
         this.modelMapper = modelMapper;
     }
 
@@ -65,7 +72,7 @@ public class FriendController {
         return ResponseEntity.ok(convertToDto(friendsUser));
     }
 
-    @Operation(summary = "Send a friend request", description = "Sends a new friend request to another user.")
+    @Operation(summary = "Send a friend request", description = "Sends a new friend request to another user. A notification is sent to this user")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Friend request successfully created")
     })
@@ -75,6 +82,9 @@ public class FriendController {
         User user = userService.findById(identity.getId());
         User friend = userService.findById(userId);
         friendService.addFriendRequest(user, friend);
+        Notification notification = new Notification(null, friend, "You have received a new friend request from " + user.getFirstName(), true,
+            NotificationType.FRIEND_REQUEST, Timestamp.from(Instant.now()));
+        notificationService.updateNotification(notification);
     }
 
     @Operation(summary = "Accept a friend request", description = "Accepts a friend request from another user.")
