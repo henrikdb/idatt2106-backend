@@ -5,10 +5,21 @@ variables:
   DOCKER_HOST: "tcp://docker:2375"
 
 stages:
-  - docker-build
   - deploy
 
 deploy:
+  stage: deploy
+  image: dwdraju/ssh-client-alpine
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n      SendEnv CI_*  \n" > ~/.ssh/config
+    - echo -n  $ssh_private_key  > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 600 ~/.ssh/id_rsa
+  script: 
+    - ssh root@159.223.211.3 'echo lol'
+
+deploy1:
   image: ubuntu:latest
   stage: deploy
   before_script:
@@ -19,6 +30,6 @@ deploy:
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script:
-    - ssh root@159.223.211.3 -i ~/.ssh/id_rsa mkdir "test"
+    - ssh root@159.223.211.3 -i ~/.ssh/id_rsa mkdir "e"
   after_script:
     - rm -rf ~/.ssh
