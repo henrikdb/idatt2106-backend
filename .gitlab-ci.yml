@@ -15,5 +15,10 @@ deploy:
     - apt-get -yqq install ssh
     - apt-get install sshpass
   script: 
-    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "git clone https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/backend.git && cd backend && mvn clean install && mvn spring-boot:run"
+    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "\
+      fuser -k 8080/tcp; \
+      rm -rf backend; \
+      git clone https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/backend.git && cd backend && \
+      mvn clean install && \
+      mvn spring-boot:run"
 
