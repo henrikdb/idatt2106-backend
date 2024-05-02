@@ -1,6 +1,8 @@
 variables:
   MAVEN_CLI_OPTS: "-s ci_settings.xml --batch-mode"
   DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_HOST: "tcp://docker:2376"
 
 stages:
   - docker-build
