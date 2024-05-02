@@ -13,11 +13,12 @@ deploy:
   before_script:
     - apt-get -yq update
     - apt-get -yqq install ssh
+    - apt-get install sshpass
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tSendEnv CI_*\n" > ~/.ssh/config
     - echo "$ssh_private_key" | tr -d '\r' > ~/.ssh/id_rsa  
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script: 
-    - ssh root@159.223.211.3 -i ~/.ssh/id_rsa
+    - sshpass -p 'sparesti' ssh root@159.223.211.3 -i ~/.ssh/id_rsa
 
