@@ -14,9 +14,11 @@ import no.ntnu.idi.stud.savingsapp.repository.FriendRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import no.ntnu.idi.stud.savingsapp.service.UserService;
 
 /**
  * Implementation of the LeaderBoard interface for leaderboard-related operations.
@@ -29,6 +31,9 @@ public class LeaderboardServiceImpl implements LeaderboardService {
 
     @Autowired
     private FriendRepository friendRepository;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Retrieves a leaderboard containing the top users based on the specified type and filter.
@@ -50,16 +55,26 @@ public class LeaderboardServiceImpl implements LeaderboardService {
 
         switch (filter) {
             case GLOBAL:
+                users = userRepository.findAll();
                 switch (type) {
                     case TOTAL_POINTS:
-                        users = userRepository.findTopUsersByTotalEarnedPoints(entryCount);
+                        users = users.stream()
+                            .sorted(Comparator.comparingInt(user -> -user.getPoint().getTotalEarnedPoints()))
+                            .collect(Collectors.toList());
                         break;
                     case CURRENT_STREAK:
-                        users = userRepository.findTopUsersByHighestCurrentStreak(entryCount);
+                        users = users.stream()
+                            .sorted(Comparator.comparingInt(user -> -user.getStreak().getCurrentStreak()))
+                            .collect(Collectors.toList());
                         break;
                     case TOP_STREAK:
-                        users = userRepository.findTopUsersByHighestEverStreak(entryCount);
+                        users = users.stream()
+                            .sorted(Comparator.comparingInt(user -> -user.getStreak().getHighestStreak()))
+                            .collect(Collectors.toList());
                         break;
+                }
+                if (users.size() > entryCount) {
+                    users = users.subList(0, entryCount);
                 }
                 for (User user : users) {
                     int score = 0;
@@ -67,32 +82,41 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                     switch (type) {
                         case TOTAL_POINTS:
                             score = user.getPoint().getTotalEarnedPoints();
-                            rank = userRepository.findUserRankByTotalEarnedPoints(user.getId());
+                            rank = users.indexOf(user) + 1;
                             break;
                         case CURRENT_STREAK:
                             score = user.getStreak().getCurrentStreak();
-                            rank = userRepository.findUserRankByCurrentStreak(user.getId());
+                            rank = users.indexOf(user) + 1;
                             break;
                         case TOP_STREAK:
                             score = user.getStreak().getHighestStreak();
-                            rank = userRepository.findUserRankByHighestEverStreak(user.getId());
+                            rank = users.indexOf(user) + 1;
                             break;
                     }
                     entries.add(new LeaderboardEntry(user, score, rank));
                 }
                 break;
-
             case FRIENDS:
+                users = userService.getFriends(userId);
                 switch (type) {
                     case TOTAL_POINTS:
-                        users = userRepository.findTopFriendsByTotalEarnedPoints(userId, entryCount);
+                        users = users.stream()
+                            .sorted(Comparator.comparingInt(user -> -user.getPoint().getTotalEarnedPoints()))
+                            .collect(Collectors.toList());
                         break;
                     case CURRENT_STREAK:
-                        users = userRepository.findTopFriendsByHighestCurrentStreak(userId, entryCount);
+                        users = users.stream()
+                            .sorted(Comparator.comparingInt(user -> -user.getStreak().getCurrentStreak()))
+                            .collect(Collectors.toList());
                         break;
                     case TOP_STREAK:
-                        users = userRepository.findTopFriendsByHighestEverStreak(userId, entryCount);
+                        users = users.stream()
+                            .sorted(Comparator.comparingInt(user -> -user.getStreak().getHighestStreak()))
+                            .collect(Collectors.toList());
                         break;
+                }
+                if (users.size() > entryCount) {
+                    users = users.subList(0, entryCount);
                 }
                 for (User user : users) {
                     int score = 0;
@@ -100,22 +124,21 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                     switch (type) {
                         case TOTAL_POINTS:
                             score = user.getPoint().getTotalEarnedPoints();
-                            rank = userRepository.findUserRankByTotalEarnedPoints(user.getId());
+                            rank = users.indexOf(user) + 1;
                             break;
                         case CURRENT_STREAK:
                             score = user.getStreak().getCurrentStreak();
-                            rank = userRepository.findUserRankByCurrentStreak(user.getId());
+                            rank = users.indexOf(user) + 1;
                             break;
                         case TOP_STREAK:
                             score = user.getStreak().getHighestStreak();
-                            rank = userRepository.findUserRankByHighestEverStreak(user.getId());
+                            rank = users.indexOf(user) + 1;
                             break;
                     }
                     entries.add(new LeaderboardEntry(user, score, rank));
                 }
                 break;
         }
-
         leaderboard.setEntries(entries);
         return leaderboard;
     }
@@ -186,7 +209,6 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 if(yourself != null && !users.contains(yourself)) {
                     users.add(yourself);
                 }
-
                 // Sort users based on type 
                 users = users.stream()
                              .sorted(Comparator.comparing(user -> {

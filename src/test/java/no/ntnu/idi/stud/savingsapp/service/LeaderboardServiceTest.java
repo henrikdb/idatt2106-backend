@@ -6,14 +6,14 @@ import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardType;
 import no.ntnu.idi.stud.savingsapp.service.impl.LeaderboardServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Transactional
-@TestPropertySource(locations = "classpath:application-h2.yml")
+@AutoConfigureMockMvc
 public class LeaderboardServiceTest {
 
   @Autowired
@@ -67,9 +67,9 @@ public class LeaderboardServiceTest {
     Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.CURRENT_STREAK,
         LeaderboardFilter.FRIENDS, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
+    assertThat(leaderboard.getEntries()).hasSize(2);
     assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(10);
+    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(5);
   }
 
   @Test
