@@ -17,6 +17,6 @@ deploy:
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
     - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
   script:
-    - ssh root@159.223.211.3
+    - ssh root@159.223.211.3 -i /.ssh/id_rsa
   after_script:
     - rm -rf ~/.ssh
