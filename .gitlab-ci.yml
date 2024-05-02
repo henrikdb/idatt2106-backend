@@ -8,18 +8,6 @@ stages:
   - docker-build
   - deploy
 
-Docker Build:
-  stage: docker-build
-  image: docker:latest
-  services:
-    - docker:dind
-  tags:
-    - dind
-  script:
-    - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
-    - docker build -t registry.gitlab.com/henrikberg/sparesti-registry:backend .
-    - docker push registry.gitlab.com/henrikberg/sparesti-registry:backend
-
 deploy:
   stage: deploy
   image: ubuntu:latest
