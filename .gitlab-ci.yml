@@ -21,4 +21,4 @@ Docker Build:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --tag $DOCKER_IMAGE .
-    - docker push $DOCKER_IMAGE
+    - docker push registry.stud.idi.ntnu.no:5050/idatt2106-2024-07/backend
