@@ -11,7 +11,7 @@ deploy:
   stage: deploy
   image: dwdraju/ssh-client-alpine
   before_script:
-    - sudo apt-get install sshpass
+    - apt-get install sshpass
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tSendEnv CI_*\n" > ~/.ssh/config
     - echo "$ssh_private_key" | tr -d '\r' > ~/.ssh/id_rsa  
