@@ -18,4 +18,4 @@ deploy:
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script: 
-    - ssh $ssh_host 'echo $CI_PROJECT_NAME'
+    - ssh $ssh_host 'echo LOL'
