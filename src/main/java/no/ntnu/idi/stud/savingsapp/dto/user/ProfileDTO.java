@@ -13,6 +13,6 @@ public class ProfileDTO {
   private Long profileImage;
   private Long bannerImage;
   private Timestamp createdAt;
-  private int totalPoints;
-  private int currentStreak;
+  private PointDTO point;
+  private StreakDTO streak;
 }

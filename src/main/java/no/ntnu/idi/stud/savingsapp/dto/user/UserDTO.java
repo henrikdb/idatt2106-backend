@@ -18,4 +18,6 @@ public class UserDTO {
   private String subscriptionLevel;
   private Long checkingAccountBBAN;
   private Long savingsAccountBBAN;
+  private PointDTO point;
+  private StreakDTO streak;
 }
