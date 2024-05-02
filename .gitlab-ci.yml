@@ -9,7 +9,7 @@ stages:
 
 deploy:
   stage: deploy
-  image: dwdraju/ssh-client-alpine
+  image: ubuntu:latest
   before_script:
     - apt-get install sshpass
     - mkdir -p ~/.ssh
