@@ -3,6 +3,7 @@ image: maven:3.8.5-openjdk-17
 variables:
   MAVEN_CLI_OPTS: "-s ci_settings.xml --batch-mode"
   DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+  DOCKER_HOST: "tcp://localhost:2375"
 
   
 stages:
