@@ -96,7 +96,6 @@ docker_build_and_push:
     - docker push registry.gitlab.com/henrikberg/sparesti-registry:backend
   when: manual
 
-
 deploy_docker:
   stage: deploy
   image: ubuntu:latest
