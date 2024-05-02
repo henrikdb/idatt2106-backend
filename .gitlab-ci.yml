@@ -11,12 +11,6 @@ stages:
 deploy:
   image: ubuntu:latest
   stage: deploy
-  before_script:
-    - apt-get -yq update
-    - apt-get -yqq install ssh
-    - install -m 600 -D /dev/null ~/.ssh/id_rsa
-    - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
-    - ssh-keyscan -H $ssh_host > ~/.ssh/known_hosts
   script:
     - ssh $ssh_user@$ssh_host "mkdir dab" -i "$ssh_private_key"
   after_script:
