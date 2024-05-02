@@ -67,9 +67,6 @@ public class UserController {
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserDTO> getUser(@AuthenticationPrincipal AuthIdentity identity) {
     User user = userService.findById(identity.getId());
-    modelMapper.typeMap(User.class, UserDTO.class)
-        .addMapping(src -> src.getCheckingAccount().getBban(), UserDTO::setCheckingAccountBBAN)
-        .addMapping(src -> src.getSavingsAccount().getBban(), UserDTO::setSavingsAccountBBAN);
     UserDTO userDTO = modelMapper.map(user, UserDTO.class);
     return ResponseEntity.ok(userDTO);
   }
@@ -89,9 +86,6 @@ public class UserController {
   @GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ProfileDTO> getProfile(@PathVariable long userId) {
     User user = userService.findById(userId);
-    modelMapper.typeMap(User.class, ProfileDTO.class)
-        .addMapping(src -> src.getStreak().getCurrentStreak(), ProfileDTO::setCurrentStreak)
-        .addMapping(src -> src.getPoint().getCurrentPoints(), ProfileDTO::setTotalPoints);
     ProfileDTO profileDTO = modelMapper.map(user, ProfileDTO.class);
     return ResponseEntity.ok(profileDTO);
   }
