@@ -17,6 +17,6 @@ deploy:
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
     - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
   script:
-    - ssh $ssh_user@$ssh_host -i ~/.ssh/id_rsa "mkdir test"
+    - ssh root@159.223.211.3
   after_script:
     - rm -rf ~/.ssh
