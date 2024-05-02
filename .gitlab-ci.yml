@@ -18,6 +18,6 @@ deploy:
     - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
     - ssh-keyscan -H $ssh_host > ~/.ssh/known_hosts
   script:
-    - ssh $ssh_user@$ssh_host "mkdir dab"
+    - ssh $ssh_user@$ssh_host "mkdir dab" -i "$ssh_private_key"
   after_script:
     - rm -rf ~/.ssh
