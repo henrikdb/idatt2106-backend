@@ -14,7 +14,10 @@ deploy:
   before_script:
     - apt-get -yq update
     - apt-get -yqq install ssh
+    - install -m 600 -D /dev/null ~/.ssh/id_rsa
+    - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
+    - ssh-keyscan -H $ssh_host > ~/.ssh/known_hosts
   script:
-    - ssh $ssh_user@$ssh_host -i $ssh_private_key
+    - ssh $ssh_user@$ssh_host -i ~/.ssh/id_rsa mkdir "test"
   after_script:
     - rm -rf ~/.ssh
