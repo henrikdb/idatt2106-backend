@@ -5,7 +5,6 @@ variables:
   DOCKER_HOST: "tcp://docker:2375"
 
 stages:
-  - docker-build
   - deploy
 
 Docker Build:
@@ -16,7 +15,7 @@ Docker Build:
   tags:
     - dind
   script:
-    - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --tag $DOCKER_IMAGE .
     - docker push $DOCKER_IMAGE
 
@@ -28,5 +27,5 @@ deploy:
     - apt-get -yqq install ssh
     - apt-get install sshpass
   script: 
-    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 ""
+    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "git clone https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/backend.git && cd backend && mvn clean install && mvn spring-boot:run"
 
