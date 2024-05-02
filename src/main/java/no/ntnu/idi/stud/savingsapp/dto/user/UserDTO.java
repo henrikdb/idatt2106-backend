@@ -5,7 +5,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public final class UserDTO {
+public class UserDTO {
 
   private long id;
   private String firstName;
@@ -15,4 +15,6 @@ public final class UserDTO {
   private Timestamp createdAt;
   private String role;
   private String subscriptionLevel;
+  private Long checkingAccountBBAN;
+  private Long savingsAccountBBAN;
 }
