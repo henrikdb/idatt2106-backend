@@ -17,4 +17,4 @@ deploy:
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script: 
-    - ssh root@159.223.211.3 'echo lol'
+    - ssh root@159.223.211.3 
