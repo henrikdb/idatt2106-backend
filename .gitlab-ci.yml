@@ -67,6 +67,8 @@ docker_build_and_push:
     - docker build -t registry.gitlab.com/henrikberg/sparesti-registry:backend .
     - docker push registry.gitlab.com/henrikberg/sparesti-registry:backend
   when: manual
+  only:
+    - master 
 
 deploy_docker:
   stage: deploy
@@ -80,4 +82,6 @@ deploy_docker:
   script: 
     - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "docker ps -q --filter 'name=^backend$' | grep -q . && docker kill backend && docker rm backend; docker run -d --name backend registry.gitlab.com/henrikberg/sparesti-registry:backend"
   when: manual
+  only:
+    - master 
 
