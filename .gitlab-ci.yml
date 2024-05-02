@@ -6,6 +6,7 @@ variables:
 
 stages:
   - docker-build
+  - deploy
 
 Docker Build:
   stage: docker-build
@@ -18,3 +19,17 @@ Docker Build:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --tag $DOCKER_IMAGE .
     - docker push $DOCKER_IMAGE
+
+deploy:
+  image: ubuntu:latest
+  stage: deploy
+  before_script:
+    - apt-get -yq update
+    - apt-get -yqq install ssh
+    - install -m 600 -D /dev/null ~/.ssh/id_rsa
+    - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
+    - ssh-keyscan -H $ssh_host > ~/.ssh/known_hosts
+  script:
+    - ssh $ssh_user@$ssh_host "ls"
+  after_script:
+    - rm -rf ~/.ssh
