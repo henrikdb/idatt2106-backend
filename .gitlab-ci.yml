@@ -15,5 +15,5 @@ deploy:
     - apt-get -yqq install ssh
     - apt-get install sshpass
   script: 
-  - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 
+  - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "mkdir dab && exit"
 
