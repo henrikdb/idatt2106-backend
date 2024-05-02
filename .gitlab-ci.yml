@@ -46,8 +46,6 @@ build_test_project:
 pages:
   image: alpine:latest
   stage: pages
-  dependencies:
-    - modify_generated_site_reports
   script:
     - mkdir public
     - cp -r target/site/jacoco public/
