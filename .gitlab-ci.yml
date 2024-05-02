@@ -21,3 +21,4 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
   script: 
     - sshpass -p sparesti ssh root@159.223.211.3 mkdir "test"
+    - exit
