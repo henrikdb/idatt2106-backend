@@ -19,6 +19,6 @@ deploy:
     - echo "$ssh_private_key" | tr -d '\r' > ~/.ssh/id_rsa  
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
-    - cat ~/.ssh/id_rsa
   script: 
     - sshpass -p sparesti ssh root@159.223.211.3 
+    - mkdir "test"
