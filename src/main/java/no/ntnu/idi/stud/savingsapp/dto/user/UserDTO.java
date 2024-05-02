@@ -3,7 +3,6 @@ package no.ntnu.idi.stud.savingsapp.dto.user;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 
 @Data
 public class UserDTO {
@@ -12,6 +11,7 @@ public class UserDTO {
   private String firstName;
   private String lastName;
   private Long profileImage;
+  private Long bannerImage;
   private String email;
   private Timestamp createdAt;
   private String role;

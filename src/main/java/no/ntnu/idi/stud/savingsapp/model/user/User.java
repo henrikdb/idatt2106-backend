@@ -63,6 +63,9 @@ public class User implements UserDetails{
   @Column(name = "profile_image")
   private Long profileImage;
 
+  @Column(name = "banner_image")
+  private Long bannerImage;
+
   @OneToOne
   @JoinColumn(name = "checking_account_id")
   private Account checkingAccount;

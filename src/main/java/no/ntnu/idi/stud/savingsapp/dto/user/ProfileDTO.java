@@ -11,6 +11,7 @@ public class ProfileDTO {
   private String firstName;
   private String lastName;
   private Long profileImage;
+  private Long bannerImage;
   private Timestamp createdAt;
   private int totalPoints;
   private int currentStreak;
