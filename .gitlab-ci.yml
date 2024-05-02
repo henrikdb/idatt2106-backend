@@ -16,9 +16,9 @@ deploy:
     - echo $ssh_private_key | tr -d '\r' > ~/.ssh/id_rsa  
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
-    - cat ~/.ssh/id_rsa > id_rsa_contents.txt  # Save contents to a file
+    - echo $ssh_private_key
+  script: 
+    - ssh root@159.223.211.3 
   artifacts:
     paths:
       - id_rsa_contents.txt
-
-# s
