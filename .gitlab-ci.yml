@@ -19,6 +19,6 @@ deploy:
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script:
-    - ssh root@159.223.211.3 -i /.ssh/id_rsa
+    - ssh root@159.223.211.3 -i ~/.ssh/id_rsa
   after_script:
     - rm -rf ~/.ssh
