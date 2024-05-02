@@ -17,8 +17,8 @@ Docker Build:
     - dind
   script:
     - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
-    - docker build --tag latest .
-    - docker push registry.gitlab.com/henrikberg/latest
+    - docker build -t registry.gitlab.com/henrikberg/sparesti-registry .
+    - docker push registry.gitlab.com/henrikberg/sparesti-registry
 
 deploy:
   stage: deploy
