@@ -168,3 +168,11 @@ VALUES
 ('2024-04-18 08:45:00', 3, 3),
 ('2024-04-19 12:15:00', 4, 4),
 ('2024-04-20 17:20:00', 5, 5);
+
+-- Inserting notifications
+INSERT INTO notification (notification_id, created_at, message, notification_type, unread, user_id)
+VALUES
+(1, '2024-05-2 08:00:00', 'You have received a new friend request', 'FRIEND_REQUEST' ,true, 1),
+(2, '2024-05-2 08:00:00', 'You have earned a new badge', 'BADGE', true, 1),
+(3, '2024-05-2 08:00:00', 'You have completed a new goal', 'COMPLETED_GOAL', false, 1);
+
