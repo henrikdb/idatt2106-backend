@@ -6,13 +6,14 @@ variables:
 
 stages:
   - docker-build
-  - deploy
 
 Docker Build:
   stage: docker-build
   image: docker:latest
   services:
     - docker:dind
+  tags:
+    - dind
   script:
     - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
     - docker build --tag $DOCKER_IMAGE .
