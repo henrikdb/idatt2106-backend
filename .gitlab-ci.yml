@@ -1,6 +1,10 @@
 image: maven:3.8.5-openjdk-17
 
 variables:
+  MAVEN_CLI_OPTS: "-s ci_settings.xml --batch-mode"
+  DOCKER_IMAGE: "testimage"
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: "tcp://docker:2375"
   SPRING_PROFILES_ACTIVE: gitlab-ci 
   
 cache:
@@ -13,6 +17,8 @@ stages:
   - generate_site_reports
   - modify_generated_site_reports
   - pages
+  - docker_build_and_push
+  - deploy
 
 build_test_project:
   stage: build_test
@@ -76,3 +82,29 @@ pages:
       - public
   only:
     - master  
+
+docker_build_and_push:
+  stage: docker_build_and_push
+  image: docker:latest
+  services:
+    - docker:dind
+  tags:
+    - dind
+  script:
+    - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
+    - docker build -t registry.gitlab.com/henrikberg/sparesti-registry:backend .
+    - docker push registry.gitlab.com/henrikberg/sparesti-registry:backend
+  when: manual
+
+
+deploy_docker:
+  stage: deploy
+  image: ubuntu:latest
+  before_script:
+    - apt-get -yq update
+    - apt-get -yqq install ssh
+    - apt-get install sshpass
+  script: 
+    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "docker ps -q --filter 'name=^backend$' | grep -q . && docker kill backend && docker rm backend; docker run -d --name backend registry.gitlab.com/henrikberg/sparesti-registry:backend"
+  when: manual
+
