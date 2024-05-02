@@ -12,8 +12,8 @@ deploy:
   image: dwdraju/ssh-client-alpine
   before_script:
     - mkdir -p ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n      SendEnv CI_*  \n" > ~/.ssh/config
-    - echo -n  $ssh_private_key  > ~/.ssh/id_rsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\tSendEnv CI_*\n" > ~/.ssh/config
+    - echo "$ssh_private_key" > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script: 
