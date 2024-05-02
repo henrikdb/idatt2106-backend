@@ -1,42 +1,66 @@
 image: maven:3.8.5-openjdk-17
 
 variables:
-  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
   SPRING_PROFILES_ACTIVE: gitlab-ci 
 
 services:
   - name: mysql:latest
     alias: mysql
     variables:
-      MYSQL_ROOT_PASSWORD: "root"  # TODO Set this in GitLab's CI/CD environment variables for security reasons
+      MYSQL_ROOT_PASSWORD: "root"  
       MYSQL_DATABASE: "sparesti"
+
+cache:
+  key: "${CI_COMMIT_REF_SLUG}" # Branch-specific cache keys to have separate caches across branches.
+  paths:
+    - .m2/repository
   
 stages:
-  - compile_and_test
+  - install
+  - build
+  - test
   - generate_site_reports
   - modify_generated_site_reports
   - publish_pages
 
-cache:
-  key: "maven-repository" # Static Cache Key to keep cache across branches 
-  paths:
-    - .m2/repository
-
-compile_and_test:
-  stage: compile_and_test
+install_dependencies:
+  stage: install
   script:
-    - mvn clean test # Cleans the previous build and runs tests
+    - mvn dependency:go-offline
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .m2/repository
+    policy: push
+
+build_project:
+  stage: build
+  script:
+    - mvn clean install -DskipTests
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .m2/repository
+    policy: pull
+
+test_project:
+  stage: test
+  script:
+    - mvn test 
+  when: always
   artifacts:
-    when: always
+    expire_in: 1 day
     paths:
       - target/site/jacoco
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
         - target/failsafe-reports/TEST-*.xml
-  when: always
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .m2/repository
+    policy: pull
 
 generate_site_reports:
   stage: generate_site_reports
