@@ -29,6 +29,6 @@ deploy:
     - echo "$ssh_private_key" | base64 -d > ~/.ssh/id_rsa
     - ssh-keyscan -H $ssh_host > ~/.ssh/known_hosts
   script:
-    - ssh $ssh_user@$ssh_host "ls"
+    - ssh $ssh_user@$ssh_host "mkdir wololo""
   after_script:
     - rm -rf ~/.ssh
