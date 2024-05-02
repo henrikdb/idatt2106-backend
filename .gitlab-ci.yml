@@ -8,6 +8,18 @@ stages:
   - docker-build
   - deploy
 
+Docker Build:
+  stage: docker-build
+  image: docker:latest
+  services:
+    - docker:dind
+  tags:
+    - dind
+  script:
+    - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
+    - docker build -t registry.gitlab.com/henrikberg/sparesti-registry:backend .
+    - docker push registry.gitlab.com/henrikberg/sparesti-registry:backend
+
 deploy:
   stage: deploy
   image: ubuntu:latest
@@ -16,6 +28,6 @@ deploy:
     - apt-get -yqq install ssh
     - apt-get install sshpass
   script: 
-    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "docker ps -q --filter 'name=^backend$' | grep -q . && docker kill backend && docker rm backend; docker run --name backend registry.gitlab.com/henrikberg/sparesti-registry:backend"
+    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "docker ps -q --filter 'name=^backend$' | grep -q . && docker kill backend && docker rm backend; docker run -d --name backend registry.gitlab.com/henrikberg/sparesti-registry:backend"
 
 
