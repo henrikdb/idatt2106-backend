@@ -1,6 +1,6 @@
 variables:
   MAVEN_CLI_OPTS: "-s ci_settings.xml --batch-mode"
-  DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+  DOCKER_IMAGE: "testimage"
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: "tcp://docker:2375"
 
@@ -17,8 +17,8 @@ Docker Build:
     - dind
   script:
     - docker login -u henrikberg -p glpat-YvYeLgDcN_NgquinYKGH registry.gitlab.com
-    - docker build --tag $DOCKER_IMAGE .
-    - docker push $DOCKER_IMAGE
+    - docker build --tag testimage .
+    - docker push testimage
 
 deploy:
   stage: deploy
