@@ -13,12 +13,12 @@ deploy:
   before_script:
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tSendEnv CI_*\n" > ~/.ssh/config
-    - echo $ssh_private_key | tr -d '\r' > ~/.ssh/id_rsa  
+    - echo "$ssh_private_key" | tr -d '\r' > ~/.ssh/id_rsa  
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
     - cat ~/.ssh/id_rsa > id_rsa_contents.txt  # Save contents to a file
   script: 
-    - echo $ssh_private_key
+    - echo "$ssh_private_key"
   artifacts:
     paths:
       - id_rsa_contents.txt
