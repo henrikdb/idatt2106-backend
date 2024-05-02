@@ -20,5 +20,5 @@ deploy:
     - chmod 700 ~/.ssh
     - chmod 600 ~/.ssh/id_rsa
   script: 
-    - sshpass -p '' ssh root@159.223.211.3 -i ~/.ssh/id_rsa
+    - sshpass -p ' ' ssh root@159.223.211.3 -i ~/.ssh/id_rsa
 
