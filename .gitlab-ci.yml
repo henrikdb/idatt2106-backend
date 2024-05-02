@@ -19,6 +19,6 @@ Docker Build:
   before_script:
     - docker info  # Check Docker daemon info to ensure connectivity
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build --tag $DOCKER_IMAGE .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.stud.idi.ntnu.no:5050
+    - docker build -t registry.stud.idi.ntnu.no:5050/idatt2106-2024-07/backend .
     - docker push registry.stud.idi.ntnu.no:5050/idatt2106-2024-07/backend
