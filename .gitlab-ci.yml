@@ -48,7 +48,7 @@ pages:
   stage: pages
   script:
     - mkdir public
-    - cp -r target/site/jacoco public/
+    - cp -r target/site/jacoco/* public/
   artifacts:
     paths:
       - public
