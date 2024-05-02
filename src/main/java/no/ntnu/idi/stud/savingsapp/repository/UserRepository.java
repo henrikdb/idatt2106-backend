@@ -162,7 +162,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   // Get user attributes from ranked_users
   "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
       + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
-      + ".configuration_id, ru.profile_image, ru.subscription_level, ru.bankid_sub " +
+      + ".configuration_id, ru.profile_image, ru.banner_image, ru.subscription_level, ru"
+      + ".bankid_sub " +
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -184,7 +185,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   // Get user attributes from ranked_users
   "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
       + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
-      + ".configuration_id, ru.profile_image, ru.subscription_level, ru.bankid_sub " +
+      + ".configuration_id, ru.profile_image, ru.banner_image ru.subscription_level, ru.bankid_sub"
+      + " " +
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
@@ -206,7 +208,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   // Get user attributes from ranked_users
   "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
       + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
-      + ".configuration_id, ru.profile_image, ru.subscription_level, ru.bankid_sub " +
+      + ".configuration_id, ru.profile_image, ru.banner_image ru.subscription_level, ru.bankid_sub"
+      + " " +
   "FROM ranked_users ru, user_rank ur " +
   // Case handling for when user_rank is less than entryCount
   "WHERE ru.user_rank BETWEEN (CASE WHEN ur.user_rank > :entryCount THEN ur.user_rank - :entryCount ELSE 1 END) AND (ur.user_rank + :entryCount)",
