@@ -5,11 +5,13 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public final class ProfileDTO {
+public class ProfileDTO {
 
   private long id;
   private String firstName;
   private String lastName;
   private Long profileImage;
   private Timestamp createdAt;
+  private int totalPoints;
+  private int currentStreak;
 }

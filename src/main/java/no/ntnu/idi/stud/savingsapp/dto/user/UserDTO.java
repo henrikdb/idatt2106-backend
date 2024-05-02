@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 
 @Data
-public final class UserDTO {
+public class UserDTO {
 
   private long id;
   private String firstName;
@@ -16,6 +16,6 @@ public final class UserDTO {
   private Timestamp createdAt;
   private String role;
   private String subscriptionLevel;
-  private Account checkingAccount;
-  private Account savingsAccount;
+  private Long checkingAccountBBAN;
+  private Long savingsAccountBBAN;
 }
