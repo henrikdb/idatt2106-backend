@@ -26,10 +26,6 @@ public final class SignUpRequest {
   @Password
   private String password;
 
-  private Long checkingAccountBBAN;
-
-  private Long savingsAccountBBAN;
-
   @Valid
   @NotNull(message = "Configuration is required")
   private ConfigurationDTO configuration;

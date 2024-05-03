@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.repository;
 
 import java.util.List;
 import java.util.Optional;
+import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -160,7 +161,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "WHERE user_id = :userId  ) " +
   // Get user attributes from ranked_users
   "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
-      + " ru.point_id, ru.streak_id, ru.checking_account_bban, ru.savings_account_bban, ru"
+      + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
       + ".configuration_id, ru.profile_image, ru.banner_image, ru.subscription_level, ru"
       + ".bankid_sub " +
   "FROM ranked_users ru, user_rank ur " +
@@ -183,7 +184,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "WHERE user_id = :userId ) " +
   // Get user attributes from ranked_users
   "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
-      + " ru.point_id, ru.streak_id, ru.checking_account_bban, ru.savings_account_bban, ru"
+      + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
       + ".configuration_id, ru.profile_image, ru.banner_image, ru.subscription_level, ru.bankid_sub"
       + " " +
   "FROM ranked_users ru, user_rank ur " +
@@ -206,7 +207,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   "WHERE user_id = :userId ) " +
   // Get user attributes from ranked_users
   "SELECT ru.user_id, ru.created_at, ru.email, ru.first_name, ru.last_name, ru.password, ru.role,"
-      + " ru.point_id, ru.streak_id, ru.checking_account_bban, ru.savings_account_bban, ru"
+      + " ru.point_id, ru.streak_id, ru.checking_account_id, ru.savings_account_id, ru"
       + ".configuration_id, ru.profile_image, ru.banner_image, ru.subscription_level, ru.bankid_sub"
       + " " +
   "FROM ranked_users ru, user_rank ur " +
@@ -263,6 +264,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
             nativeQuery = true)
     long findUserRankByHighestEverStreak(@Param("userId") Long userId);
 
+    @Query("UPDATE User u SET u.savingsAccount = :account WHERE u = :user")
+    void updateSavingsAccount(@Param("user") User user,@Param("account") Account account);
 
     @Query(value = "SELECT * FROM user u WHERE CONCAT(u.first_name, ' ', u.last_name) LIKE %:searchTerm%", nativeQuery = true)
     List<User> findUsersByName(@Param("searchTerm") String searchTerm);

@@ -22,10 +22,6 @@ public final class UserUpdateDTO {
 
   private Long bannerImage;
 
-  private Long savingsAccountBBAN;
-
-  private Long checkingAccountBBAN;
-
   @Valid
   private ConfigurationDTO configuration;
 }
