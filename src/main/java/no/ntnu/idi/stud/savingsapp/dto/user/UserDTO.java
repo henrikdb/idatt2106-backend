@@ -1,6 +1,7 @@
 package no.ntnu.idi.stud.savingsapp.dto.user;
 
 import lombok.Data;
+import no.ntnu.idi.stud.savingsapp.dto.configuration.ConfigurationDTO;
 
 import java.sql.Timestamp;
 
@@ -20,4 +21,5 @@ public class UserDTO {
   private Long savingsAccountBBAN;
   private PointDTO point;
   private StreakDTO streak;
+  private ConfigurationDTO configuration;
 }
