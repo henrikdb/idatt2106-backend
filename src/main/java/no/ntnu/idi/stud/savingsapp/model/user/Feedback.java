@@ -3,6 +3,9 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import lombok.*;
 
+/**
+ * Represents a feedback message.
+ */
 @Data
 @Builder
 @NoArgsConstructor

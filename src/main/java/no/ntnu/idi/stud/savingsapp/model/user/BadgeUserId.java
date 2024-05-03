@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents the id of a {@link BadgeUser} entity.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

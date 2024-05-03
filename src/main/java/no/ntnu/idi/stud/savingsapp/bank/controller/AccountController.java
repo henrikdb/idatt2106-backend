@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.dto.AccountRequestDTO;
 import no.ntnu.idi.stud.savingsapp.bank.dto.AccountResponseDTO;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/bank/v1/account")
 @EnableAutoConfiguration
+@Slf4j
 public class AccountController {
 
   @Autowired
@@ -39,6 +41,7 @@ public class AccountController {
   @GetMapping("/accounts/profile/{bankProfileId}")
   public ResponseEntity<List<Account>> getAccounts(@PathVariable Long bankProfileId) {
     List<Account> accounts = accountService.getAccountsByBankProfileId(bankProfileId);
+    log.info("[AccountController:getAccounts] accounts: {}", accounts);
     return ResponseEntity.ok(accounts);
   }
 
@@ -52,6 +55,7 @@ public class AccountController {
   @GetMapping("/accounts/ssn/{ssn}")
   public ResponseEntity<List<Account>> getAccountsBySsn(@PathVariable Long ssn) {
     List<Account> accounts = accountService.getAccountsBySsn(ssn);
+    log.info("[AccountController:getAccountsBySsn] accounts: {}", accounts);
     return ResponseEntity.ok(accounts);
   }
 
@@ -64,6 +68,7 @@ public class AccountController {
   @PostMapping("/create-account")
   public ResponseEntity<AccountResponseDTO> createAccount(@RequestBody AccountRequestDTO accountRequestDTO) {
     AccountResponseDTO accountResponseDTO = accountService.saveAccount(accountRequestDTO);
+    log.info("[AccountController:createAccount] account: {}", accountResponseDTO);
     return ResponseEntity.ok(accountResponseDTO);
   }
 }

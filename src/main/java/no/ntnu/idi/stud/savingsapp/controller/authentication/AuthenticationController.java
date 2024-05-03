@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.auth.AuthenticationResponse;
 import no.ntnu.idi.stud.savingsapp.dto.auth.BankIDRequest;
 import no.ntnu.idi.stud.savingsapp.dto.auth.LoginRequest;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 @EnableAutoConfiguration
 @Validated
 @Tag(name = "Authentication")
+@Slf4j
 public class AuthenticationController {
 
   @Autowired
@@ -67,6 +69,7 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest request) {
     User user = userService.login(request.getEmail(), request.getPassword());
     String token = TokenUtils.generateToken(user);
+    log.info("[AuthenticationController:login] Successfully logged in") ;
     return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
         user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
         user.getSubscriptionLevel().name(), token));
@@ -93,6 +96,7 @@ public class AuthenticationController {
     User requestUser = modelMapper.map(request, User.class);
     User user = userService.register(requestUser);
     String token = TokenUtils.generateToken(user);
+    log.info("[AuthenticationController:signup] Successfully signed up") ;
     return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
         user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
         user.getSubscriptionLevel().name(), token));
@@ -119,6 +123,7 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> bankIdAuthentication(@RequestBody BankIDRequest request) {
     User user = userService.bankIDAuth(request.getCode(), request.getState());
     String token = TokenUtils.generateToken(user);
+    log.info("[AuthenticationController:bankIdAuthentication] BankId Authenticated successfully");
     return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
         user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
         user.getSubscriptionLevel().name(), token));
@@ -142,8 +147,10 @@ public class AuthenticationController {
   public ResponseEntity<?> validateEmail(@PathVariable @Email(message = "Invalid email") String email) {
     try {
       userService.findByEmail(email);
+      log.error("[AuthenticationController:validateEmail] email already exists: {}", email);
       throw new EmailAlreadyExistsException();
     } catch (UserNotFoundException e) {
+      log.info("[AuthenticationController:validateEmail] email is valid: {}", email);
       return ResponseEntity.ok().build();
     }
   }

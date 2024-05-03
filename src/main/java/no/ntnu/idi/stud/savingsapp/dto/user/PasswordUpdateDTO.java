@@ -11,4 +11,5 @@ public final class PasswordUpdateDTO {
 
   @Password
   private String newPassword;
+
 }

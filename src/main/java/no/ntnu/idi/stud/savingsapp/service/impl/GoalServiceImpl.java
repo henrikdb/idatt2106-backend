@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import no.ntnu.idi.stud.savingsapp.exception.goal.ChallengeNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.exception.goal.GoalNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
  * Service implementation for managing goals.
  */
 @Service
+@Slf4j
 public class GoalServiceImpl implements GoalService {
 
   @Autowired
@@ -66,6 +67,7 @@ public class GoalServiceImpl implements GoalService {
     if (optionalGoal.isPresent()) {
       return optionalGoal.get();
     } else {
+      log.error("[GoalServiceImpl:getGoal] Goal is not found, id: {}", goalId);
       throw new GoalNotFoundException();
     }
   }

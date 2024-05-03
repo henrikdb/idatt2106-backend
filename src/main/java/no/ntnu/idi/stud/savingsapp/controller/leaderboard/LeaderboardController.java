@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.leaderboard.LeaderboardDTO;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.Leaderboard;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/leaderboard")
 @EnableAutoConfiguration
 @Tag(name = "Leaderboard")
+@Slf4j
 public class LeaderboardController {
 
   @Autowired
@@ -57,6 +59,7 @@ public class LeaderboardController {
     Leaderboard leaderboard = leaderboardService.getTopUsers(
         LeaderboardType.valueOf(type), LeaderboardFilter.valueOf(filter), entryCount, identity.getId());
     LeaderboardDTO leaderboardDTO = modelMapper.map(leaderboard, LeaderboardDTO.class);
+    log.info("[LeaderboardController:getLeaderboard] leaderboard: {}", leaderboardDTO);
     return ResponseEntity.ok(leaderboardDTO);
   }
 
@@ -80,6 +83,7 @@ public class LeaderboardController {
     Leaderboard leaderboard = leaderboardService.getSurrounding(
         LeaderboardType.valueOf(type), LeaderboardFilter.valueOf(filter), entryCount, identity.getId());
     LeaderboardDTO leaderboardDTO = modelMapper.map(leaderboard, LeaderboardDTO.class);
+    log.info("[LeaderboardController:getSurrounding] leaderboard: {}", leaderboardDTO);
     return ResponseEntity.ok(leaderboardDTO);
   }
 
@@ -90,6 +94,7 @@ public class LeaderboardController {
   @GetMapping(value = "/total-points", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> getTotalPoints() {
         long totalPoints = leaderboardService.getSumTotalEarnedPoints();
+        log.info("[LeaderboardController:getTotalPoints] points: {}", totalPoints);
         return ResponseEntity.ok(totalPoints);
     }
 }

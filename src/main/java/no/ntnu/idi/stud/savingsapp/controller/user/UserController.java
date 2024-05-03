@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.dto.user.*;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 @RequestMapping("/api/users")
 @EnableAutoConfiguration
 @Tag(name = "User")
+@Slf4j
 public class UserController {
 
   @Autowired
@@ -68,6 +70,7 @@ public class UserController {
   public ResponseEntity<UserDTO> getUser(@AuthenticationPrincipal AuthIdentity identity) {
     User user = userService.findById(identity.getId());
     UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+    log.info("[UserController:getUser] user: {}", userDTO);
     return ResponseEntity.ok(userDTO);
   }
 
@@ -87,6 +90,7 @@ public class UserController {
   public ResponseEntity<ProfileDTO> getProfile(@PathVariable long userId) {
     User user = userService.findById(userId);
     ProfileDTO profileDTO = modelMapper.map(user, ProfileDTO.class);
+    log.info("[UserController:getProfile] profile: {}", profileDTO);
     return ResponseEntity.ok(profileDTO);
   }
 
@@ -137,6 +141,7 @@ public class UserController {
     }
     User updatedUser = userService.update(user);
     UserDTO userDTO = modelMapper.map(updatedUser, UserDTO.class);
+    log.info("[UserController:update] updated user id: {}", identity.getId());
     return ResponseEntity.ok(userDTO);
   }
 
@@ -149,6 +154,7 @@ public class UserController {
                                         @RequestBody @Valid PasswordUpdateDTO updateDTO) {
     User user = userService.updatePassword(identity.getId(), updateDTO.getOldPassword(), updateDTO.getNewPassword());
     UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+    log.info("[UserController:updatedPassword] user id: {}", identity.getId());
     return ResponseEntity.ok(userDTO);
   }
 
@@ -169,6 +175,7 @@ public class UserController {
   @ResponseStatus(value = HttpStatus.ACCEPTED)
   public void resetPassword(@RequestBody @Email(message = "Invalid email") String email) {
     userService.initiatePasswordReset(email);
+    log.info("[UserController:resetPassword] initiated password reset, email: {}", email);
   }
 
   /**
@@ -190,6 +197,7 @@ public class UserController {
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
   public void confirmPasswordReset(@RequestBody @Valid PasswordResetDTO resetDTO) {
     userService.confirmPasswordReset(resetDTO.getToken(), resetDTO.getPassword());
+    log.info("[UserController:confirmPasswordReset] initiated password reset, token: {}", resetDTO.getToken());
   }
 
   @Operation(summary = "Update a user's bank account", description = "Changes either a user's "
@@ -203,6 +211,7 @@ public class UserController {
       @RequestBody @Valid BankAccountDTO bankAccountDTO) {
     BankAccountType accountType = modelMapper.map(bankAccountDTO.getBankAccountType(),
         BankAccountType.class);
+    log.info("[UserController:selectBankAccount], bankAccount: {}", bankAccountDTO);
     return userService.selectBankAccount(
         accountType,
         bankAccountDTO.getBban(),
@@ -225,6 +234,7 @@ public class UserController {
             UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             userDTOs.add(userDTO);
           }
+          log.info("[UserController:getRandomUsers] random users: {}", userDTOs);
           return ResponseEntity.ok(userDTOs);
   }
 
@@ -238,6 +248,7 @@ public class UserController {
   @PostMapping("/send-feedback")
   public ResponseEntity<Void> sendFeedback(@Validated @RequestBody FeedbackRequestDTO feedbackRequestDTO) {
     userService.sendFeedback(feedbackRequestDTO.getEmail(), feedbackRequestDTO.getMessage());
+    log.info("[UserController:sendFeedback] feedback: {}", feedbackRequestDTO);
     return ResponseEntity.ok().build();
   }
 
@@ -254,10 +265,12 @@ public class UserController {
   @GetMapping("/get-feedback")
   public ResponseEntity<List<FeedbackResponseDTO>> getFeedback(@AuthenticationPrincipal AuthIdentity identity) {
     if (!identity.getRole().equalsIgnoreCase("ADMIN")) {
+      log.error("[UserController:getFeedback] Permission denied, user role: {}", identity.getRole());
       throw new PermissionDeniedException();
     }
     List<Feedback> feedbacks = userService.getFeedback();
     List<FeedbackResponseDTO> feedbackResponseDTOS = feedbacks.stream().map(quiz -> modelMapper.map(quiz, FeedbackResponseDTO.class)).toList();
+    log.info("[UserController:getFeedback] feedback: {}", feedbackResponseDTOS);
     return ResponseEntity.ok(feedbackResponseDTOS);
   }
   
@@ -277,6 +290,7 @@ public class UserController {
             UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             userDTOs.add(userDTO);
           }
+          log.info("[UserController:getUsersByNameAndFilter] users: {}", userDTOs);
           return ResponseEntity.ok(userDTOs);
   }
 
@@ -289,6 +303,7 @@ public class UserController {
           @AuthenticationPrincipal AuthIdentity identity,
           @PathVariable @Enumerator(value = SubscriptionLevel.class, message = "Invalid subscription level") String subscriptionLevel) {
             userService.updateSubscriptionLevel(identity.getId(), SubscriptionLevel.valueOf(subscriptionLevel));
+            log.info("[UserController:updateSubscriptionLevel] subscription level: {}", subscriptionLevel);
             return ResponseEntity.ok().build();
   }
 }

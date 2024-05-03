@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.store.InventoryDTO;
 import no.ntnu.idi.stud.savingsapp.dto.store.ItemDTO;
 import no.ntnu.idi.stud.savingsapp.model.store.Item;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/item")
 @EnableAutoConfiguration
 @Tag(name = "Item", description = "Endpoints for managing store and user inventory.")
+@Slf4j
 public class ItemController {
     @Autowired
     private ItemService itemService;
@@ -62,10 +64,11 @@ public class ItemController {
             }
             storeDTO.add(itemDTO);
         }
+        log.info("[ItemController:getStore] store: {}", storeDTO);
         return ResponseEntity.ok(storeDTO);
     }
 
-    @Operation(summary = "Get user inventory items", description = "Retrieves a list of all items currently in the inventory of the user.")
+    @Operation(summary = "Get the active user's inventory items", description = "Retrieves a list of all items currently in the inventory of the active user.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "List of inventory items fetched successfully")
     })
@@ -76,6 +79,22 @@ public class ItemController {
         for(Item item : inventory) {
             inventoryDTO.add(modelMapper.map(item, InventoryDTO.class));
         }
+        log.info("[ItemController:getInventory] inventory: {}", inventoryDTO);
+        return ResponseEntity.ok(inventoryDTO);
+    }
+
+    @Operation(summary = "Get user inventory items", description = "Retrieves a list of all items currently in the inventory of the user.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "List of inventory items fetched successfully")
+    })
+    @GetMapping("/inventory/{userId}")
+    public ResponseEntity<List<InventoryDTO>> getInventoryByUserId(@PathVariable Long userId) {
+        List<Item> inventory = itemService.getInventory(userId);
+        List<InventoryDTO> inventoryDTO = new ArrayList<>();
+        for(Item item : inventory) {
+            inventoryDTO.add(modelMapper.map(item, InventoryDTO.class));
+        }
+        log.info("[ItemController:getInventoryByUserId] inventory: {}", inventoryDTO);
         return ResponseEntity.ok(inventoryDTO);
     }
 
@@ -92,8 +111,10 @@ public class ItemController {
         boolean purchaseSuccessful = itemService.addItem(user, item);
 
         if (purchaseSuccessful) {
+            log.info("[ItemController:buyItem] item: {}, user: {}", item, user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
+            log.error("[ItemController:buyItem] Insufficient points to purchase the item");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Insufficient points to purchase the item");
         }
     }

@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository interface for {@link Badge badge} entities.
+ */
 @Repository
 public interface BadgeRepository extends JpaRepository<Badge, Long> {
 
@@ -15,15 +18,26 @@ public interface BadgeRepository extends JpaRepository<Badge, Long> {
    * Returns a {@link Badge} by its id.
    *
    * @param badgeId The id of the badge
-   * @return Badge
+   * @return the badge associated with the id.
    */
   Optional<Badge> findBadgeById(long badgeId);
 
+  /**
+   * Returns a list of all {@link Badge} objects.
+   *
+   * @return the list of all badges.
+   */
   @Query(value =
   "SELECT b.* FROM badge b;"
   , nativeQuery = true)
   List<Badge> findAllBadges();
 
+  /**
+   * Returns a list of {@link Badge} that are unlocked by a user.
+   *
+   * @param userId the id of to the user
+   * @return the list of all unlocked badges of the user.
+   */
   @Query(value =
   "SELECT b.* " +
   "FROM badge b " +
@@ -32,6 +46,12 @@ public interface BadgeRepository extends JpaRepository<Badge, Long> {
   , nativeQuery = true)
   List<Badge> findBadgesUnlockedByUserId(@Param("userId") long userId);
 
+  /**
+   * Returns a list of {@link Badge} that are not unlocked by a user.
+   *
+   * @param userId the id of to the user
+   * @return the list of all locked badges of the user.
+   */
   @Query(value =
   "SELECT b.* " +
   "FROM badge b " +
@@ -42,6 +62,12 @@ public interface BadgeRepository extends JpaRepository<Badge, Long> {
   , nativeQuery = true)
   List<Badge> findBadgesNotUnlockedByUserId(@Param("userId") long userId);
 
+  /**
+   * Returns a list of {@link Badge} that are newly unlocked by a user.
+   *
+   * @param userId the id of to the user
+   * @return the list of all newly unlocked badges of the user.
+   */
   @Query(value =
   "SELECT b.* " +
   "FROM badge b, user u, point p " +

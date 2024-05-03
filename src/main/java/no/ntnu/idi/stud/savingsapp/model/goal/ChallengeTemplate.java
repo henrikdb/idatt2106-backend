@@ -16,6 +16,9 @@ import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a challenge template for generating a {@link Challenge}
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

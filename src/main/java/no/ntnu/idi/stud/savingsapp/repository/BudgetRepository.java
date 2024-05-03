@@ -6,7 +6,7 @@ import no.ntnu.idi.stud.savingsapp.model.budget.Budget;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Repository interface for the {@link Budget budget} entity.
+ * Repository interface for {@link Budget budget} entities.
  */
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
 

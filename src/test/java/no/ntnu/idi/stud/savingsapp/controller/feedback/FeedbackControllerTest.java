@@ -88,6 +88,4 @@ public class FeedbackControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(4)));
   }
-
-
 }

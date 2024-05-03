@@ -12,4 +12,5 @@ public final class PasswordResetDTO {
 
   @Password
   private String password;
+
 }

@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 
+/**
+ * Represents the many-to-many relation between user and item entities.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

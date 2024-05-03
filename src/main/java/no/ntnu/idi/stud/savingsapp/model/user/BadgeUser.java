@@ -9,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents the many-to-many relation between user and badge entities.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.bank.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.dto.BankProfileDTO;
 import no.ntnu.idi.stud.savingsapp.bank.dto.BankProfileResponseDTO;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
@@ -16,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Implementation of the {@link BankProfileService} interface for bank profile related operations.
  */
+@Slf4j
 @Service
 public class BankProfileServiceImpl implements BankProfileService {
 
@@ -32,6 +34,7 @@ public class BankProfileServiceImpl implements BankProfileService {
   public BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO) {
 
     if (bankProfileDTO.getSsn() < 1) {
+      log.error("[BankProfileServiceImpl:saveBankProfile] Negative ssn: {}", bankProfileDTO.getSsn());
       throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative ssn");
     }
 
@@ -45,10 +48,12 @@ public class BankProfileServiceImpl implements BankProfileService {
       savedProfileResponse.setSsn(savedBankProfile.getSsn());
       savedProfileResponse.setAccounts(newEmptyAccountList);
     } catch (Exception e) {
+      log.error("[BankProfileServiceImpl:saveBankProfile] Negative ssn: {}", bankProfileDTO.getSsn());
       throw new ResponseStatusException(
           HttpStatusCode.valueOf(400),
           "Could not create bank profile");
     }
+    log.info("[BankProfileServiceImpl:saveBankProfile] bank profile: {}", bankProfileDTO);
     return savedProfileResponse;
   }
 }
