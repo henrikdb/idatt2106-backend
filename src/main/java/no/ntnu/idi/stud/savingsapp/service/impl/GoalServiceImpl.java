@@ -115,7 +115,7 @@ public class GoalServiceImpl implements GoalService {
    */
   @Override
   public Group getGroup(Long goalId) {
-    Optional<Group> optionalGroup = groupRepository.findBygGoals_Id(goalId);
+    Optional<Group> optionalGroup = groupRepository.findByGoals_Id(goalId);
     if (optionalGroup.isPresent()) {
       return optionalGroup.get();
     } else {
