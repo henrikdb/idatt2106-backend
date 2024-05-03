@@ -4,13 +4,16 @@ import no.ntnu.idi.stud.savingsapp.exception.goal.ChallengeNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.goal.GoalNotFoundException;
 import no.ntnu.idi.stud.savingsapp.exception.goal.InvalidChallengeDayException;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
+import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.ChallengeTemplate;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 import no.ntnu.idi.stud.savingsapp.model.goal.Progress;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
+import no.ntnu.idi.stud.savingsapp.repository.ChallengeTemplateRepository;
 import no.ntnu.idi.stud.savingsapp.repository.GoalRepository;
+import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 
   @Autowired
   private GoalRepository goalRepository;
+  @Autowired
+  private ChallengeTemplateRepository challengeTemplateRepository;
+  @Autowired
+  private UserRepository userRepository;
 
   /**
    * Generates a list of challenges for a given goal based on the user's preferences and goal's target date.
@@ -49,10 +56,14 @@ public class ChallengeServiceImpl implements ChallengeService {
     t1.setAmount(BigDecimal.valueOf(40));
     t1.setText("Spar {unit_amount} kr hver gang du kjøper kaffe, totalt {checkDays} ganger over " +
         "{totalDays} dager. Dette gir deg en total besparelse på {total_amount} kr.");
+    t1.setChallengeName("Spar på kaffe");
     ChallengeTemplate t2 = new ChallengeTemplate();
     t2.setChallengeType(ChallengeType.EAT_PACKED_LUNCH);
-    t2.setAmount(BigDecimal.valueOf(100));
-    t2.setText("Spar {amount} kr ved å ta med deg matpakke");
+    t2.setAmount(BigDecimal.valueOf(30));
+    t2.setText("Spar {unit_amount} kr per gang du tar med deg hjemmelaget matpakke, " +
+            "totalt {checkDays} ganger over " +
+            "{totalDays} dager. Dette gir deg en total besparelse på {total_amount} kr.");
+    t2.setChallengeName("Spar på mat");
 
     List<ChallengeTemplate> templates = Arrays.asList(t1, t2);
         //templateRepository.findAllByChallengeTypeIn(user.getConfiguration().getChallengeTypes());
@@ -64,6 +75,8 @@ public class ChallengeServiceImpl implements ChallengeService {
     List<Challenge> challenges = new ArrayList<>();
     int i = 0;
 
+    int savedSoFar = 0;
+
     while (remainingDays > 0) {
       int totalDays = Math.min(random.nextInt(23) + 7, remainingDays);
       int checkDays = user.getConfiguration().getCommitment().getCheckDays(totalDays);
@@ -71,9 +84,11 @@ public class ChallengeServiceImpl implements ChallengeService {
       Challenge challenge = new Challenge();
       challenge.setTemplate(template);
       challenge.setPotentialAmount(template.getAmount());
-      challenge.setPoints(totalDays * 10);
+      challenge.setPoints(checkDays * 10);
       challenge.setCheckDays(checkDays);
       challenge.setTotalDays(totalDays);
+
+      savedSoFar += template.getAmount().intValue() * checkDays;
 
       if (challenges.isEmpty()) {
         challenge.setStartDate(goal.getCreatedAt());
@@ -93,6 +108,11 @@ public class ChallengeServiceImpl implements ChallengeService {
       }
 
       challenges.add(challenge);
+
+      if(goal.getTargetAmount() < savedSoFar) {
+        break;
+      }
+
       remainingDays -= totalDays;
     }
     return challenges;
@@ -182,6 +202,56 @@ public class ChallengeServiceImpl implements ChallengeService {
       return goalOptional.get();
     } else {
       throw new ChallengeNotFoundException();
+    }
+  }
+
+
+  /**
+   * Replaces that challenge in a given goal identified by the challenge ID.
+   * This method is useful for letting the user change out challenges they know
+   * they will not be able to do
+   *
+   * @param userId the ID of the user who sends the request
+   * @param challengeId The ID of the challenge that will be replaced
+   * @return The updated goal containing the new challenge
+   */
+  public Challenge regenerateChallenge(long userId, long challengeId) {
+    Optional<User> userOptional = userRepository.findById(userId);
+    if (userOptional.isPresent()) {
+      User user = userOptional.get();
+
+      Goal goal = getGoalByChallengeId(challengeId);
+      if (goal.getUser().getId() != userId) {
+        throw new PermissionDeniedException();
+      }
+
+      Challenge challenge = goal.getChallenges().stream().filter(c -> c.getId() == challengeId).findFirst().orElse(null);
+      if (challenge == null) {
+        throw new ChallengeNotFoundException();
+      }
+
+      List<ChallengeType> challengeTypes = user.getConfiguration()
+              .getChallengeTypes();
+      List<ChallengeTemplate> challengeTemplates = challengeTemplateRepository
+              .findAllByChallengeTypeIn(challengeTypes);
+
+      int randomTemplateIndex = random.nextInt(challengeTemplates.size());
+
+      ChallengeTemplate newChallengeTemplate = challengeTemplates.get(randomTemplateIndex);
+
+      int totalDays = challenge.getTotalDays();
+      int checkDays = user.getConfiguration().getCommitment().getCheckDays(totalDays);
+
+
+      challenge.setPotentialAmount(newChallengeTemplate.getAmount());
+      challenge.setCheckDays(checkDays);
+      challenge.setPoints(checkDays * 10);
+      challenge.setTemplate(newChallengeTemplate);
+
+      goalRepository.save(goal);
+      return challenge;
+    } else {
+      throw new UserNotFoundException();
     }
   }
 }

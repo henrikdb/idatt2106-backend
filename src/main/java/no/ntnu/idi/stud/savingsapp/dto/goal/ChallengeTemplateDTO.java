@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 public final class ChallengeTemplateDTO {
 
   private long id;
+  private String templateName;
   private String text;
   private BigDecimal amount;
   private ChallengeType type;

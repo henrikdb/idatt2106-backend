@@ -35,6 +35,10 @@ public class ChallengeTemplate {
   @Column(name = "challenge_text", nullable = false)
   private String text;
 
+  @NonNull
+  @Column(name = "challenge_name", nullable = false)
+  private String challengeName;
+
   @Column(name = "challenge_amount", nullable = false)
   private BigDecimal amount;
 
