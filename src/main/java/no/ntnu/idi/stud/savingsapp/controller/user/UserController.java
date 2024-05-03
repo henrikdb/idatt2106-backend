@@ -8,10 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
-import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.dto.user.*;
 import no.ntnu.idi.stud.savingsapp.exception.user.PermissionDeniedException;
-import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.ChallengeType;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Commitment;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Experience;
@@ -129,6 +127,12 @@ public class UserController {
     if(updateDTO.getBannerImage() != null) {
       user.setBannerImage(updateDTO.getBannerImage());
     }
+    if(updateDTO.getCheckingAccountBBAN() != null) {
+      user.setCheckingAccountBBAN(updateDTO.getCheckingAccountBBAN());
+    }
+    if (updateDTO.getSavingsAccountBBAN() != null) {
+      user.setSavingsAccountBBAN(updateDTO.getSavingsAccountBBAN());
+    }
     if (updateDTO.getConfiguration() != null) {
       if (updateDTO.getConfiguration().getCommitment() != null) {
         user.getConfiguration().setCommitment(Commitment.valueOf(updateDTO.getConfiguration().getCommitment()));
@@ -201,24 +205,6 @@ public class UserController {
   public void confirmPasswordReset(@RequestBody @Valid PasswordResetDTO resetDTO) {
     userService.confirmPasswordReset(resetDTO.getToken(), resetDTO.getPassword());
     log.info("[UserController:confirmPasswordReset] initiated password reset, token: {}", resetDTO.getToken());
-  }
-
-  @Operation(summary = "Update a user's bank account", description = "Changes either a user's "
-      + "checking account or savings account")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "")
-  })
-  @PatchMapping(value = "/update-account")
-  public Account selectBankAccount(
-      @AuthenticationPrincipal AuthIdentity identity,
-      @RequestBody @Valid BankAccountDTO bankAccountDTO) {
-    BankAccountType accountType = modelMapper.map(bankAccountDTO.getBankAccountType(),
-        BankAccountType.class);
-    log.info("[UserController:selectBankAccount], bankAccountBban: {}", bankAccountDTO.getBban());
-    return userService.selectBankAccount(
-        accountType,
-        bankAccountDTO.getBban(),
-        identity.getId());
   }
 
   @Operation(summary = "Search for users by name and filter", description = "Returns a list of users whose names contain the specified search term and match the filter.")
