@@ -7,13 +7,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import no.ntnu.idi.stud.savingsapp.dto.goal.ChallengeDTO;
-import no.ntnu.idi.stud.savingsapp.dto.goal.MarkChallengeDTO;
-import no.ntnu.idi.stud.savingsapp.dto.goal.CreateGoalDTO;
-import no.ntnu.idi.stud.savingsapp.dto.goal.GoalDTO;
+import no.ntnu.idi.stud.savingsapp.dto.goal.*;
 import no.ntnu.idi.stud.savingsapp.exception.ExceptionResponse;
 import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
+import no.ntnu.idi.stud.savingsapp.model.goal.Group;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
 import no.ntnu.idi.stud.savingsapp.service.GoalService;
@@ -63,7 +61,7 @@ public class GoalController {
   public ResponseEntity<GoalDTO> createGoal(@AuthenticationPrincipal AuthIdentity identity,
                                             @RequestBody CreateGoalDTO request) {
     Goal createGoal = modelMapper.map(request, Goal.class);
-    Goal goal = goalService.createGoal(createGoal, identity.getId());
+    Goal goal = goalService.createGoal(createGoal, request.getDistribution(), identity.getId());
     GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
     log.info("[GoalController:createGoal] goal: {}", goalDTO.getId());
     return ResponseEntity.status(HttpStatus.CREATED).body(goalDTO);
@@ -151,5 +149,12 @@ public class GoalController {
     Challenge challenge = challengeService.regenerateChallenge(identity.getId(), id);
     ChallengeDTO challengeDTO = modelMapper.map(challenge, ChallengeDTO.class);
     return ResponseEntity.ok(challengeDTO);
+  }
+
+  @GetMapping(value ="/group/{goalId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<GoalDTO>> getGroupInfo(@PathVariable Long goalId) {
+    Group group = goalService.getGroup(goalId);
+    List<GoalDTO> goals = group.getGoals().stream().map(g -> modelMapper.map(g, GoalDTO.class)).toList();
+    return ResponseEntity.ok(goals);
   }
 }
