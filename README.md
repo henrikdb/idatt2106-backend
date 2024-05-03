@@ -55,13 +55,7 @@ docker run -d --name your-container-name -p 8080:8080 your-image-name
 mvn clean test
 ```
 
-### 2. Site Reports
-Reports giving general information about the application
-```bash
-mvn site
-```
-
-### 3. Jacoco Coverage Report
+### 2. Jacoco Coverage Report
 Gets generated when running mvn clean test and are located in:
 ```bash
 /target/site/jacoco/index.html
