@@ -62,9 +62,9 @@ public class ItemController {
             if(inventory.contains(item)) {
                 itemDTO.setAlreadyBought(true);
             }
+            log.info("[ItemController:getStore] item: {}", itemDTO.getId());
             storeDTO.add(itemDTO);
         }
-        log.info("[ItemController:getStore] store: {}", storeDTO);
         return ResponseEntity.ok(storeDTO);
     }
 
@@ -78,8 +78,8 @@ public class ItemController {
         List<InventoryDTO> inventoryDTO = new ArrayList<>();
         for(Item item : inventory) {
             inventoryDTO.add(modelMapper.map(item, InventoryDTO.class));
+            log.info("[ItemController:getInventory] item: {}", item.getId());
         }
-        log.info("[ItemController:getInventory] inventory: {}", inventoryDTO);
         return ResponseEntity.ok(inventoryDTO);
     }
 
@@ -93,8 +93,8 @@ public class ItemController {
         List<InventoryDTO> inventoryDTO = new ArrayList<>();
         for(Item item : inventory) {
             inventoryDTO.add(modelMapper.map(item, InventoryDTO.class));
+            log.info("[ItemController:getInventoryByUserId] item: {}", item.getId());
         }
-        log.info("[ItemController:getInventoryByUserId] inventory: {}", inventoryDTO);
         return ResponseEntity.ok(inventoryDTO);
     }
 
@@ -111,7 +111,7 @@ public class ItemController {
         boolean purchaseSuccessful = itemService.addItem(user, item);
 
         if (purchaseSuccessful) {
-            log.info("[ItemController:buyItem] item: {}, user: {}", item, user);
+            log.info("[ItemController:buyItem] item: {}, user: {}", item.getId(), user.getId());
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             log.error("[ItemController:buyItem] Insufficient points to purchase the item");
