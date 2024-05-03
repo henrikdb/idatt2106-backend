@@ -18,4 +18,5 @@ public final class ChallengeDTO {
   private Timestamp endDate;
   private ChallengeTemplateDTO challengeTemplate;
   private List<ProgressDTO> progressList;
+
 }

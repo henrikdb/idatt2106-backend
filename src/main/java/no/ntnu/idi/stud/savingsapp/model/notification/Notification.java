@@ -19,6 +19,9 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+/**
+ * Represents a notification.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

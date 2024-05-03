@@ -16,6 +16,9 @@ import no.ntnu.idi.stud.savingsapp.repository.StoreRepository;
 import no.ntnu.idi.stud.savingsapp.service.ItemService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
 
+/**
+ * Implementation of the ItemService interface for items.
+ */
 @Service
 public class ItemServiceImpl implements ItemService {
     @Autowired

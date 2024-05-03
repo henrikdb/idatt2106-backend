@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
@@ -57,6 +58,7 @@ import java.util.Collections;
  * Implementation of the UserService interface for user-related operations.
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
   private static final Duration PASSWORD_RESET_DURATION = Duration.ofHours(1);
@@ -100,9 +102,11 @@ public class UserServiceImpl implements UserService {
       if (match) {
         return user;
       } else {
+        log.error("[UserServiceImpl:login] invalid credentials: email: {}, password: {}", email, password);
         throw new InvalidCredentialsException();
       }
     } else {
+      log.error("[UserServiceImpl:login] user is not found, email: {}", email);
       throw new UserNotFoundException();
     }
   }
@@ -123,6 +127,7 @@ public class UserServiceImpl implements UserService {
     try {
       return userRepository.save(user);
     } catch (DataIntegrityViolationException e) {
+      log.error("[UserServiceImpl:register] email already exists: {}", user.getEmail());
       throw new EmailAlreadyExistsException();
     }
   }
@@ -176,6 +181,7 @@ public class UserServiceImpl implements UserService {
       userRepository.save(user);
       return user;
     } catch (Exception e) {
+      log.error("[UserServiceImpl:bankIDAuth] an error occurred");
       e.printStackTrace();
     }
     return null;
@@ -195,11 +201,13 @@ public class UserServiceImpl implements UserService {
       CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
       final int status = httpResponse.getStatusLine().getStatusCode();
       if (status == HttpStatus.SC_FORBIDDEN || status / 100 != 2) {
+        log.error("[UserServiceImpl:postRequest] an error occurred");
         throw new Exception("Something went wrong!! Handle this properly!!!");
       }
       final String content = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
       return content;
     } catch (final Exception e) {
+      log.error("[UserServiceImpl:postRequest] an error occurred");
       throw new Exception(e.getMessage());
     }
   }
@@ -216,6 +224,7 @@ public class UserServiceImpl implements UserService {
     try {
       return userRepository.save(user);
     } catch (DataIntegrityViolationException e) {
+      log.error("[UserServiceImpl:update] email already exists: {}", user.getId());
       throw new EmailAlreadyExistsException();
     }
   }
@@ -237,6 +246,7 @@ public class UserServiceImpl implements UserService {
       String encodedPassword = passwordEncoder.encode(newPassword);
       user.setPassword(encodedPassword);
     } else {
+      log.error("[UserServiceImpl:updatePassword] invalid old password: {}", oldPassword);
       throw new InvalidCredentialsException("Old password is invalid");
     }
     return userRepository.save(user);
@@ -255,6 +265,7 @@ public class UserServiceImpl implements UserService {
     if (optionalUser.isPresent()) {
       return optionalUser.get();
     } else {
+      log.error("[UserServiceImpl:findByEmail] user is not found: {}", email);
       throw new UserNotFoundException();
     }
   }
@@ -272,6 +283,7 @@ public class UserServiceImpl implements UserService {
     if (optionalUser.isPresent()) {
       return optionalUser.get();
     } else {
+      log.error("[UserServiceImpl:findById] user is not found: {}", userId);
       throw new UserNotFoundException();
     }
   }
@@ -292,11 +304,13 @@ public class UserServiceImpl implements UserService {
     try {
       tokenRepository.save(resetToken);
     } catch (DataIntegrityViolationException e) {
+      log.error("[UserServiceImpl:initiatePasswordReset] error generating token");
       throw new RuntimeException("Error generating token");
     }
     try {
       emailService.sendForgotPasswordEmail(email, token);
     } catch (MessagingException | IOException e) {
+      log.error("[UserServiceImpl:initiatePasswordReset] an error occurred");
       throw new RuntimeException(e.getMessage());
     }
   }
@@ -317,6 +331,7 @@ public class UserServiceImpl implements UserService {
       LocalDateTime tokenCreationDate = resetToken.getCreatedAt().toLocalDateTime();
       Duration durationBetween = Duration.between(tokenCreationDate, LocalDateTime.now());
       if (durationBetween.isNegative() || durationBetween.compareTo(PASSWORD_RESET_DURATION) > 0) {
+        log.error("[UserServiceImpl:confirmPasswordReset] invalid token: {}", token);
         throw new InvalidPasswordResetTokenException();
       }
 
@@ -324,6 +339,7 @@ public class UserServiceImpl implements UserService {
       user.setPassword(passwordEncoder.encode(password));
       userRepository.save(user);
     } else {
+      log.error("[UserServiceImpl:confirmPasswordReset] invalid token: {}", token);
       throw new InvalidPasswordResetTokenException();
     }
   }
@@ -338,6 +354,7 @@ public class UserServiceImpl implements UserService {
     else if (bankAccountType == BankAccountType.CHECKING_ACCOUNT){
       user.setCheckingAccount(account);
     }else {
+      log.error("[UserServiceImpl:selectBankAccount] account type is not supported: {}", bankAccountType);
       throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Account type not supported");
     }
     update(user);

@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.bank.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.dto.BankProfileDTO;
 import no.ntnu.idi.stud.savingsapp.bank.dto.BankProfileResponseDTO;
 import no.ntnu.idi.stud.savingsapp.bank.service.BankProfileService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/bank/v1/profile")
 @EnableAutoConfiguration
+@Slf4j
 public class BankProfileController {
 
   @Autowired
@@ -32,6 +34,7 @@ public class BankProfileController {
   })
   @PostMapping("/create-profile")
   public BankProfileResponseDTO createBankProfile(@RequestBody BankProfileDTO bankProfileDTO) {
+    log.info("[BankProfileController:createBankProfile] bank-profile: {}", bankProfileDTO);
     return bankProfileService.saveBankProfile(bankProfileDTO);
   }
 

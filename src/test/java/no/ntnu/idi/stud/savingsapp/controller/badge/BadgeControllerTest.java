@@ -61,7 +61,7 @@ public class BadgeControllerTest {
 
   @Test
   @WithMockUser
-  void getUnlockedBadgesShouldReturnListOf2() throws Exception {
+  void getUnlockedBadgesByActiveUserShouldReturnListOf2() throws Exception {
     mvc.perform(MockMvcRequestBuilders.get("/api/badge/unlocked")
             .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -70,7 +70,16 @@ public class BadgeControllerTest {
 
   @Test
   @WithMockUser
-  void getNotUnlockedBadgesShouldReturnListOf1() throws Exception {
+  void getUnlockedBadgesByUserShouldReturnListOf1() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/badge/unlocked/2")
+            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+  }
+
+  @Test
+  @WithMockUser
+  void getNotUnlockedBadgesByActiveUserShouldReturnListOf1() throws Exception {
     mvc.perform(MockMvcRequestBuilders.get("/api/badge/locked")
             .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
         .andExpect(MockMvcResultMatchers.status().isOk())

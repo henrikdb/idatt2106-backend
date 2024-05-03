@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.budget.BudgetRequestDTO;
 import no.ntnu.idi.stud.savingsapp.dto.budget.BudgetResponseDTO;
 import no.ntnu.idi.stud.savingsapp.dto.budget.ExpenseRequestDTO;
@@ -42,6 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/budget")
 @EnableAutoConfiguration
 @Tag(name = "Budget")
+@Slf4j
 public class BudgetController {
 
   @Autowired
@@ -74,6 +76,7 @@ public class BudgetController {
       budgetDTOs.add(modelMapper.map(budget, BudgetResponseDTO.class));
     }
     Collections.reverse(budgetDTOs);
+    log.info("[BudgetController:getBudgetByUser] budgets: {}", budgetDTOs);
     return ResponseEntity.ok(budgetDTOs);
   }
 
@@ -92,6 +95,7 @@ public class BudgetController {
   public ResponseEntity<BudgetResponseDTO> getBudget(@PathVariable long budgetId) {
     Budget budget = budgetService.findBudgetById(budgetId);
     BudgetResponseDTO response = modelMapper.map(budget, BudgetResponseDTO.class);
+    log.info("[BudgetController:getBudget] budget: {}", response);
     return ResponseEntity.ok(response);
   }
 
@@ -114,6 +118,7 @@ public class BudgetController {
     budget.setUser(userService.findById(identity.getId()));
     budget.setCreatedAt(Timestamp.from(Instant.now()));
     budgetService.createBudget(budget);
+    log.info("[BudgetController:createBudget] budget created: {}", budget);
     return ResponseEntity.ok().build();
   }
 
@@ -137,6 +142,7 @@ public class BudgetController {
     budget.setBudgetAmount(request.getBudgetAmount());
     budget.setExpenseAmount(request.getExpenseAmount());
     budgetService.updateBudget(budget);
+    log.info("[BudgetController:updateBudget] budget updated: {}", budget);
     return ResponseEntity.ok().build();
   }
 
@@ -154,6 +160,7 @@ public class BudgetController {
   @GetMapping(value = "/delete/{budgetId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> deleteBudget(@PathVariable long budgetId) {
     budgetService.deleteBudgetById(budgetId);
+    log.info("[BudgetController:deleteBudget] budget deleted, id: {}", budgetId);
     return ResponseEntity.ok().build();
   }
 
@@ -176,6 +183,7 @@ public class BudgetController {
     Expense expense = modelMapper.map(request, Expense.class);
     expense.setBudget(budget);
     budgetService.createExpense(expense);
+    log.info("[BudgetController:updateExpense] expense updated: {}", expense);
     return ResponseEntity.ok(request);
   }
 
@@ -194,6 +202,7 @@ public class BudgetController {
   public ResponseEntity<ExpenseResponseDTO> getExpense(@PathVariable Long expenseId) {
     Expense expense = budgetService.findExpenseById(expenseId);
     ExpenseResponseDTO response = modelMapper.map(expense, ExpenseResponseDTO.class);
+    log.info("[BudgetController:getExpense] expense: {}", response);
     return ResponseEntity.ok(response);
   }
 
@@ -216,6 +225,7 @@ public class BudgetController {
       expenseDTOs.add(modelMapper.map(expense, ExpenseResponseDTO.class));
     }
     Collections.reverse(expenseDTOs);
+    log.info("[BudgetController:getExpenses] expenses: {}", expenseDTOs);
     return ResponseEntity.ok(expenseDTOs);
   }
 
@@ -233,6 +243,7 @@ public class BudgetController {
   @GetMapping(value = "/delete/expense/{expenseId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> deleteExpense(@PathVariable Long expenseId) {
     budgetService.deleteExpenseById(expenseId);
+    log.info("[BudgetController:deleteExpense] expense deleted, id: {}", expenseId);
     return ResponseEntity.ok().build();
   }
 }

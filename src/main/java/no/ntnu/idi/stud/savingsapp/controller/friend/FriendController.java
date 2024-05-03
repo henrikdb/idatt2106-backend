@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.sql.Timestamp;
 import java.time.Instant;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.user.UserDTO;
 import no.ntnu.idi.stud.savingsapp.model.notification.Notification;
 import no.ntnu.idi.stud.savingsapp.model.notification.NotificationType;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/friends")
 @Tag(name = "Friend", description = "API for managing friend relationships")
+@Slf4j
 public class FriendController {
 
     private final UserService userService;
@@ -59,6 +61,7 @@ public class FriendController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getFriends(@AuthenticationPrincipal AuthIdentity identity) {
         List<User> friendsUser = userService.getFriends(identity.getId());
+        log.info("[FriendController:getFriends] friends: {}", friendsUser);
         return ResponseEntity.ok(convertToDto(friendsUser));
     }
 
@@ -69,6 +72,7 @@ public class FriendController {
     @GetMapping("/requests")
     public ResponseEntity<List<UserDTO>> getFriendRequests(@AuthenticationPrincipal AuthIdentity identity) {
         List<User> friendsUser = userService.getFriendRequests(identity.getId());
+        log.info("[FriendController:getFriendRequests] friend requests: {}", friendsUser);
         return ResponseEntity.ok(convertToDto(friendsUser));
     }
 
@@ -85,6 +89,7 @@ public class FriendController {
         Notification notification = new Notification(null, friend, "You have received a new friend request from " + user.getFirstName(), true,
             NotificationType.FRIEND_REQUEST, Timestamp.from(Instant.now()));
         notificationService.updateNotification(notification);
+        log.info("[FriendController:addFriendRequest] from: {} to: {}", user, friend);
     }
 
     @Operation(summary = "Accept a friend request", description = "Accepts a friend request from another user.")
@@ -98,9 +103,11 @@ public class FriendController {
         User friend = userService.findById(friendId);
         Friend friendRequest = friendService.getFriendRequest(user, friend);
         if (friendRequest == null) {
+            log.error("[FriendController:acceptFriendRequest] No friend request found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No friend request found.");
         }
         friendService.acceptFriendRequest(friendRequest);
+        log.info("[FriendController:acceptFriendRequest] Friend request successfully accepted between: {} and: {}", user, friend);
         return ResponseEntity.ok().build();
     }
 
@@ -116,13 +123,22 @@ public class FriendController {
 
         Friend friendStatus = friendService.getFriendStatus(user, friend);
         if (friendStatus == null) {
+            log.error("[FriendController:deleteFriendOrFriendRequest] No friend relationship or friend request found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No friend relationship or friend request found.");
         }
 
         friendService.deleteFriendOrFriendRequest(friendStatus);
+        log.info("[FriendController:acceptFriendRequest] Friend request successfully deleted between: {} and: {}", user, friend);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Converts a list of {@link User} objects to a list of
+     * {@link UserDTO} objects.
+     *
+     * @param users the list of users to convert
+     * @return The converted list of UserDTO objects
+     */
     private List<UserDTO> convertToDto(List<User> users) {
         List<UserDTO> userDTOs = new ArrayList<>();
         for(User user : users) {

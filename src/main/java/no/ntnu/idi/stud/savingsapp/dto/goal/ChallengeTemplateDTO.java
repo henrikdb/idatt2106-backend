@@ -13,4 +13,5 @@ public final class ChallengeTemplateDTO {
   private String text;
   private BigDecimal amount;
   private ChallengeType type;
+
 }

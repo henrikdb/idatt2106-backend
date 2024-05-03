@@ -32,5 +32,11 @@ public interface GoalService {
    */
   List<Goal> getGoals(long userId);
 
+  /**
+   * Retrieves a goal associated with a specific user.
+   *
+   * @param goalId The ID of the user whose goals are to be retrieved.
+   * @return A goal object associated with the specified user.
+   */
   Goal getGoal(long goalId);
 }

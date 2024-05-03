@@ -8,6 +8,9 @@ import lombok.NonNull;
 
 import java.sql.Timestamp;
 
+/**
+ * Represents a password reset token.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

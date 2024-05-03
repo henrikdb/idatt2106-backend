@@ -150,7 +150,8 @@ INSERT INTO badge (badge_id, badge_name, criteria, image_id) VALUES
 -- Inserting BadgeUser
 INSERT INTO badge_user (earned_at, user_id, badge_id) VALUES
 ('2024-05-01 11:13:42.833664', 1, 1),
-('2024-05-01 11:13:42.833664', 1, 2);
+('2024-05-01 11:13:42.833664', 1, 2),
+('2024-05-01 11:13:42.833664', 2, 1);
 
 -- Inserting items
 INSERT INTO item (item_id, price, image_id, item_name) VALUES 

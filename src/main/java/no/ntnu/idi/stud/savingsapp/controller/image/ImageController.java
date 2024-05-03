@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.exception.ExceptionResponse;
 import no.ntnu.idi.stud.savingsapp.model.image.Image;
 import no.ntnu.idi.stud.savingsapp.service.ImageService;
@@ -32,6 +33,7 @@ import java.io.IOException;
 @RequestMapping("/api/images")
 @EnableAutoConfiguration
 @Tag(name = "Image")
+@Slf4j
 public class ImageController {
 
   @Autowired
@@ -54,6 +56,7 @@ public class ImageController {
   public ResponseEntity<Long> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
     byte[] imageBytes = file.getBytes();
     Image image = imageService.saveImage(file.getName(), imageBytes);
+    log.info("[ImageController:uploadImage] image name: {}", image.getName());
     return ResponseEntity.ok().body(image.getId());
   }
 
@@ -74,6 +77,7 @@ public class ImageController {
   @GetMapping(value = "/{id}")
   public ResponseEntity<Resource> getImage(@PathVariable long id) {
     Image image = imageService.getImage(id);
+    log.info("[ImageController:getImage] image id: {}", id);
     return ResponseEntity.ok().body(new ByteArrayResource(image.getData()));
   }
 }

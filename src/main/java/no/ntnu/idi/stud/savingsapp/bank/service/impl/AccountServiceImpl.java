@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.bank.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.dto.AccountRequestDTO;
 import no.ntnu.idi.stud.savingsapp.bank.dto.AccountResponseDTO;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Implementation of the {@link AccountService} interface for account related operations.
  */
+@Slf4j
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -37,9 +39,11 @@ public class AccountServiceImpl implements AccountService {
     List<Account> accountList;
     Optional<BankProfile> bankProfile = bankProfileRepository.findById(id);
     if (bankProfile.isEmpty()) {
+      log.error("[AccountServiceImpl:getAccountsByBankProfileId] bank: Bank profile not found");
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
     }
-      accountList = accountRepository.findAllByBankProfileId(id);
+    accountList = accountRepository.findAllByBankProfileId(id);
+    log.info("[AccountServiceImpl:getAccountsByBankProfileId] accounts: {}", accountList);
     return accountList;
   }
 
@@ -55,9 +59,11 @@ public class AccountServiceImpl implements AccountService {
     List<Account> accountList;
     Optional<BankProfile> bankProfile = bankProfileRepository.findBySsn(ssn);
     if (bankProfile.isEmpty()) {
+      log.error("[AccountServiceImpl:getAccountsBySsn] bank: Bank profile not found");
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
     }
     accountList = accountRepository.findAllByBankProfileSsn(ssn);
+    log.info("[AccountServiceImpl:getAccountsBySsn] accounts: {}", accountList);
     return accountList;
   }
 
@@ -75,6 +81,7 @@ public class AccountServiceImpl implements AccountService {
     try {
       Optional<BankProfile> profile = bankProfileRepository.findBySsn(accountRequestDto.getSsn());
       if (profile.isEmpty()) {
+        log.error("[AccountServiceImpl:saveAccount] bank: Bank profile not found");
         throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
       }
       Account newAccount = new Account();
@@ -82,6 +89,7 @@ public class AccountServiceImpl implements AccountService {
       accountRepository.save(newAccount);
       accountResponseDTO.setBalance(newAccount.getBalance());
       accountResponseDTO.setBankProfileId(newAccount.getBankProfile().getId());
+      log.info("[AccountServiceImpl:saveAccount] account: {}", newAccount);
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
     }
@@ -98,8 +106,10 @@ public class AccountServiceImpl implements AccountService {
   public Account getAccountByBban(Long bban) {
     Optional<Account> account = accountRepository.findAccountByBban(bban);
     if (account.isEmpty()) {
+      log.error("[AccountServiceImpl:getAccountByBban] account: Account not found {}", bban);
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Account not found");
     }
+    log.info("[AccountServiceImpl:getAccountByBban] account: {}", account);
     return account.get();
   }
 }

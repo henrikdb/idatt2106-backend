@@ -1,5 +1,8 @@
 package no.ntnu.idi.stud.savingsapp.model.configuration;
 
+/**
+ * Enum representing the type of challenge.
+ */
 public enum ChallengeType {
 
   NO_COFFEE,

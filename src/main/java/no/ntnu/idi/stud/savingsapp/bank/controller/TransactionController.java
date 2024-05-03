@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.bank.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.dto.TransactionDTO;
 import no.ntnu.idi.stud.savingsapp.bank.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/bank/v1/transaction")
 @EnableAutoConfiguration
+@Slf4j
 public class TransactionController {
 
   @Autowired
@@ -34,6 +36,7 @@ public class TransactionController {
   @PostMapping("/norwegian-domestic-payment-to-self")
   public ResponseEntity<TransactionDTO> transferToSelf(@RequestBody TransactionDTO transactionRequest) {
     transactionService.saveTransaction(transactionRequest);
+    log.info("[TransactionController:transferToSelf] transaction: {}", transactionRequest);
     return ResponseEntity.ok(transactionRequest);
   }
 }

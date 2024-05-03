@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents an image.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,5 +1,8 @@
 package no.ntnu.idi.stud.savingsapp.exception.badge;
 
+/**
+ * Exception thrown when attempting to retrieve a badge that does not exist.
+ */
 public class BadgeNotFoundException extends RuntimeException {
 
   /**

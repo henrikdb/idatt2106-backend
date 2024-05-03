@@ -1,5 +1,6 @@
 package no.ntnu.idi.stud.savingsapp.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.exception.image.ImageNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.image.Image;
 import no.ntnu.idi.stud.savingsapp.repository.ImageRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
  * Implementation of the ImageService interface for handling image storage and retrieval.
  */
 @Service
+@Slf4j
 public class ImageServiceImpl implements ImageService {
 
   @Autowired
@@ -46,6 +48,7 @@ public class ImageServiceImpl implements ImageService {
     if (optionalImage.isPresent()) {
       return optionalImage.get();
     } else {
+      log.error("[ImageService:getImage] Image is not found, id: {}", id);
       throw new ImageNotFoundException();
     }
   }

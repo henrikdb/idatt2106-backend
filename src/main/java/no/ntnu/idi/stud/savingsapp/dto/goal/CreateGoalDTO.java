@@ -18,4 +18,5 @@ public final class CreateGoalDTO {
 
   @NonNull
   private String targetDate;
+
 }

@@ -7,4 +7,5 @@ public class FeedbackRequestDTO {
 
   private String email;
   private String message;
+
 }

@@ -2,6 +2,9 @@ package no.ntnu.idi.stud.savingsapp.model.configuration;
 
 import java.util.Random;
 
+/**
+ * Enum representing the type of commitment.
+ */
 public enum Commitment {
 
   LITTLE(0.33),

@@ -7,7 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.List;
+import no.ntnu.idi.stud.savingsapp.model.user.User;
 
+/**
+ * Represents a {@link User} objects configuration details.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

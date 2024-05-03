@@ -4,9 +4,11 @@ import lombok.Data;
 
 @Data
 public class ItemDTO {
+
     private long id;
     private String itemName;
     private int price;
     private long imageId;
     private boolean alreadyBought;
+
 }
