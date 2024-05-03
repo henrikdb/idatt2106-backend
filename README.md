@@ -87,6 +87,8 @@ spring:
     username: user
     password: Password1.
 ```
+When you run the application the database will be populated with test-data.
+
 ## Contributors
 The individuals who contributed to the project:
 - Anders Høvik
