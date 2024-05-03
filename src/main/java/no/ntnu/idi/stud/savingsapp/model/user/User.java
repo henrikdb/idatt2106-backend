@@ -68,7 +68,7 @@ public class User implements UserDetails{
   @Column(name = "checking_account_bban")
   private Long checkingAccountBBAN;
 
-  @Column(name = "saving_account_bban")
+  @Column(name = "savings_account_bban")
   private Long savingsAccountBBAN;
 
   @NonNull
