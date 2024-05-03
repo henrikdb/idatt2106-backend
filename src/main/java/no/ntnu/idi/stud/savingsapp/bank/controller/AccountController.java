@@ -41,7 +41,10 @@ public class AccountController {
   @GetMapping("/accounts/profile/{bankProfileId}")
   public ResponseEntity<List<Account>> getAccounts(@PathVariable Long bankProfileId) {
     List<Account> accounts = accountService.getAccountsByBankProfileId(bankProfileId);
-    log.info("[AccountController:getAccounts] accounts: {}", accounts);
+    log.info("[AccountController:getAccounts] bankProfileId: {}", bankProfileId);
+    for (Account account : accounts) {
+      log.info("[AccountController:getAccounts] accountBban: {}", account.getBban());
+    }
     return ResponseEntity.ok(accounts);
   }
 
@@ -55,7 +58,10 @@ public class AccountController {
   @GetMapping("/accounts/ssn/{ssn}")
   public ResponseEntity<List<Account>> getAccountsBySsn(@PathVariable Long ssn) {
     List<Account> accounts = accountService.getAccountsBySsn(ssn);
-    log.info("[AccountController:getAccountsBySsn] accounts: {}", accounts);
+    log.info("[AccountController:getAccountsBySsn] ssn: {}", ssn);
+    for (Account account : accounts) {
+      log.info("[AccountController:getAccountsBySsn] accountBban: {}", account.getBban());
+    }
     return ResponseEntity.ok(accounts);
   }
 
@@ -68,7 +74,7 @@ public class AccountController {
   @PostMapping("/create-account")
   public ResponseEntity<AccountResponseDTO> createAccount(@RequestBody AccountRequestDTO accountRequestDTO) {
     AccountResponseDTO accountResponseDTO = accountService.saveAccount(accountRequestDTO);
-    log.info("[AccountController:createAccount] account: {}", accountResponseDTO);
+    log.info("[AccountController:createAccount] accountBankProfileId: {}", accountResponseDTO.getBankProfileId());
     return ResponseEntity.ok(accountResponseDTO);
   }
 }

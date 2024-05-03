@@ -68,7 +68,7 @@ public class BadgeController {
   public ResponseEntity<BadgeDTO> getBadge(@PathVariable long badgeId) {
     Badge badge = badgeService.findBadgeByBadgeId(badgeId);
     BadgeDTO response = modelMapper.map(badge, BadgeDTO.class);
-    log.info("[BadgeController:getBadge] badge: {}", response);
+    log.info("[BadgeController:getBadge] badge: {}", badge.getId());
     return ResponseEntity.ok(response);
   }
 
@@ -87,7 +87,9 @@ public class BadgeController {
   public ResponseEntity<List<BadgeDTO>> getAllBadges() {
     List<Badge> badges = badgeService.findAllBadges();
     List<BadgeDTO> badgeDTOS = badges.stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).toList();
-    log.info("[BadgeController:getAllBadges] badges: {}", badgeDTOS);
+    for(BadgeDTO badgeDTO : badgeDTOS) {
+      log.info("[BadgeController:getAllBadges] badge: {}", badgeDTO.getId());
+    }
     return ResponseEntity.ok(badgeDTOS);
   }
 
@@ -107,7 +109,10 @@ public class BadgeController {
   public ResponseEntity<List<BadgeDTO>> getBadgesUnlockedByActiveUser(@AuthenticationPrincipal AuthIdentity identity) {
     List<Badge> badges = badgeService.findBadgesUnlockedByUser(identity.getId());
     List<BadgeDTO> badgeDTOS = badges.stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).toList();
-    log.info("[BadgeController:getBadgesUnlockedByUser] badges: {}", badgeDTOS);
+    log.info("[BadgeController:getBadgesUnlockedByUser] userId: {}", identity.getId());
+    for(BadgeDTO badgeDTO : badgeDTOS) {
+      log.info("[BadgeController:getBadgesUnlockedByUser] badge: {}", badgeDTO.getId());
+    }
     return ResponseEntity.ok(badgeDTOS);
   }
 
@@ -127,7 +132,10 @@ public class BadgeController {
   public ResponseEntity<List<BadgeDTO>> getBadgesUnlockedByUser(@PathVariable Long userId) {
     List<Badge> badges = badgeService.findBadgesUnlockedByUser(userId);
     List<BadgeDTO> badgeDTOS = badges.stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).toList();
-    log.info("[BadgeController:getBadgesUnlockedByUser] badges: {}", badgeDTOS);
+    log.info("[BadgeController:getBadgesUnlockedByUser] userId: {}", userId);
+    for(BadgeDTO badgeDTO : badgeDTOS) {
+      log.info("[BadgeController:getBadgesUnlockedByUser] badge: {}", badgeDTO.getId());
+    }
     return ResponseEntity.ok(badgeDTOS);
   }
 
@@ -147,7 +155,10 @@ public class BadgeController {
   public ResponseEntity<List<BadgeDTO>> getBadgesNotUnlockedByActiveUser(@AuthenticationPrincipal AuthIdentity identity) {
     List<Badge> badges = badgeService.findBadgesNotUnlockedByUser(identity.getId());
     List<BadgeDTO> badgeDTOS = badges.stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).toList();
-    log.info("[BadgeController:getBadgesNotUnlockedByUser] badges: {}", badgeDTOS);
+    log.info("[BadgeController:getBadgesNotUnlockedByUser] userId: {}", identity.getId());
+    for(BadgeDTO badgeDTO : badgeDTOS) {
+      log.info("[BadgeController:getBadgesNotUnlockedByUser] badge: {}", badgeDTO.getId());
+    }
     return ResponseEntity.ok(badgeDTOS);
   }
 
@@ -178,7 +189,9 @@ public class BadgeController {
       notificationService.updateNotification(notification);
     }
     List<BadgeDTO> badgeDTOS = badges.stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).toList();
-    log.info("[BadgeController:updateUnlockedBadges] unlocked badges: {}", badgeDTOS);
+    for(BadgeDTO badgeDTO : badgeDTOS) {
+      log.info("[BadgeController:updateUnlockedBadges] badge: {}", badgeDTO.getId());
+    }
     return ResponseEntity.ok(badgeDTOS);
   }
 }

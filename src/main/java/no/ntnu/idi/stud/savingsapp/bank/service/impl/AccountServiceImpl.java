@@ -43,7 +43,10 @@ public class AccountServiceImpl implements AccountService {
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
     }
     accountList = accountRepository.findAllByBankProfileId(id);
-    log.info("[AccountServiceImpl:getAccountsByBankProfileId] accounts: {}", accountList);
+    log.info("[AccountServiceImpl:getAccountsByBankProfileId] bankProfileId: {}", id);
+    for (Account account : accountList) {
+      log.info("[AccountServiceImpl:getAccountsByBankProfileId] accountBban: {}", account.getBban());
+    }
     return accountList;
   }
 
@@ -63,7 +66,10 @@ public class AccountServiceImpl implements AccountService {
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Bank profile not found");
     }
     accountList = accountRepository.findAllByBankProfileSsn(ssn);
-    log.info("[AccountServiceImpl:getAccountsBySsn] accounts: {}", accountList);
+    log.info("[AccountServiceImpl:getAccountsBySsn] ssn: {}", ssn);
+    for (Account account : accountList) {
+      log.info("[AccountServiceImpl:getAccountsBySsn] accountBban: {}", account.getBban());
+    }
     return accountList;
   }
 
@@ -89,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
       accountRepository.save(newAccount);
       accountResponseDTO.setBalance(newAccount.getBalance());
       accountResponseDTO.setBankProfileId(newAccount.getBankProfile().getId());
-      log.info("[AccountServiceImpl:saveAccount] account: {}", newAccount);
+      log.info("[AccountServiceImpl:saveAccount] accountBban: {}", newAccount.getBban());
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
     }
@@ -109,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
       log.error("[AccountServiceImpl:getAccountByBban] account: Account not found {}", bban);
       throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Account not found");
     }
-    log.info("[AccountServiceImpl:getAccountByBban] account: {}", account);
+    log.info("[AccountServiceImpl:getAccountByBban] accountBban: {}", account.get().getBban());
     return account.get();
   }
 }

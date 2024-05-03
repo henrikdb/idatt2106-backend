@@ -70,7 +70,7 @@ public class UserController {
   public ResponseEntity<UserDTO> getUser(@AuthenticationPrincipal AuthIdentity identity) {
     User user = userService.findById(identity.getId());
     UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-    log.info("[UserController:getUser] user: {}", userDTO);
+    log.info("[UserController:getUser] user: {}", userDTO.getId());
     return ResponseEntity.ok(userDTO);
   }
 
@@ -90,7 +90,7 @@ public class UserController {
   public ResponseEntity<ProfileDTO> getProfile(@PathVariable long userId) {
     User user = userService.findById(userId);
     ProfileDTO profileDTO = modelMapper.map(user, ProfileDTO.class);
-    log.info("[UserController:getProfile] profile: {}", profileDTO);
+    log.info("[UserController:getProfile] profile: {}", profileDTO.getId());
     return ResponseEntity.ok(profileDTO);
   }
 
@@ -211,7 +211,7 @@ public class UserController {
       @RequestBody @Valid BankAccountDTO bankAccountDTO) {
     BankAccountType accountType = modelMapper.map(bankAccountDTO.getBankAccountType(),
         BankAccountType.class);
-    log.info("[UserController:selectBankAccount], bankAccount: {}", bankAccountDTO);
+    log.info("[UserController:selectBankAccount], bankAccountBban: {}", bankAccountDTO.getBban());
     return userService.selectBankAccount(
         accountType,
         bankAccountDTO.getBban(),
@@ -233,8 +233,8 @@ public class UserController {
           for(User user : users) {
             UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             userDTOs.add(userDTO);
+            log.info("[UserController:getUsersByNameAndFilter] user: {}", userDTO.getId());
           }
-          log.info("[UserController:getRandomUsers] random users: {}", userDTOs);
           return ResponseEntity.ok(userDTOs);
   }
 
@@ -248,7 +248,7 @@ public class UserController {
   @PostMapping("/send-feedback")
   public ResponseEntity<Void> sendFeedback(@Validated @RequestBody FeedbackRequestDTO feedbackRequestDTO) {
     userService.sendFeedback(feedbackRequestDTO.getEmail(), feedbackRequestDTO.getMessage());
-    log.info("[UserController:sendFeedback] feedback: {}", feedbackRequestDTO);
+    log.info("[UserController:sendFeedback] feedback: {}", feedbackRequestDTO.getMessage());
     return ResponseEntity.ok().build();
   }
 
@@ -270,7 +270,9 @@ public class UserController {
     }
     List<Feedback> feedbacks = userService.getFeedback();
     List<FeedbackResponseDTO> feedbackResponseDTOS = feedbacks.stream().map(quiz -> modelMapper.map(quiz, FeedbackResponseDTO.class)).toList();
-    log.info("[UserController:getFeedback] feedback: {}", feedbackResponseDTOS);
+    for(FeedbackResponseDTO feedbackResponseDTO : feedbackResponseDTOS) {
+      log.info("[UserController:getFeedback] feedback: {}", feedbackResponseDTO.getId());
+    }
     return ResponseEntity.ok(feedbackResponseDTOS);
   }
   
@@ -289,8 +291,8 @@ public class UserController {
           for(User user : users) {
             UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             userDTOs.add(userDTO);
+            log.info("[UserController:getRandomUsers] user: {}", userDTO.getId());
           }
-          log.info("[UserController:getUsersByNameAndFilter] users: {}", userDTOs);
           return ResponseEntity.ok(userDTOs);
   }
 

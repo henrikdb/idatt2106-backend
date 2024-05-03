@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.leaderboard.LeaderboardDTO;
+import no.ntnu.idi.stud.savingsapp.dto.leaderboard.LeaderboardEntryDTO;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.Leaderboard;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardFilter;
 import no.ntnu.idi.stud.savingsapp.model.leaderboard.LeaderboardType;
@@ -59,7 +60,12 @@ public class LeaderboardController {
     Leaderboard leaderboard = leaderboardService.getTopUsers(
         LeaderboardType.valueOf(type), LeaderboardFilter.valueOf(filter), entryCount, identity.getId());
     LeaderboardDTO leaderboardDTO = modelMapper.map(leaderboard, LeaderboardDTO.class);
-    log.info("[LeaderboardController:getLeaderboard] leaderboard: {}", leaderboardDTO);
+    log.info("[LeaderboardController:getLeaderboard] type: {}, filter: {}, count: {}",
+        type, filter, entryCount);
+    for(LeaderboardEntryDTO leaderboardEntryDTO : leaderboardDTO.getEntries()) {
+        log.info("[LeaderboardController:getLeaderboard] entry: {}, rank: {}, score: {}",
+            leaderboardEntryDTO.getUser().getId(), leaderboardEntryDTO.getRank(), leaderboardEntryDTO.getScore());
+    }
     return ResponseEntity.ok(leaderboardDTO);
   }
 
@@ -83,7 +89,12 @@ public class LeaderboardController {
     Leaderboard leaderboard = leaderboardService.getSurrounding(
         LeaderboardType.valueOf(type), LeaderboardFilter.valueOf(filter), entryCount, identity.getId());
     LeaderboardDTO leaderboardDTO = modelMapper.map(leaderboard, LeaderboardDTO.class);
-    log.info("[LeaderboardController:getSurrounding] leaderboard: {}", leaderboardDTO);
+    log.info("[LeaderboardController:getLeaderboard] type: {}, filter: {}, count: {}",
+        type, filter, entryCount);
+    for(LeaderboardEntryDTO leaderboardEntryDTO : leaderboardDTO.getEntries()) {
+        log.info("[LeaderboardController:getLeaderboard] entry: {}, rank: {}, score: {}",
+            leaderboardEntryDTO.getUser().getId(), leaderboardEntryDTO.getRank(), leaderboardEntryDTO.getScore());
+    }
     return ResponseEntity.ok(leaderboardDTO);
   }
 

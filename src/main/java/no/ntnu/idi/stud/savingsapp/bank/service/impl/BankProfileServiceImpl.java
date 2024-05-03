@@ -53,7 +53,7 @@ public class BankProfileServiceImpl implements BankProfileService {
           HttpStatusCode.valueOf(400),
           "Could not create bank profile");
     }
-    log.info("[BankProfileServiceImpl:saveBankProfile] bank profile: {}", bankProfileDTO);
+    log.info("[BankProfileServiceImpl:saveBankProfile] bank-profileSsn: {}", bankProfileDTO.getSsn());
     return savedProfileResponse;
   }
 }
