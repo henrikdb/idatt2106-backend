@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.SparestiApplication;
-import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
-import no.ntnu.idi.stud.savingsapp.model.BankAccountType;
 import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
@@ -38,7 +36,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +49,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.web.server.ResponseStatusException;
 import java.util.Collections;
 
 /**
@@ -345,22 +341,6 @@ public class UserServiceImpl implements UserService {
     }
   }
 
-  @Override
-  public Account selectBankAccount(BankAccountType bankAccountType, Long bban, Long userId) {
-    User user = findById(userId);
-    Account account = accountService.getAccountByBban(bban);
-    if (bankAccountType == BankAccountType.SAVING_ACCOUNT) {
-      user.setSavingsAccount(account);
-    }
-    else if (bankAccountType == BankAccountType.CHECKING_ACCOUNT){
-      user.setCheckingAccount(account);
-    }else {
-      log.error("[UserServiceImpl:selectBankAccount] account type is not supported: {}", bankAccountType);
-      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Account type not supported");
-    }
-    update(user);
-    return account;
-  }
 
   /**
    * Retrieves a list of {@link User} objects representing the friends of the specified user.

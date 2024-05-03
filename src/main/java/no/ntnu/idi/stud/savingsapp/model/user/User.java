@@ -19,7 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.model.configuration.Configuration;
 import no.ntnu.idi.stud.savingsapp.model.store.Item;
 
@@ -66,13 +65,11 @@ public class User implements UserDetails{
   @Column(name = "banner_image")
   private Long bannerImage;
 
-  @OneToOne
-  @JoinColumn(name = "checking_account_id")
-  private Account checkingAccount;
+  @Column(name = "checking_account_bban")
+  private Long checkingAccountBBAN;
 
-  @OneToOne
-  @JoinColumn(name = "savings_account_id")
-  private Account savingsAccount;
+  @Column(name = "saving_account_bban")
+  private Long savingsAccountBBAN;
 
   @NonNull
   @Column(name = "password")
