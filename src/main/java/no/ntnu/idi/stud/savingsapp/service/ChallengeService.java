@@ -48,4 +48,15 @@ public interface ChallengeService {
    *               reflect the new target savings the user aims to achieve.
    */
   void updateSavingAmount(long userId, long id, BigDecimal amount);
+
+  /**
+   * Replaces that challenge in a given goal identified by the challenge ID.
+   * This method is useful for letting the user change out challenges they know
+   * they will not be able to do
+   *
+   * @param userId the ID of the user who sends the request
+   * @param challengeId The ID of the challenge that will be replaced
+   * @return The updated goal containing the new challenge
+   */
+  Challenge regenerateChallenge(long userId, long challengeId);
 }
