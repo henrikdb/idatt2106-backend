@@ -17,4 +17,20 @@ public class SparestiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SparestiApplication.class, args);
 	}
+
+	/**
+	 * Returns the URL for the frontend application.
+	 * @return	the URL for the frontend application
+	 */
+	public static String getFrontendURL() {
+		return System.getProperty("FRONTEND_URL", "http://localhost");
+	}
+
+	/**
+	 * Returns the URL for the backend application.
+	 * @return	the URL for the backend application
+	 */
+	public static String getBackendURL() {
+		return System.getProperty("API_URL", "http://localhost:8080");
+	}
 }

@@ -1,6 +1,7 @@
 package no.ntnu.idi.stud.savingsapp.security;
 
 import jakarta.servlet.DispatcherType;
+import no.ntnu.idi.stud.savingsapp.SparestiApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -66,7 +67,7 @@ public class SecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-    config.setAllowedOrigins(List.of("http://localhost"));
+    config.setAllowedOrigins(List.of(SparestiApplication.getFrontendURL()));
     config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
     config.setAllowCredentials(true);
 

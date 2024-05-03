@@ -24,5 +24,5 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-DAPI_URL=https://api.sparesti.org", "-DFRONTEND_URL=https://sparesti.org", "-jar", "app.jar"]
 

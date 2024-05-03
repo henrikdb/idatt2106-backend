@@ -126,6 +126,9 @@ public class UserController {
     if (updateDTO.getProfileImage() != null) {
       user.setProfileImage(updateDTO.getProfileImage());
     }
+    if(updateDTO.getBannerImage() != null) {
+      user.setBannerImage(updateDTO.getBannerImage());
+    }
     if (updateDTO.getConfiguration() != null) {
       if (updateDTO.getConfiguration().getCommitment() != null) {
         user.getConfiguration().setCommitment(Commitment.valueOf(updateDTO.getConfiguration().getCommitment()));

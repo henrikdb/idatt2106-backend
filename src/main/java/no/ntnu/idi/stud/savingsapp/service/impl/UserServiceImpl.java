@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
+import no.ntnu.idi.stud.savingsapp.SparestiApplication;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
@@ -151,7 +152,7 @@ public class UserServiceImpl implements UserService {
       httpPost.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + "ZGVtby1wcmVwcm9kOm1xWi1fNzUtZjJ3TnNpUVRPTmI3T240YUFaN3pjMjE4bXJSVmsxb3VmYTg=");
       List<NameValuePair> params = new ArrayList<>();
       params.add(new BasicNameValuePair("client_id", "demo-preprod"));
-      params.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/redirect"));
+      params.add(new BasicNameValuePair("redirect_uri", SparestiApplication.getBackendURL() + "/redirect"));
       params.add(new BasicNameValuePair("grant_type", "authorization_code"));
       params.add(new BasicNameValuePair("code", code));
       httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
