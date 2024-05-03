@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * Implementation of the UserService interface for user-related operations.
@@ -410,12 +411,23 @@ public class UserServiceImpl implements UserService {
   public List<User> getUsersByNameAndFilter(Long userId, String searchTerm, SearchFilter filter) {
       List<User> users = userRepository.findUsersByName(searchTerm);
       users.removeIf(user -> user.getId().equals(userId));
+      List<User> friends = new ArrayList<>();
       switch (filter) {
           case NON_FRIENDS:
-              List<User> friends = getFriends(userId);
+              friends = getFriends(userId);
               users.removeAll(friends);
               break;
-      }
+          case FRIENDS:
+              friends = getFriends(userId);
+              Iterator<User> iterator = users.iterator();
+              while (iterator.hasNext()) {
+                  User user = iterator.next();
+                  if (!friends.contains(user)) {
+                      iterator.remove();
+                  }
+              }
+              break;
+      } 
       return users;
   }
 

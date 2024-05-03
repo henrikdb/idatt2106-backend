@@ -228,6 +228,7 @@ public class UserController {
           @PathVariable String searchTerm,
           @PathVariable @Enumerator(value = SearchFilter.class,
           message = "Invalid filter") String filter) {
+          log.info("[UserController:getUsersByNameAndFilter] searchTerm: {}, filter: {}", searchTerm, filter);
           List<User> users = userService.getUsersByNameAndFilter(identity.getId(), searchTerm, SearchFilter.valueOf(filter));
           List<UserDTO> userDTOs = new ArrayList<>();
           for(User user : users) {
