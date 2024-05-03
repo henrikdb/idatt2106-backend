@@ -6,8 +6,7 @@ The API backend of sparesti.app. SpareSti is designed to make saving fun. The ap
 ## Links
 
 - **Frontend**: [https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/frontend](https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/frontend)
-- **Jacoco Test Coverage**: [https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no/jacoco/index.html](https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no/jacoco/index.html)
-- **Site Reports**: [https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no/project-info.html](https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no/project-info.html)
+- **Jacoco Test Coverage**: [https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no](https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no)
 
 ## Getting Started
 
