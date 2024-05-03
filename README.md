@@ -73,9 +73,9 @@ Here is the current configuration:
 ```yaml
 spring:
   datasource:
-    url: jdbc:mysql://129.241.98.39:3306/sparesti
-    username: user
-    password: Password1.
+    url: jdbc:mysql://128.199.53.153:3306/sparesti
+    username: username
+    password: password
 ```
 To configure the test database go to **src/test/resources/application.yml**
 
