@@ -80,7 +80,7 @@ public class TransactionServiceImpl implements TransactionService {
       accountRepository.updateBalance(debtorBalance, debtorAccount.get().getBban());
       accountRepository.updateBalance(creditorBalance, creditorAccount.get().getBban());
       transactionRepository.save(savedTransaction);
-      log.info("[TransactionService:saveTransaction] saved transaction: {}", savedTransaction);
+      log.info("[TransactionService:saveTransaction] saved transaction with id: {}", savedTransaction.getId());
     } catch (Exception e) {
       log.error("[TransactionService:saveTransaction] Transaction failed");
       throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());

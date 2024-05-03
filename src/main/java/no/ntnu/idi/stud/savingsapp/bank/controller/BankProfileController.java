@@ -34,7 +34,7 @@ public class BankProfileController {
   })
   @PostMapping("/create-profile")
   public BankProfileResponseDTO createBankProfile(@RequestBody BankProfileDTO bankProfileDTO) {
-    log.info("[BankProfileController:createBankProfile] bank-profile: {}", bankProfileDTO);
+    log.info("[BankProfileController:createBankProfile] bank-profileSsn: {}", bankProfileDTO.getSsn());
     return bankProfileService.saveBankProfile(bankProfileDTO);
   }
 

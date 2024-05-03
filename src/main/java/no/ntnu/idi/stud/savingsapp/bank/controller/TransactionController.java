@@ -36,7 +36,7 @@ public class TransactionController {
   @PostMapping("/norwegian-domestic-payment-to-self")
   public ResponseEntity<TransactionDTO> transferToSelf(@RequestBody TransactionDTO transactionRequest) {
     transactionService.saveTransaction(transactionRequest);
-    log.info("[TransactionController:transferToSelf] transaction: {}", transactionRequest);
+    log.info("[TransactionController:transferToSelf] transaction amount {} from: {} -> {}", transactionRequest.getAmount(), transactionRequest.getCreditorBBAN(), transactionRequest.getDebtorBBAN());
     return ResponseEntity.ok(transactionRequest);
   }
 }

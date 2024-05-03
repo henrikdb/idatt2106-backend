@@ -63,7 +63,7 @@ public class NotificationController {
   public ResponseEntity<NotificationDTO> getNotification(@PathVariable long notificationId) {
     Notification notification = notificationService.getNotificationById(notificationId);
     NotificationDTO response = modelMapper.map(notification, NotificationDTO.class);
-    log.info("[NotificationController:getNotification] notification: {}", response);
+    log.info("[NotificationController:getNotification] notification: {}", response.getId());
     return ResponseEntity.ok(response);
   }
 
@@ -82,7 +82,9 @@ public class NotificationController {
   public ResponseEntity<List<NotificationDTO>> getNotificationByUser(@AuthenticationPrincipal AuthIdentity identity) {
     List<Notification> notifications = notificationService.getNotificationsByUserId(identity.getId());
     List<NotificationDTO> notificationDTOs = notifications.stream().map(notification -> modelMapper.map(notification, NotificationDTO.class)).toList();
-    log.info("[NotificationController:getNotificationByUser] notifications: {}", notificationDTOs);
+    for (NotificationDTO notificationDTO : notificationDTOs) {
+      log.info("[NotificationController:getNotificationByUser] notification: {}", notificationDTO.getId());
+    }
     return ResponseEntity.ok(notificationDTOs);
   }
 
@@ -101,7 +103,9 @@ public class NotificationController {
   public ResponseEntity<List<NotificationDTO>> getUnreadNotificationByUser(@AuthenticationPrincipal AuthIdentity identity) {
     List<Notification> notifications = notificationService.getUnreadNotificationsByUserId(identity.getId());
     List<NotificationDTO> notificationsDTOs = notifications.stream().map(notification -> modelMapper.map(notification, NotificationDTO.class)).toList();
-    log.info("[NotificationController:getUnreadNotificationByUser] notifications: {}", notificationsDTOs);
+    for(NotificationDTO notificationDTO : notificationsDTOs) {
+      log.info("[NotificationController:getUnreadNotificationByUser] notification: {}", notificationDTO.getId());
+    }
     return ResponseEntity.ok(notificationsDTOs);
   }
 
@@ -127,7 +131,7 @@ public class NotificationController {
     User user = userService.findById(identity.getId());
     notification.setUser(user);
     notificationService.updateNotification(notification);
-    log.info("[NotificationController:updateNotification] updated notification: {}", request);
+    log.info("[NotificationController:updateNotification] updated notification: {}", request.getId());
     return ResponseEntity.ok().build();
   }
 }
