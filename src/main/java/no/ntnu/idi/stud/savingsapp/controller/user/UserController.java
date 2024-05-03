@@ -152,6 +152,17 @@ public class UserController {
     return ResponseEntity.ok(userDTO);
   }
 
+  @Operation(summary = "Delete the authenticated user", description = "Delete the authenticated user")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully deleted user")
+  })
+  @DeleteMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal AuthIdentity identity) {
+    userService.delete(identity.getId());
+    log.info("[UserController:deleteUser] user: {}", identity.getId());
+    return ResponseEntity.ok().build();
+  }
+
   @Operation(summary = "Update a password", description = "Update the password of the authenticated user")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successfully updated password")

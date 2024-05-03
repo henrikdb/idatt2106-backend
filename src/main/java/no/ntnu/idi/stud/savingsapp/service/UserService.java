@@ -56,6 +56,15 @@ public interface UserService {
   User update(User user);
 
   /**
+   * Deletes a user from the system based on the specified user ID.
+   * This method permanently removes the user's record from the database. It should be used with caution,
+   * as this operation is irreversible and results in the loss of all data associated with the user's account.
+   *
+   * @param userId The unique identifier of the user to be deleted.
+   */
+  void delete(long userId);
+
+  /**
    * Updates the password of a user.
    *
    * @param id The ID of the user
