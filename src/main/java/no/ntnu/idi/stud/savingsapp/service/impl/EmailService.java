@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import no.ntnu.idi.stud.savingsapp.SparestiApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -40,6 +41,7 @@ public class EmailService {
     ClassPathResource htmlResource = new ClassPathResource("reset-password/reset-password.html");
     String html =  StreamUtils.copyToString(htmlResource.getInputStream(), StandardCharsets.UTF_8);
     html = html.replace("{RESET_TOKEN}", token);
+    html = html.replace("{FRONTEND_URL}", SparestiApplication.getFrontendURL());
     helper.setText(html, true);
 
     helper.addInline("logo", new ClassPathResource("reset-password/assets/logo.png"));

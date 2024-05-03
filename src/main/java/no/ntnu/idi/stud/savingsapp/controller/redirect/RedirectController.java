@@ -3,6 +3,7 @@ package no.ntnu.idi.stud.savingsapp.controller.redirect;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import no.ntnu.idi.stud.savingsapp.SparestiApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +34,13 @@ public class RedirectController {
                                HttpServletRequest request, HttpServletResponse response) {
     if (request.getParameterMap().containsKey("code")) {
       String code = request.getParameterMap().get("code")[0];
-      response.setHeader("Location", "http://localhost:5173/redirect?code=" + code + "&state=" + state);
+      response.setHeader("Location", SparestiApplication.getFrontendURL() + "/redirect?code=" + code + "&state=" + state);
       response.setStatus(302);
       return;
     }
     // Default redirection if "code" parameter is missing
     try {
-      response.sendRedirect("http://localhost:5173/login");
+      response.sendRedirect(SparestiApplication.getFrontendURL() + "/login");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
