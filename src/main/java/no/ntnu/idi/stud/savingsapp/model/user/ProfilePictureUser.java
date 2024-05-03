@@ -22,18 +22,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "profile_picture_user")
 public class ProfilePictureUser {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "profile_picture_user_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "profile_picture_user_id")
+	private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "profile_picture_id")
-  private ProfilePicture profilePicture;
+	@ManyToOne
+	@JoinColumn(name = "profile_picture_id")
+	private ProfilePicture profilePicture;
 
-  private boolean inUse;
+	private boolean inUse;
+
 }

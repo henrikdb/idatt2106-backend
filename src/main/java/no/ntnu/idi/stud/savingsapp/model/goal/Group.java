@@ -17,16 +17,17 @@ import java.util.List;
 @Table(name = "group")
 public class Group {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "group_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "group_id")
+	private Long id;
 
-  @OneToMany
-  @Column(name = "goals")
-  private List<Goal> goals;
+	@OneToMany
+	@Column(name = "goals")
+	private List<Goal> goals;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User creator;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User creator;
+
 }

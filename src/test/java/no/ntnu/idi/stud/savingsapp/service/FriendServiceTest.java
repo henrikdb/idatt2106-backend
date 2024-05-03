@@ -25,31 +25,35 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @Transactional
 public class FriendServiceTest {
-    @Mock
-    private FriendRepository friendRepository;
 
-    @InjectMocks
-    private FriendServiceImpl friendService;
+	@Mock
+	private FriendRepository friendRepository;
 
-    private User user;
-    private User friend;
-    private Friend friendEntity;
-    private FriendId friendId;
+	@InjectMocks
+	private FriendServiceImpl friendService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+	private User user;
 
-        user = new User();
-        friend = new User();
-        user.setId(1L);
-        friend.setId(2L);
+	private User friend;
 
-        friendId = new FriendId(user, friend);
-        friendEntity = new Friend(friendId, false, null);
-    }
+	private Friend friendEntity;
 
-    @Test
+	private FriendId friendId;
+
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.openMocks(this);
+
+		user = new User();
+		friend = new User();
+		user.setId(1L);
+		friend.setId(2L);
+
+		friendId = new FriendId(user, friend);
+		friendEntity = new Friend(friendId, false, null);
+	}
+
+	@Test
     public void testGetFriends() {
         when(friendRepository.findAllById_UserOrId_FriendAndPendingFalse(user.getId())).thenReturn(Arrays.asList(friendEntity));
         List<Friend> result = friendService.getFriends(user.getId());
@@ -57,4 +61,5 @@ public class FriendServiceTest {
         assertEquals(1, result.size());
         assertEquals(friendEntity, result.get(0));
     }
+
 }

@@ -5,15 +5,19 @@ package no.ntnu.idi.stud.savingsapp.exception.goal;
  */
 public final class ChallengeNotFoundException extends RuntimeException {
 
-  /**
-   * Constructs a ChallengeNotFoundException with default message.
-   */
-  public ChallengeNotFoundException() { super("Challenge not found");}
+	/**
+	 * Constructs a ChallengeNotFoundException with default message.
+	 */
+	public ChallengeNotFoundException() {
+		super("Challenge not found");
+	}
 
-  /**
-   * Constructs a ChallengeNotFoundException with custom message.
-   *
-   * @param string the custom exception message
-   */
-  public ChallengeNotFoundException(String string) {super(string);}
+	/**
+	 * Constructs a ChallengeNotFoundException with custom message.
+	 * @param string the custom exception message
+	 */
+	public ChallengeNotFoundException(String string) {
+		super(string);
+	}
+
 }

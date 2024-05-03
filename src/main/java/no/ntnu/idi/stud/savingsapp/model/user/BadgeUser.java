@@ -19,9 +19,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "badge_user")
 public class BadgeUser {
 
-  @EmbeddedId
-  private BadgeUserId badgeUserId;
+	@EmbeddedId
+	private BadgeUserId badgeUserId;
 
-  @Column(name = "earned_at")
-  private Timestamp earnedAt;
+	@Column(name = "earned_at")
+	private Timestamp earnedAt;
+
 }

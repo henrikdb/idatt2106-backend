@@ -5,9 +5,12 @@ import lombok.Data;
 @Data
 public class ExpenseResponseDTO {
 
-  private Long expenseId;
-  private Long budgetId;
-  private String description;
-  private String amount;
+	private Long expenseId;
+
+	private Long budgetId;
+
+	private String description;
+
+	private String amount;
 
 }

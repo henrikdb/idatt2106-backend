@@ -5,6 +5,9 @@ import lombok.Data;
 
 @Data
 public final class BankAccountResponseDTO {
-  private Long bban;
-  private BigDecimal balance;
+
+	private Long bban;
+
+	private BigDecimal balance;
+
 }

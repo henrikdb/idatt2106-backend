@@ -6,9 +6,12 @@ import lombok.Data;
 @Data
 public class FeedbackResponseDTO {
 
-  private String id;
-  private String email;
-  private String message;
-  private Timestamp createdAt;
+	private String id;
+
+	private String email;
+
+	private String message;
+
+	private Timestamp createdAt;
 
 }

@@ -10,13 +10,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthIdentity {
 
-  /**
-   * The ID of the authenticated user.
-   */
-  private long id;
+	/**
+	 * The ID of the authenticated user.
+	 */
+	private long id;
 
-  /**
-   * The role of the authenticated user.
-   */
-  private String role;
+	/**
+	 * The role of the authenticated user.
+	 */
+	private String role;
+
 }

@@ -11,8 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 public class ConfigurationDTO {
 
-  private String commitment;
-  private String experience;
-  private List<@Enumerator(value = ChallengeType.class) String> challengeTypes;
+	private String commitment;
+
+	private String experience;
+
+	private List<@Enumerator(value = ChallengeType.class) String> challengeTypes;
 
 }

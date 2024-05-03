@@ -20,14 +20,15 @@ import lombok.NoArgsConstructor;
 @Table(name = "point")
 public class Point {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "point_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "point_id")
+	private Long id;
 
-  @Column(name = "current_points", nullable = false)
-  private int currentPoints;
+	@Column(name = "current_points", nullable = false)
+	private int currentPoints;
 
-  @Column(name = "total_earned_points", nullable = false)
-  private int totalEarnedPoints;
+	@Column(name = "total_earned_points", nullable = false)
+	private int totalEarnedPoints;
+
 }

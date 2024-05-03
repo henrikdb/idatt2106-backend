@@ -15,8 +15,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Entity that represents a bank profile in the system.
- * This profile consists of both an id and a social security number.
+ * Entity that represents a bank profile in the system. This profile consists of both an
+ * id and a social security number.
  */
 @Data
 @AllArgsConstructor
@@ -25,16 +25,17 @@ import lombok.NoArgsConstructor;
 @Table(name = "bank_profile")
 public class BankProfile {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "bank_profile_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "bank_profile_id")
+	private Long id;
 
-  @Column(name = "ssn")
-  private Long ssn;
+	@Column(name = "ssn")
+	private Long ssn;
 
-  @OneToMany()
-  @JsonManagedReference
-  @JoinColumn(name = "bank_profile_id")
-  private List<Account> accounts;
+	@OneToMany()
+	@JsonManagedReference
+	@JoinColumn(name = "bank_profile_id")
+	private List<Account> accounts;
+
 }

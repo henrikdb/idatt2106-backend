@@ -8,9 +8,12 @@ import java.sql.Timestamp;
 @Data
 public final class ProgressDTO {
 
-  private long id;
-  private int day;
-  private BigDecimal amount;
-  private Timestamp completedAt;
+	private long id;
+
+	private int day;
+
+	private BigDecimal amount;
+
+	private Timestamp completedAt;
 
 }

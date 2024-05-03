@@ -5,10 +5,11 @@ package no.ntnu.idi.stud.savingsapp.exception.user;
  */
 public final class UserException extends RuntimeException {
 
-  /**
-   * Constructs a UserException with the default message.
-   */
-  public UserException(String string) {
-    super(string);
-  }
+	/**
+	 * Constructs a UserException with the default message.
+	 */
+	public UserException(String string) {
+		super(string);
+	}
+
 }

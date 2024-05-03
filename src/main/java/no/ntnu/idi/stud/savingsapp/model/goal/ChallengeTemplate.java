@@ -26,24 +26,25 @@ import java.math.BigDecimal;
 @Table(name = "challenge_template")
 public class ChallengeTemplate {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "challenge_template_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "challenge_template_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "challenge_text", nullable = false)
-  private String text;
+	@NonNull
+	@Column(name = "challenge_text", nullable = false)
+	private String text;
 
-  @NonNull
-  @Column(name = "challenge_name", nullable = false)
-  private String challengeName;
+	@NonNull
+	@Column(name = "challenge_name", nullable = false)
+	private String challengeName;
 
-  @Column(name = "challenge_amount", nullable = false)
-  private BigDecimal amount;
+	@Column(name = "challenge_amount", nullable = false)
+	private BigDecimal amount;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "challenge_type", nullable = false)
-  private ChallengeType challengeType;
+	@NonNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "challenge_type", nullable = false)
+	private ChallengeType challengeType;
+
 }

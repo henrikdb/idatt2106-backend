@@ -20,47 +20,47 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 public class BudgetServiceTest {
 
-  @Autowired
-  private BudgetServiceImpl budgetService;
+	@Autowired
+	private BudgetServiceImpl budgetService;
 
-  private User user;
+	private User user;
 
-  private Budget expectedBudget;
+	private Budget expectedBudget;
 
-  private Budget expectedBudget2;
+	private Budget expectedBudget2;
 
-  @BeforeEach
-  void init() {
+	@BeforeEach
+	void init() {
 
-    user = new User();
-    user.setFirstName("User");
-    user.setLastName("User");
-    user.setEmail("user@example.com");
-    user.setPassword("SomeEncryptedPassword1");
-    user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-    user.setRole(Role.USER);
+		user = new User();
+		user.setFirstName("User");
+		user.setLastName("User");
+		user.setEmail("user@example.com");
+		user.setPassword("SomeEncryptedPassword1");
+		user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		user.setRole(Role.USER);
 
-    expectedBudget = new Budget();
-    expectedBudget.setBudgetName("TestBudget1");
-    expectedBudget.setUser(user);
-    expectedBudget.setBudgetAmount(new BigDecimal(1000));
-    expectedBudget.setExpenseAmount(new BigDecimal(200));
-    expectedBudget.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		expectedBudget = new Budget();
+		expectedBudget.setBudgetName("TestBudget1");
+		expectedBudget.setUser(user);
+		expectedBudget.setBudgetAmount(new BigDecimal(1000));
+		expectedBudget.setExpenseAmount(new BigDecimal(200));
+		expectedBudget.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-    expectedBudget2 = new Budget();
-    expectedBudget2.setBudgetName("TestBudget2");
-    expectedBudget2.setUser(user);
-    expectedBudget2.setBudgetAmount(new BigDecimal(50));
-    expectedBudget2.setExpenseAmount(new BigDecimal(10));
-    expectedBudget2.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-  }
+		expectedBudget2 = new Budget();
+		expectedBudget2.setBudgetName("TestBudget2");
+		expectedBudget2.setUser(user);
+		expectedBudget2.setBudgetAmount(new BigDecimal(50));
+		expectedBudget2.setExpenseAmount(new BigDecimal(10));
+		expectedBudget2.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+	}
 
-  @Test
-  void shouldCreateBudget() {
-    Budget createdBudget = budgetService.createBudget(expectedBudget2);
+	@Test
+	void shouldCreateBudget() {
+		Budget createdBudget = budgetService.createBudget(expectedBudget2);
 
-    assertThat(createdBudget).isNotNull();
-    assertThat(createdBudget.getBudgetName()).isEqualTo(expectedBudget2.getBudgetName());
-  }
+		assertThat(createdBudget).isNotNull();
+		assertThat(createdBudget.getBudgetName()).isEqualTo(expectedBudget2.getBudgetName());
+	}
 
 }

@@ -7,10 +7,14 @@ import no.ntnu.idi.stud.savingsapp.model.notification.NotificationType;
 @Data
 public class NotificationDTO {
 
-  private long id;
-  private String message;
-  private boolean unread;
-  private NotificationType notificationType;
-  private Timestamp createdAt;
+	private long id;
+
+	private String message;
+
+	private boolean unread;
+
+	private NotificationType notificationType;
+
+	private Timestamp createdAt;
 
 }

@@ -11,12 +11,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BankProfileRepository extends JpaRepository<BankProfile, Long> {
 
-  /**
-   * Get the bank profile associated with a Social Security Number.
-   *
-   * @param ssn The Social Security Number of the user.
-   * @return    The user if it exists, if not: returns empty.
-   */
-  Optional<BankProfile> findBySsn(Long ssn);
+	/**
+	 * Get the bank profile associated with a Social Security Number.
+	 * @param ssn The Social Security Number of the user.
+	 * @return The user if it exists, if not: returns empty.
+	 */
+	Optional<BankProfile> findBySsn(Long ssn);
 
 }

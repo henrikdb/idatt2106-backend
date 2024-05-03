@@ -1,6 +1,5 @@
 package no.ntnu.idi.stud.savingsapp.model.budget;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,29 +29,30 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "`budget`")
 public class Budget {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "budget_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "budget_id")
+	private Long id;
 
-  @ManyToOne
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "user_id")
-  private User user;
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @NonNull
-  @Column(name = "created_at", nullable = false)
-  private Timestamp createdAt;
+	@NonNull
+	@Column(name = "created_at", nullable = false)
+	private Timestamp createdAt;
 
-  @NonNull
-  @Column(name = "budget_name", nullable = false)
-  private String budgetName;
+	@NonNull
+	@Column(name = "budget_name", nullable = false)
+	private String budgetName;
 
-  @NonNull
-  @Column(name = "budget_amount", nullable = false)
-  private BigDecimal budgetAmount;
+	@NonNull
+	@Column(name = "budget_amount", nullable = false)
+	private BigDecimal budgetAmount;
 
-  @NonNull
-  @Column(name = "expense_amount", nullable = false)
-  private BigDecimal expenseAmount;
+	@NonNull
+	@Column(name = "expense_amount", nullable = false)
+	private BigDecimal expenseAmount;
+
 }
