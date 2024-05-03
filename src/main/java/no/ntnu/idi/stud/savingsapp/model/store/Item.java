@@ -15,6 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import no.ntnu.idi.stud.savingsapp.model.image.Image;
 
+/**
+ * Represents an item.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

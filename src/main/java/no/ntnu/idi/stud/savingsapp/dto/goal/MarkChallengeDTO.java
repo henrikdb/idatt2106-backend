@@ -10,4 +10,5 @@ public final class MarkChallengeDTO {
   private long id;
   private int day;
   private BigDecimal amount;
+
 }

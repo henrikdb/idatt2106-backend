@@ -12,4 +12,5 @@ public final class ProgressDTO {
   private int day;
   private BigDecimal amount;
   private Timestamp completedAt;
+
 }

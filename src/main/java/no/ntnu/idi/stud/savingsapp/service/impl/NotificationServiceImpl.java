@@ -2,6 +2,7 @@ package no.ntnu.idi.stud.savingsapp.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.exception.notification.NotificationNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.notification.Notification;
 import no.ntnu.idi.stud.savingsapp.repository.NotificationRepository;
@@ -9,7 +10,11 @@ import no.ntnu.idi.stud.savingsapp.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the NotificationService interface for handling notifications.
+ */
 @Service
+@Slf4j
 public class NotificationServiceImpl implements NotificationService {
 
   @Autowired
@@ -28,6 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
     if (optionalNotification.isPresent()) {
       return optionalNotification.get();
     } else {
+      log.error("[NotificationServiceImpl:getNotificationById] notification does not exists, id: {}", notificationId);
       throw new NotificationNotFoundException();
     }
   }

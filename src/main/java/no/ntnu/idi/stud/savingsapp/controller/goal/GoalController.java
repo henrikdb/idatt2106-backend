@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.dto.goal.MarkChallengeDTO;
 import no.ntnu.idi.stud.savingsapp.dto.goal.CreateGoalDTO;
 import no.ntnu.idi.stud.savingsapp.dto.goal.GoalDTO;
@@ -32,6 +33,7 @@ import java.util.List;
 @RequestMapping("/api/goals")
 @EnableAutoConfiguration
 @Tag(name = "Goal")
+@Slf4j
 public class GoalController {
 
   @Autowired
@@ -61,6 +63,7 @@ public class GoalController {
     Goal createGoal = modelMapper.map(request, Goal.class);
     Goal goal = goalService.createGoal(createGoal, identity.getId());
     GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
+    log.info("[GoalController:createGoal] goal: {}", goalDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(goalDTO);
   }
 
@@ -78,6 +81,7 @@ public class GoalController {
   public ResponseEntity<List<GoalDTO>> getGoals(@AuthenticationPrincipal AuthIdentity identity) {
     List<Goal> goals = goalService.getGoals(identity.getId());
     List<GoalDTO> goalsDTO = goals.stream().map(goal -> modelMapper.map(goal, GoalDTO.class)).toList();
+    log.info("[GoalController:getGoals] goals: {}", goalsDTO);
     return ResponseEntity.ok(goalsDTO);
   }
 
@@ -103,6 +107,7 @@ public class GoalController {
                                               @RequestBody MarkChallengeDTO request) {
     challengeService.updateProgress(identity.getId(), request.getId(),
         request.getDay(), request.getAmount());
+    log.info("[GoalController:updateChallenge] challenge: {}", request);
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
 
@@ -123,6 +128,7 @@ public class GoalController {
   public ResponseEntity<Void> updateChallengeAmount(@AuthenticationPrincipal AuthIdentity identity,
                                                     @RequestBody MarkChallengeDTO request) {
     challengeService.updateSavingAmount(identity.getId(), request.getId(), request.getAmount());
+    log.info("[GoalController:updateChallengeAmount] challenge: {}", request);
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
 
@@ -130,6 +136,7 @@ public class GoalController {
   public ResponseEntity<GoalDTO> getGoal(@RequestParam Long id) {
     Goal goal = goalService.getGoal(id);
     GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
+    log.info("[GoalController:getGoal] goal: {}", goalDTO);
     return ResponseEntity.ok(goalDTO);
   }
 }

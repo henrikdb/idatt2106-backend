@@ -11,4 +11,5 @@ public class BankAccountDTO {
 
   @Enumerator(value = BankAccountType.class)
   private String bankAccountType;
+
 }

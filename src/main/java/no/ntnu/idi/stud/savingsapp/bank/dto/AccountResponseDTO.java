@@ -10,6 +10,6 @@ import lombok.Data;
 public class AccountResponseDTO {
 
   private Long bankProfileId;
-
   private BigDecimal balance;
+
 }

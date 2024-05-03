@@ -20,4 +20,5 @@ public final class GoalDTO {
   private Timestamp createdAt;
   private List<ChallengeDTO> challenges;
   private UserDTO user;
+
 }
