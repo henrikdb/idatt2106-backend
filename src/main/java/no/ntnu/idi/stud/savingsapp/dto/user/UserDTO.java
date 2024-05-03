@@ -16,8 +16,8 @@ public class UserDTO {
   private Timestamp createdAt;
   private String role;
   private String subscriptionLevel;
-  private BankAccountResponseDTO checkingAccountBBAN;
-  private BankAccountResponseDTO savingsAccountBBAN;
+  private BankAccountResponseDTO checkingAccount;
+  private BankAccountResponseDTO savingsAccount;
   private PointDTO point;
   private StreakDTO streak;
 }
