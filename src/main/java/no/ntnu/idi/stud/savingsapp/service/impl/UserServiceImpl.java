@@ -415,7 +415,10 @@ public class UserServiceImpl implements UserService {
               List<User> friends = getFriends(userId);
               users.removeAll(friends);
               break;
-      }
+          case FRIENDS:
+              users = getFriends(userId);
+              break;
+      } 
       return users;
   }
 
