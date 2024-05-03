@@ -13,12 +13,16 @@ import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
 import no.ntnu.idi.stud.savingsapp.model.user.PasswordResetToken;
+import no.ntnu.idi.stud.savingsapp.model.user.Point;
 import no.ntnu.idi.stud.savingsapp.model.user.Role;
 import no.ntnu.idi.stud.savingsapp.model.user.SearchFilter;
+import no.ntnu.idi.stud.savingsapp.model.user.Streak;
 import no.ntnu.idi.stud.savingsapp.model.user.SubscriptionLevel;
 import no.ntnu.idi.stud.savingsapp.model.user.User;
 import no.ntnu.idi.stud.savingsapp.repository.FeedbackRepository;
 import no.ntnu.idi.stud.savingsapp.repository.PasswordResetTokenRepository;
+import no.ntnu.idi.stud.savingsapp.repository.PointRepository;
+import no.ntnu.idi.stud.savingsapp.repository.StreakRepository;
 import no.ntnu.idi.stud.savingsapp.repository.UserRepository;
 import no.ntnu.idi.stud.savingsapp.service.FriendService;
 import no.ntnu.idi.stud.savingsapp.service.UserService;
@@ -67,6 +71,12 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private FriendService friendService;
+
+  @Autowired
+  private PointRepository pointRepository;
+
+  @Autowired
+  private StreakRepository streakRepository;
 
   @Autowired
   private PasswordResetTokenRepository tokenRepository;
@@ -123,6 +133,25 @@ public class UserServiceImpl implements UserService {
     user.setPassword(encodedPassword);
     user.setRole(Role.USER);
     user.setCreatedAt(Timestamp.from(Instant.now()));
+
+    // Create and save a new Point object
+    Point point = new Point();
+    point.setCurrentPoints(0);
+    point.setTotalEarnedPoints(0);
+    point = pointRepository.save(point);
+
+    user.setPoint(point);
+
+    Streak streak = new Streak();
+    streak.setCurrentStreak(0);
+    streak.setCurrentStreakCreatedAt(Timestamp.from(Instant.now()));
+    streak.setCurrentStreakUpdatedAt(Timestamp.from(Instant.now()));
+    streak.setHighestStreak(0);
+    streak.setHighestStreakCreatedAt(Timestamp.from(Instant.now()));
+    streak.setHighestStreakEndedAt(Timestamp.from(Instant.now()));
+    streak = streakRepository.save(streak);
+
+    user.setStreak(streak);
     try {
       return userRepository.save(user);
     } catch (DataIntegrityViolationException e) {
