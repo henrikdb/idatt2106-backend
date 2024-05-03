@@ -7,7 +7,6 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +20,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "inventory")
 public class Inventory {
-    @EmbeddedId
-    private InventoryId inventoryId;
 
-    @Column(name = "bought_at")
-    private Timestamp boughtAt;
+	@EmbeddedId
+	private InventoryId inventoryId;
+
+	@Column(name = "bought_at")
+	private Timestamp boughtAt;
+
 }

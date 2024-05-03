@@ -18,13 +18,14 @@ import lombok.NonNull;
 @Embeddable
 public class FriendId implements Serializable {
 
-  @NonNull
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+	@NonNull
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @NonNull
-  @ManyToOne
-  @JoinColumn(name = "friend_id")
-  private User friend;
+	@NonNull
+	@ManyToOne
+	@JoinColumn(name = "friend_id")
+	private User friend;
+
 }

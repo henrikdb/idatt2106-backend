@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public final class TokenProperties {
 
-  /**
-   * The secret key used for token generation.
-   */
-  public static final String SECRET = "topsecretkey";
+	/**
+	 * The secret key used for token generation.
+	 */
+	public static final String SECRET = "topsecretkey";
 
-  /**
-   * The duration of the token validity in minutes.
-   */
-  public static final int DURATION = 30;
+	/**
+	 * The duration of the token validity in minutes.
+	 */
+	public static final int DURATION = 30;
 
 }

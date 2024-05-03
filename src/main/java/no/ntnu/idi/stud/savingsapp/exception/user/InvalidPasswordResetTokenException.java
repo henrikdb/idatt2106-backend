@@ -5,10 +5,11 @@ package no.ntnu.idi.stud.savingsapp.exception.user;
  */
 public final class InvalidPasswordResetTokenException extends RuntimeException {
 
-  /**
-   * Constructs a InvalidPasswordResetTokenException with the default message.
-   */
-  public InvalidPasswordResetTokenException() {
-    super("Invalid token");
-  }
+	/**
+	 * Constructs a InvalidPasswordResetTokenException with the default message.
+	 */
+	public InvalidPasswordResetTokenException() {
+		super("Invalid token");
+	}
+
 }

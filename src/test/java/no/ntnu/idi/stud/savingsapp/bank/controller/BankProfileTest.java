@@ -18,30 +18,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BankProfileTest {
 
-  @Autowired
-  private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-  @Test
-  @WithMockUser
-  void shouldRegisterBankProfile() throws Exception{
-    BankProfileDTO bankProfileDTO = new BankProfileDTO();
-    bankProfileDTO.setSsn(31125452887L);
-    mvc.perform(MockMvcRequestBuilders.post("/bank/v1/profile/create-profile")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(JsonUtil.toJson(bankProfileDTO)))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.ssn").exists())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.accounts").exists());
-  }
+	@Test
+	@WithMockUser
+	void shouldRegisterBankProfile() throws Exception {
+		BankProfileDTO bankProfileDTO = new BankProfileDTO();
+		bankProfileDTO.setSsn(31125452887L);
+		mvc.perform(MockMvcRequestBuilders.post("/bank/v1/profile/create-profile")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(bankProfileDTO)))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.ssn").exists())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.accounts").exists());
+	}
 
-  @Test
-  @WithMockUser
-  void shouldNotRegisterBankProfileWithNegativeSsn() throws Exception{
-    BankProfileDTO bankProfileDTO = new BankProfileDTO();
-    bankProfileDTO.setSsn(-31125452887L);
-    mvc.perform(MockMvcRequestBuilders.post("/bank/v1/profile/create-profile")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtil.toJson(bankProfileDTO)))
-        .andExpect(MockMvcResultMatchers.status().isBadRequest());
-  }
+	@Test
+	@WithMockUser
+	void shouldNotRegisterBankProfileWithNegativeSsn() throws Exception {
+		BankProfileDTO bankProfileDTO = new BankProfileDTO();
+		bankProfileDTO.setSsn(-31125452887L);
+		mvc.perform(MockMvcRequestBuilders.post("/bank/v1/profile/create-profile")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(bankProfileDTO))).andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
+
 }

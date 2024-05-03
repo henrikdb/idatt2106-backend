@@ -9,48 +9,49 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Validator for the Enumerator constraint.
- * This validator ensures that an enumerator meets the specified
- * criteria defined in the application properties.
+ * Validator for the Enumerator constraint. This validator ensures that an enumerator
+ * meets the specified criteria defined in the application properties.
  */
 public final class EnumeratorValidator implements ConstraintValidator<Enumerator, String> {
 
-  private Enumerator enumerator;
-  private Set<String> types;
+	private Enumerator enumerator;
 
-  /**
-   * Initializes the validator.
-   *
-   * @param enumerator The Enumerator annotation.
-   */
-  @Override
-  public void initialize(Enumerator enumerator) {
-    this.enumerator = enumerator;
-    this.types = Arrays.stream(enumerator.value().getEnumConstants()).map(Enum::name).collect(Collectors.toSet());;
-  }
+	private Set<String> types;
 
-  /**
-   * Validates an enumerator.
-   *
-   * @param value The value to validate.
-   * @param context The constraint validator context.
-   * @return true if the value is valid, false otherwise.
-   */
-  @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
-    String message = null;
-    if (value == null && !enumerator.nullable()) {
-      message = enumerator.value().getSimpleName() + " value is required";
-    } else if (value != null && !types.contains(value)) {
-      message = "Invalid enum value '" + value + "' for " + enumerator.value().getSimpleName();
-    }
+	/**
+	 * Initializes the validator.
+	 * @param enumerator The Enumerator annotation.
+	 */
+	@Override
+	public void initialize(Enumerator enumerator) {
+		this.enumerator = enumerator;
+		this.types = Arrays.stream(enumerator.value().getEnumConstants()).map(Enum::name).collect(Collectors.toSet());
+		;
+	}
 
-    if (message != null) {
-      context.disableDefaultConstraintViolation();
-      context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
-      return false;
-    }
+	/**
+	 * Validates an enumerator.
+	 * @param value The value to validate.
+	 * @param context The constraint validator context.
+	 * @return true if the value is valid, false otherwise.
+	 */
+	@Override
+	public boolean isValid(String value, ConstraintValidatorContext context) {
+		String message = null;
+		if (value == null && !enumerator.nullable()) {
+			message = enumerator.value().getSimpleName() + " value is required";
+		}
+		else if (value != null && !types.contains(value)) {
+			message = "Invalid enum value '" + value + "' for " + enumerator.value().getSimpleName();
+		}
 
-    return true;
-  }
+		if (message != null) {
+			context.disableDefaultConstraintViolation();
+			context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+			return false;
+		}
+
+		return true;
+	}
+
 }

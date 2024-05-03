@@ -24,68 +24,68 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FeedbackControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-  @Autowired
-  private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-  private User user;
+	private User user;
 
-  @BeforeEach
-  public void setup() {
-    user = new User();
-    user.setId(3L);
-    user.setRole(Role.ADMIN);
-    user.setEmail("testuser1@example.com");
-  }
+	@BeforeEach
+	public void setup() {
+		user = new User();
+		user.setId(3L);
+		user.setRole(Role.ADMIN);
+		user.setEmail("testuser1@example.com");
+	}
 
+	@Test
+	@WithMockUser
+	void postFeedBackShouldReturnSuccess() throws Exception {
+		FeedbackRequestDTO feedbackRequestDTO = new FeedbackRequestDTO();
+		feedbackRequestDTO.setEmail("user@example.com");
+		feedbackRequestDTO.setMessage("I didn't like this app");
+		mvc.perform(MockMvcRequestBuilders.post("/api/users/send-feedback")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(feedbackRequestDTO)))
+			.andExpect(MockMvcResultMatchers.status().isOk());
+	}
 
-  @Test
-  @WithMockUser
-  void postFeedBackShouldReturnSuccess() throws Exception {
-    FeedbackRequestDTO feedbackRequestDTO = new FeedbackRequestDTO();
-    feedbackRequestDTO.setEmail("user@example.com");
-    feedbackRequestDTO.setMessage("I didn't like this app");
-    mvc.perform(MockMvcRequestBuilders.post("/api/users/send-feedback")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(feedbackRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isOk());
-  }
+	@Test
+	@WithMockUser
+	void postFeedBackShouldReturnError() throws Exception {
+		FeedbackRequestDTO feedbackRequestDTO = new FeedbackRequestDTO();
+		mvc.perform(MockMvcRequestBuilders.post("/api/users/send-feedback")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(feedbackRequestDTO)))
+			.andExpect(MockMvcResultMatchers.status().isInternalServerError());
+	}
 
-  @Test
-  @WithMockUser
-  void postFeedBackShouldReturnError() throws Exception {
-    FeedbackRequestDTO feedbackRequestDTO = new FeedbackRequestDTO();
-    mvc.perform(MockMvcRequestBuilders.post("/api/users/send-feedback")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(feedbackRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isInternalServerError());
-  }
+	@Test
+	@WithMockUser
+	void getFeedBackShouldReturnListWithLength3() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/get-feedback")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)));
+	}
 
-  @Test
-  @WithMockUser
-  void getFeedBackShouldReturnListWithLength3() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/get-feedback")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)));
-  }
+	@Test
+	@WithMockUser
+	void getFeedBackShouldReturnListWithLength4() throws Exception {
+		FeedbackRequestDTO feedbackRequestDTO = new FeedbackRequestDTO();
+		feedbackRequestDTO.setEmail("user@example.com");
+		feedbackRequestDTO.setMessage("I didn't like this app");
+		mvc.perform(MockMvcRequestBuilders.post("/api/users/send-feedback")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(feedbackRequestDTO)))
+			.andExpect(MockMvcResultMatchers.status().isOk());
 
-  @Test
-  @WithMockUser
-  void getFeedBackShouldReturnListWithLength4() throws Exception {
-    FeedbackRequestDTO feedbackRequestDTO = new FeedbackRequestDTO();
-    feedbackRequestDTO.setEmail("user@example.com");
-    feedbackRequestDTO.setMessage("I didn't like this app");
-    mvc.perform(MockMvcRequestBuilders.post("/api/users/send-feedback")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(feedbackRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isOk());
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/get-feedback")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(4)));
+	}
 
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/get-feedback")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(4)));
-  }
 }

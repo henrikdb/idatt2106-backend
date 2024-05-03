@@ -6,10 +6,16 @@ import lombok.Data;
 @Data
 public final class StreakDTO {
 
-  private int currentStreak;
-  private Timestamp currentStreakCreatedAt;
-  private Timestamp currentStreakUpdatedAt;
-  private int highestStreak;
-  private Timestamp highestStreakCreatedAt;
-  private Timestamp highestStreakEndedAt;
+	private int currentStreak;
+
+	private Timestamp currentStreakCreatedAt;
+
+	private Timestamp currentStreakUpdatedAt;
+
+	private int highestStreak;
+
+	private Timestamp highestStreakCreatedAt;
+
+	private Timestamp highestStreakEndedAt;
+
 }

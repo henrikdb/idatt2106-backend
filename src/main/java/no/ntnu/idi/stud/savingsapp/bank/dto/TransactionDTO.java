@@ -9,7 +9,10 @@ import lombok.Data;
 @Data
 public class TransactionDTO {
 
-  private Long debtorBBAN;
-  private Long creditorBBAN;
-  private BigDecimal amount;
+	private Long debtorBBAN;
+
+	private Long creditorBBAN;
+
+	private BigDecimal amount;
+
 }

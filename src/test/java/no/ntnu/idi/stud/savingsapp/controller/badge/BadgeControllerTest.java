@@ -21,77 +21,79 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BadgeControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
-  private User user;
+	@Autowired
+	private MockMvc mvc;
 
-  @BeforeEach
-  public void setup() {
-    user = new User();
-    user.setId(1L);
-    user.setRole(Role.USER);
-    user.setEmail("testuser1@example.com");
-  }
+	private User user;
 
-  @Test
-  @WithMockUser
-  void getBadgeShouldReturnSuccess() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge/1")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.badgeName").value("Saving Champ"));
-  }
+	@BeforeEach
+	public void setup() {
+		user = new User();
+		user.setId(1L);
+		user.setRole(Role.USER);
+		user.setEmail("testuser1@example.com");
+	}
 
-  @Test
-  @WithMockUser
-  void getBadgeShouldReturnError() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge/4")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isInternalServerError());
-  }
+	@Test
+	@WithMockUser
+	void getBadgeShouldReturnSuccess() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge/1")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.badgeName").value("Saving Champ"));
+	}
 
-  @Test
-  @WithMockUser
-  void getBadgesShouldReturnListOf3() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)));
-  }
+	@Test
+	@WithMockUser
+	void getBadgeShouldReturnError() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge/4")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isInternalServerError());
+	}
 
-  @Test
-  @WithMockUser
-  void getUnlockedBadgesByActiveUserShouldReturnListOf2() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge/unlocked")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
-  }
+	@Test
+	@WithMockUser
+	void getBadgesShouldReturnListOf3() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)));
+	}
 
-  @Test
-  @WithMockUser
-  void getUnlockedBadgesByUserShouldReturnListOf1() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge/unlocked/2")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
-  }
+	@Test
+	@WithMockUser
+	void getUnlockedBadgesByActiveUserShouldReturnListOf2() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge/unlocked")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
+	}
 
-  @Test
-  @WithMockUser
-  void getNotUnlockedBadgesByActiveUserShouldReturnListOf1() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge/locked")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
-  }
+	@Test
+	@WithMockUser
+	void getUnlockedBadgesByUserShouldReturnListOf1() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge/unlocked/2")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+	}
 
-  @Test
-  @WithMockUser
-  void updateUnlockedBadgesShouldReturnListOf1() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/badge/update")
-            .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
-  }
+	@Test
+	@WithMockUser
+	void getNotUnlockedBadgesByActiveUserShouldReturnListOf1() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge/locked")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+	}
+
+	@Test
+	@WithMockUser
+	void updateUnlockedBadgesShouldReturnListOf1() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/badge/update")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+	}
+
 }

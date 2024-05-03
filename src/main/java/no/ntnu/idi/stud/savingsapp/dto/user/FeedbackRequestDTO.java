@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class FeedbackRequestDTO {
 
-  private String email;
-  private String message;
+	private String email;
+
+	private String message;
 
 }

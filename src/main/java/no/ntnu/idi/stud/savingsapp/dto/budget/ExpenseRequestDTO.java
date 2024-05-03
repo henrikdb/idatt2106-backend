@@ -6,8 +6,10 @@ import lombok.Data;
 @Data
 public class ExpenseRequestDTO {
 
-  private Long expenseId;
-  private String description;
-  private BigDecimal amount;
+	private Long expenseId;
+
+	private String description;
+
+	private BigDecimal amount;
 
 }

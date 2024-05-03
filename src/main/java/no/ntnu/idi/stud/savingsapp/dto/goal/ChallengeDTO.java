@@ -9,14 +9,22 @@ import java.util.List;
 @Data
 public final class ChallengeDTO {
 
-  private long id;
-  private BigDecimal amount;
-  private int points;
-  private int checkDays;
-  private int totalDays;
-  private Timestamp startDate;
-  private Timestamp endDate;
-  private ChallengeTemplateDTO challengeTemplate;
-  private List<ProgressDTO> progressList;
+	private long id;
+
+	private BigDecimal amount;
+
+	private int points;
+
+	private int checkDays;
+
+	private int totalDays;
+
+	private Timestamp startDate;
+
+	private Timestamp endDate;
+
+	private ChallengeTemplateDTO challengeTemplate;
+
+	private List<ProgressDTO> progressList;
 
 }

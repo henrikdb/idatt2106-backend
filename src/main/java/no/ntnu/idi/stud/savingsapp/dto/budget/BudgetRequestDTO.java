@@ -6,8 +6,10 @@ import lombok.Data;
 @Data
 public class BudgetRequestDTO {
 
-  private String budgetName;
-  private BigDecimal budgetAmount;
-  private BigDecimal expenseAmount;
+	private String budgetName;
+
+	private BigDecimal budgetAmount;
+
+	private BigDecimal expenseAmount;
 
 }

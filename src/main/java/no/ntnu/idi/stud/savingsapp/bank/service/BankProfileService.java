@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface BankProfileService {
 
-  /**
-   * Create a new bank profile.
-   *
-   * @param bankProfileDTO The DTO containing the user's Social Security Number.
-   * @return a {@link BankProfileResponseDTO} containing profile information.
-   */
-  BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO);
+	/**
+	 * Create a new bank profile.
+	 * @param bankProfileDTO The DTO containing the user's Social Security Number.
+	 * @return a {@link BankProfileResponseDTO} containing profile information.
+	 */
+	BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO);
+
 }

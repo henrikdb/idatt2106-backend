@@ -21,17 +21,16 @@ import lombok.NonNull;
 @Table(name = "profile_picture")
 public class ProfilePicture {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "profile_picture_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "profile_picture_id")
+	private Long id;
 
-  @NonNull
-  @Column(name = "description", nullable = false)
-  private String description;
+	@NonNull
+	@Column(name = "description", nullable = false)
+	private String description;
 
-  @Column(name = "price", nullable = false)
-  private int price;
-
+	@Column(name = "price", nullable = false)
+	private int price;
 
 }

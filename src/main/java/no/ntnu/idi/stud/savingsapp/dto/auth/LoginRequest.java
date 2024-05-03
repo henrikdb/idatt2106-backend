@@ -10,9 +10,10 @@ import no.ntnu.idi.stud.savingsapp.validation.Password;
 @Data
 public final class LoginRequest {
 
-  @Email(message = "Invalid email")
-  private String email;
+	@Email(message = "Invalid email")
+	private String email;
 
-  @Password
-  private String password;
+	@Password
+	private String password;
+
 }

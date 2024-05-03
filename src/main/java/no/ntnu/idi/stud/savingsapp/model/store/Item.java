@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,19 +23,20 @@ import no.ntnu.idi.stud.savingsapp.model.image.Image;
 @Entity
 @Table(name = "item")
 public class Item {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "item_id")
-  private Long id;
 
-  @Column(name = "item_name")
-  private String itemName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "item_id")
+	private Long id;
 
-  @Column(name = "price")
-  private int price;
+	@Column(name = "item_name")
+	private String itemName;
 
-  @ManyToOne
-  @JoinColumn(name = "image_id")
-  private Image image;
+	@Column(name = "price")
+	private int price;
+
+	@ManyToOne
+	@JoinColumn(name = "image_id")
+	private Image image;
+
 }
-

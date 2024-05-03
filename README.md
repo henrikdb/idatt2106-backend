@@ -8,6 +8,14 @@ The API backend of sparesti.app. SpareSti is designed to make saving fun. The ap
 - **Frontend**: [https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/frontend](https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/frontend)
 - **Jacoco Test Coverage**: [https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no](https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no)
 
+## Prerequisites
+Before you can run the application, ensure you have the following software installed on your system:
+
+- **Java (v17)**: The application is built using Java, so you'll need the JDK to compile and run it. [Download Java JDK v17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- **Maven**: Maven is used for dependency management and to build the application. [Download Maven](https://maven.apache.org/download.cgi)
+- **MySQL**: The application uses MySQL as its database. [Download MySQL](https://dev.mysql.com/downloads/mysql/)
+- **Docker**: Docker is used for creating containers for the application.[ Download Docker](https://www.docker.com/get-started)
+
 ## Getting Started
 
 ### 1. Clone SpareSti:
@@ -55,13 +63,7 @@ docker run -d --name your-container-name -p 8080:8080 your-image-name
 mvn clean test
 ```
 
-### 2. Site Reports
-Reports giving general information about the application
-```bash
-mvn site
-```
-
-### 3. Jacoco Coverage Report
+### 2. Jacoco Coverage Report
 Gets generated when running mvn clean test and are located in:
 ```bash
 /target/site/jacoco/index.html
@@ -73,9 +75,9 @@ Here is the current configuration:
 ```yaml
 spring:
   datasource:
-    url: jdbc:mysql://129.241.98.39:3306/sparesti
-    username: user
-    password: Password1.
+    url: jdbc:mysql://128.199.53.153:3306/sparesti
+    username: username
+    password: password
 ```
 To configure the test database go to **src/test/resources/application.yml**
 
@@ -87,6 +89,8 @@ spring:
     username: user
     password: Password1.
 ```
+When you run the application the database will be populated with test-data.
+
 ## Contributors
 The individuals who contributed to the project:
 - Anders Høvik

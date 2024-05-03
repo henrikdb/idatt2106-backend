@@ -4,6 +4,9 @@ import lombok.Data;
 
 @Data
 public class PointDTO {
-  private int currentPoints;
-  private int totalEarnedPoints;
+
+	private int currentPoints;
+
+	private int totalEarnedPoints;
+
 }

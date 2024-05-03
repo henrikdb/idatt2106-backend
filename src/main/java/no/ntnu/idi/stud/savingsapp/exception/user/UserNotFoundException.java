@@ -5,17 +5,18 @@ package no.ntnu.idi.stud.savingsapp.exception.user;
  */
 public final class UserNotFoundException extends RuntimeException {
 
-  /**
-   * Constructs a UserNotFoundException with the default message.
-   */
-  public UserNotFoundException() {
-    super("User not found");
-  }
+	/**
+	 * Constructs a UserNotFoundException with the default message.
+	 */
+	public UserNotFoundException() {
+		super("User not found");
+	}
 
-  /**
-   * Constructs a UserNotFoundException with the default message.
-   */
-  public UserNotFoundException(String string) {
-    super(string);
-  }
+	/**
+	 * Constructs a UserNotFoundException with the default message.
+	 */
+	public UserNotFoundException(String string) {
+		super(string);
+	}
+
 }

@@ -9,23 +9,24 @@ import no.ntnu.idi.stud.savingsapp.validation.Name;
 @Data
 public final class UserUpdateDTO {
 
-  @Name(nullable = true)
-  private String firstName;
+	@Name(nullable = true)
+	private String firstName;
 
-  @Name(nullable = true)
-  private String lastName;
+	@Name(nullable = true)
+	private String lastName;
 
-  @Email(message = "Invalid email")
-  private String email;
+	@Email(message = "Invalid email")
+	private String email;
 
-  private Long profileImage;
+	private Long profileImage;
 
-  private Long bannerImage;
+	private Long bannerImage;
 
-  private Long savingsAccountBBAN;
+	private Long savingsAccountBBAN;
 
-  private Long checkingAccountBBAN;
+	private Long checkingAccountBBAN;
 
-  @Valid
-  private ConfigurationDTO configuration;
+	@Valid
+	private ConfigurationDTO configuration;
+
 }

@@ -7,9 +7,12 @@ import lombok.Data;
 @Data
 public final class InventoryDTO {
 
-  private long id;
-  private String itemName;
-  private long imageId;
-  private Timestamp boughtAt;
+	private long id;
+
+	private String itemName;
+
+	private long imageId;
+
+	private Timestamp boughtAt;
 
 }

@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 @Data
 public class UserDTO {
 
+
   private long id;
   private String firstName;
   private String lastName;
@@ -22,4 +23,5 @@ public class UserDTO {
   private PointDTO point;
   private StreakDTO streak;
   private ConfigurationDTO configuration;
+
 }

@@ -26,21 +26,22 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "`expense`")
 public class Expense {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "expense_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "expense_id")
+	private Long id;
 
-  @ManyToOne
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "budget_id")
-  private Budget budget;
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "budget_id")
+	private Budget budget;
 
-  @NonNull
-  @Column(name = "description", nullable = false)
-  private String description;
+	@NonNull
+	@Column(name = "description", nullable = false)
+	private String description;
 
-  @NonNull
-  @Column(name = "amount", nullable = false)
-  private BigDecimal amount;
+	@NonNull
+	@Column(name = "amount", nullable = false)
+	private BigDecimal amount;
+
 }
