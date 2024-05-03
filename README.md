@@ -31,6 +31,24 @@ mvn clean install
 mvn spring-boot:run 
 ```
 
+## Docker
+How to run the application with docker. **NOTE:** You need to have docker pre-installed: [Click here](https://docs.docker.com/get-docker/)
+
+### 1. Build the Docker image
+```bash
+docker build -t your-image-name .
+```
+
+### 2. Verify the image was created
+```bash
+docker images
+```
+
+### 3. Run the Docker container:
+```bash
+docker run -d --name your-container-name -p 8080:8080 your-image-name
+```
+
 ## Tests
 ### 1. Run tests
 ```bash

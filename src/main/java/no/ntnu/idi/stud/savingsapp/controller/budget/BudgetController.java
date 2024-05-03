@@ -74,9 +74,9 @@ public class BudgetController {
     List<BudgetResponseDTO> budgetDTOs = new ArrayList<>();
     for (Budget budget : budgets) {
       budgetDTOs.add(modelMapper.map(budget, BudgetResponseDTO.class));
+      log.info("[BudgetController:getBudgetsByUser] budget: {}", budget.getId());
     }
     Collections.reverse(budgetDTOs);
-    log.info("[BudgetController:getBudgetByUser] budgets: {}", budgetDTOs);
     return ResponseEntity.ok(budgetDTOs);
   }
 
@@ -95,7 +95,7 @@ public class BudgetController {
   public ResponseEntity<BudgetResponseDTO> getBudget(@PathVariable long budgetId) {
     Budget budget = budgetService.findBudgetById(budgetId);
     BudgetResponseDTO response = modelMapper.map(budget, BudgetResponseDTO.class);
-    log.info("[BudgetController:getBudget] budget: {}", response);
+    log.info("[BudgetController:getBudget] budget: {}", response.getId());
     return ResponseEntity.ok(response);
   }
 
@@ -118,7 +118,7 @@ public class BudgetController {
     budget.setUser(userService.findById(identity.getId()));
     budget.setCreatedAt(Timestamp.from(Instant.now()));
     budgetService.createBudget(budget);
-    log.info("[BudgetController:createBudget] budget created: {}", budget);
+    log.info("[BudgetController:createBudget] budget created: {}", budget.getId());
     return ResponseEntity.ok().build();
   }
 
@@ -142,7 +142,7 @@ public class BudgetController {
     budget.setBudgetAmount(request.getBudgetAmount());
     budget.setExpenseAmount(request.getExpenseAmount());
     budgetService.updateBudget(budget);
-    log.info("[BudgetController:updateBudget] budget updated: {}", budget);
+    log.info("[BudgetController:updateBudget] budget updated: {}", budget.getId());
     return ResponseEntity.ok().build();
   }
 
@@ -183,7 +183,7 @@ public class BudgetController {
     Expense expense = modelMapper.map(request, Expense.class);
     expense.setBudget(budget);
     budgetService.createExpense(expense);
-    log.info("[BudgetController:updateExpense] expense updated: {}", expense);
+    log.info("[BudgetController:updateExpense] expense updated: {}", expense.getId());
     return ResponseEntity.ok(request);
   }
 
@@ -202,7 +202,7 @@ public class BudgetController {
   public ResponseEntity<ExpenseResponseDTO> getExpense(@PathVariable Long expenseId) {
     Expense expense = budgetService.findExpenseById(expenseId);
     ExpenseResponseDTO response = modelMapper.map(expense, ExpenseResponseDTO.class);
-    log.info("[BudgetController:getExpense] expense: {}", response);
+    log.info("[BudgetController:getExpense] expense: {}", response.getExpenseId());
     return ResponseEntity.ok(response);
   }
 
@@ -221,11 +221,12 @@ public class BudgetController {
   public ResponseEntity<List<ExpenseResponseDTO>> getExpenses(@PathVariable Long budgetId) {
     List<Expense> expenses = budgetService.findExpensesByBudgetId(budgetId);
     List<ExpenseResponseDTO> expenseDTOs = new ArrayList<>();
+    log.info("[BudgetController:getExpenses] budget: {}", budgetId);
     for (Expense expense : expenses) {
       expenseDTOs.add(modelMapper.map(expense, ExpenseResponseDTO.class));
+      log.info("[BudgetController:getExpenses] expense: {}", expense.getId());
     }
     Collections.reverse(expenseDTOs);
-    log.info("[BudgetController:getExpenses] expenses: {}", expenseDTOs);
     return ResponseEntity.ok(expenseDTOs);
   }
 

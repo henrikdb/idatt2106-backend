@@ -8,6 +8,7 @@ import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
 import no.ntnu.idi.stud.savingsapp.exception.auth.InvalidCredentialsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.EmailAlreadyExistsException;
 import no.ntnu.idi.stud.savingsapp.exception.user.InvalidPasswordResetTokenException;
+import no.ntnu.idi.stud.savingsapp.exception.user.UserException;
 import no.ntnu.idi.stud.savingsapp.exception.user.UserNotFoundException;
 import no.ntnu.idi.stud.savingsapp.model.user.Feedback;
 import no.ntnu.idi.stud.savingsapp.model.user.Friend;
@@ -221,8 +222,8 @@ public class UserServiceImpl implements UserService {
     try {
       return userRepository.save(user);
     } catch (DataIntegrityViolationException e) {
-      log.error("[UserServiceImpl:update] email already exists: {}", user.getId());
-      throw new EmailAlreadyExistsException();
+      log.error("[UserServiceImpl:update] data integrity violation: {}", e.getMostSpecificCause().getMessage());
+      throw new UserException(e.getMostSpecificCause().getMessage());
     }
   }
 

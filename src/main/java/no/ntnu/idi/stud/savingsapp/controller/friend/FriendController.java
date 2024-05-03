@@ -61,7 +61,10 @@ public class FriendController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getFriends(@AuthenticationPrincipal AuthIdentity identity) {
         List<User> friendsUser = userService.getFriends(identity.getId());
-        log.info("[FriendController:getFriends] friends: {}", friendsUser);
+        log.info("[FriendController:getFriends] user: {}", identity.getId());
+        for (User user : friendsUser) {
+            log.info("[FriendController:getFriends] friend: {}", user.getId());
+        }
         return ResponseEntity.ok(convertToDto(friendsUser));
     }
 
@@ -72,7 +75,10 @@ public class FriendController {
     @GetMapping("/requests")
     public ResponseEntity<List<UserDTO>> getFriendRequests(@AuthenticationPrincipal AuthIdentity identity) {
         List<User> friendsUser = userService.getFriendRequests(identity.getId());
-        log.info("[FriendController:getFriendRequests] friend requests: {}", friendsUser);
+        log.info("[FriendController:getFriendRequests] user: {}", identity.getId());
+        for (User user : friendsUser) {
+            log.info("[FriendController:getFriendRequests] friend requests: {}", user.getId());
+        }
         return ResponseEntity.ok(convertToDto(friendsUser));
     }
 
@@ -89,7 +95,7 @@ public class FriendController {
         Notification notification = new Notification(null, friend, "You have received a new friend request from " + user.getFirstName(), true,
             NotificationType.FRIEND_REQUEST, Timestamp.from(Instant.now()));
         notificationService.updateNotification(notification);
-        log.info("[FriendController:addFriendRequest] from: {} to: {}", user, friend);
+        log.info("[FriendController:addFriendRequest] from: {} to: {}", user.getId(), friend.getId());
     }
 
     @Operation(summary = "Accept a friend request", description = "Accepts a friend request from another user.")
@@ -107,7 +113,7 @@ public class FriendController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No friend request found.");
         }
         friendService.acceptFriendRequest(friendRequest);
-        log.info("[FriendController:acceptFriendRequest] Friend request successfully accepted between: {} and: {}", user, friend);
+        log.info("[FriendController:acceptFriendRequest] Friend request successfully accepted between: {} and: {}", user.getId(), friend.getId());
         return ResponseEntity.ok().build();
     }
 
@@ -128,7 +134,7 @@ public class FriendController {
         }
 
         friendService.deleteFriendOrFriendRequest(friendStatus);
-        log.info("[FriendController:acceptFriendRequest] Friend request successfully deleted between: {} and: {}", user, friend);
+        log.info("[FriendController:acceptFriendRequest] Friend request successfully deleted between: {} and: {}", user.getId(), friend.getId());
         return ResponseEntity.ok().build();
     }
 
