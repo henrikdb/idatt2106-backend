@@ -80,7 +80,7 @@ deploy_docker:
     - apt-get -yqq install ssh
     - apt-get install sshpass
   script: 
-    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "docker ps -q --filter 'name=^backend$' || grep -q . && docker kill backend && docker rm backend; docker pull registry.gitlab.com/$DOCKER_USER/sparesti-registry:backend && docker run -d --name backend registry.gitlab.com/$DOCKER_USER/sparesti-registry:backend"
+    - sshpass -p sParest1en ssh -v -o StrictHostKeyChecking=no root@128.199.53.153 "docker ps -q --filter 'name=^backend$' || grep -q . && docker kill backend && docker rm backend; docker pull registry.gitlab.com/$DOCKER_USER/sparesti-registry:backend && docker run -p 8080:8080 -d --name backend registry.gitlab.com/$DOCKER_USER/sparesti-registry:backend"
   when: manual
   only:
     - master 
