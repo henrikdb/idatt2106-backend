@@ -70,12 +70,11 @@ public class AccountController {
     return ResponseEntity.ok(accounts);
   }
 
-  @Operation(summary = "Get user accounts", description = "Get accounts associated with a user by"
-      + " providing their social security number")
+  @Operation(summary = "Create account", description = "Create account with random balance")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successfully got accounts"),
-      @ApiResponse(responseCode = "200", description = "No accounts associated with a bank user"),
-      @ApiResponse(responseCode = "404", description = "Social security number does not exist")
+      @ApiResponse(responseCode = "200", description = "Successfully created account"),
+      @ApiResponse(responseCode = "404", description = "Provided bban could not be "
+          + "found")
   })
   @GetMapping("/balance/{bban}")
   public ResponseEntity<BalanceDTO> getAccountsByBBAN(@PathVariable Long bban) {
