@@ -7,8 +7,10 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import no.ntnu.idi.stud.savingsapp.bank.dto.AccountRequestDTO;
 import no.ntnu.idi.stud.savingsapp.bank.dto.AccountResponseDTO;
+import no.ntnu.idi.stud.savingsapp.bank.dto.BalanceDTO;
 import no.ntnu.idi.stud.savingsapp.bank.model.Account;
 import no.ntnu.idi.stud.savingsapp.bank.service.AccountService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,9 @@ public class AccountController {
 
   @Autowired
   private AccountService accountService;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Operation(summary = "Get user accounts", description = "Get accounts associated with a user by"
       + " providing their bank profile id")
@@ -63,6 +68,20 @@ public class AccountController {
       log.info("[AccountController:getAccountsBySsn] accountBban: {}", account.getBban());
     }
     return ResponseEntity.ok(accounts);
+  }
+
+  @Operation(summary = "Create account", description = "Create account with random balance")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Successfully created account"),
+      @ApiResponse(responseCode = "404", description = "Provided bban could not be "
+          + "found")
+  })
+  @GetMapping("/balance/{bban}")
+  public ResponseEntity<BalanceDTO> getAccountsByBBAN(@PathVariable Long bban) {
+    log.info("[AccountController:getAccountsByBBAN] bban: {}", bban);
+    Account account = accountService.getAccountByBban(bban);
+    BalanceDTO balanceDTO = modelMapper.map(account, BalanceDTO.class);
+    return ResponseEntity.ok(balanceDTO);
   }
 
   @Operation(summary = "Create account", description = "Create account with random balance")
