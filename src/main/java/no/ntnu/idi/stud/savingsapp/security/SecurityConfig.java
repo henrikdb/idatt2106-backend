@@ -51,7 +51,8 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> {
           auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
               .requestMatchers("/swagger/**", "/api/auth/**", "/api/users/reset-password", "/api/users/send-feedback",
-              "/api/users/confirm-password", "/api/question/**", "/api/images/**", "/redirect").permitAll().anyRequest().authenticated();
+              "/api/users/confirm-password", "/api/question/**", "/api/images/**", "/redirect",
+                  "/bank/v1/account/balance/**").permitAll().anyRequest().authenticated();
         })
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
