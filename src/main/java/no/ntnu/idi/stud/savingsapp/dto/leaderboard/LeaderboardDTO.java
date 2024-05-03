@@ -7,8 +7,10 @@ import java.util.List;
 @Data
 public final class LeaderboardDTO {
 
-  private String type;
-  private String filter;
-  private List<LeaderboardEntryDTO> entries;
+	private String type;
+
+	private String filter;
+
+	private List<LeaderboardEntryDTO> entries;
 
 }

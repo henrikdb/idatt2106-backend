@@ -7,17 +7,30 @@ import java.sql.Timestamp;
 @Data
 public class UserDTO {
 
-  private long id;
-  private String firstName;
-  private String lastName;
-  private Long profileImage;
-  private Long bannerImage;
-  private String email;
-  private Timestamp createdAt;
-  private String role;
-  private String subscriptionLevel;
-  private Long checkingAccountBBAN;
-  private Long savingsAccountBBAN;
-  private PointDTO point;
-  private StreakDTO streak;
+	private long id;
+
+	private String firstName;
+
+	private String lastName;
+
+	private Long profileImage;
+
+	private Long bannerImage;
+
+	private String email;
+
+	private Timestamp createdAt;
+
+	private String role;
+
+	private String subscriptionLevel;
+
+	private Long checkingAccountBBAN;
+
+	private Long savingsAccountBBAN;
+
+	private PointDTO point;
+
+	private StreakDTO streak;
+
 }

@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 public class BankProfileDTO {
 
-  private Long ssn;
+	private Long ssn;
 
 }

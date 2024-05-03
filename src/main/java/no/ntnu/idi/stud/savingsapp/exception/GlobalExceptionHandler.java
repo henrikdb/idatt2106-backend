@@ -33,114 +33,110 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-  /**
-   * Handles validation errors for method arguments.
-   *
-   * @param e The MethodArgumentNotValidException containing validation errors.
-   * @param headers The headers for the response.
-   * @param status The HTTP status code.
-   * @param request The current web request.
-   * @return A ResponseEntity containing the error response.
-   */
-  @Override
-  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-    String error = e.getMessage();
-    FieldError fieldError = e.getFieldError();
-    if (fieldError != null) {
-      error = fieldError.getDefaultMessage();
-    }
-    ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), error);
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-  }
+	/**
+	 * Handles validation errors for method arguments.
+	 * @param e The MethodArgumentNotValidException containing validation errors.
+	 * @param headers The headers for the response.
+	 * @param status The HTTP status code.
+	 * @param request The current web request.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+		String error = e.getMessage();
+		FieldError fieldError = e.getFieldError();
+		if (fieldError != null) {
+			error = fieldError.getDefaultMessage();
+		}
+		ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
 
-  /**
-   * Handles exceptions by returning an {@link HttpStatus#BAD_REQUEST} response.
-   *
-   * @param e The exception.
-   * @return A ResponseEntity containing the error response.
-   */
-  @ExceptionHandler({ConstraintViolationException.class, InvalidChallengeDayException.class})
-  public ResponseEntity<ExceptionResponse> handleBadRequest(Exception e) {
-    String error = e.getMessage();
-    if (e instanceof ConstraintViolationException constraintViolationException) {
-      for (ConstraintViolation<?> violation : constraintViolationException.getConstraintViolations()) {
-        error = violation.getMessage();
-        break;
-      }
-    }
-    return ExceptionResponse.toResponseEntity(HttpStatus.BAD_REQUEST, error);
-  }
+	/**
+	 * Handles exceptions by returning an {@link HttpStatus#BAD_REQUEST} response.
+	 * @param e The exception.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@ExceptionHandler({ ConstraintViolationException.class, InvalidChallengeDayException.class })
+	public ResponseEntity<ExceptionResponse> handleBadRequest(Exception e) {
+		String error = e.getMessage();
+		if (e instanceof ConstraintViolationException constraintViolationException) {
+			for (ConstraintViolation<?> violation : constraintViolationException.getConstraintViolations()) {
+				error = violation.getMessage();
+				break;
+			}
+		}
+		return ExceptionResponse.toResponseEntity(HttpStatus.BAD_REQUEST, error);
+	}
 
-  /**
-   * Handles exceptions by returning an {@link HttpStatus#UNAUTHORIZED} response.
-   *
-   * @param e The exception.
-   * @return A ResponseEntity containing the error response.
-   */
-  @ExceptionHandler({InvalidCredentialsException.class, AccessDeniedException.class,
-      AuthenticationException.class, CredentialsExpiredException.class})
-  public ResponseEntity<ExceptionResponse> handleUnauthorized(Exception e) {
-    return ExceptionResponse.toResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
-  }
+	/**
+	 * Handles exceptions by returning an {@link HttpStatus#UNAUTHORIZED} response.
+	 * @param e The exception.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@ExceptionHandler({ InvalidCredentialsException.class, AccessDeniedException.class, AuthenticationException.class,
+			CredentialsExpiredException.class })
+	public ResponseEntity<ExceptionResponse> handleUnauthorized(Exception e) {
+		return ExceptionResponse.toResponseEntity(HttpStatus.UNAUTHORIZED, e.getMessage());
+	}
 
-  /**
-   * Handles exceptions by returning an {@link HttpStatus#FORBIDDEN} response.
-   *
-   * @param e The exception.
-   * @return A ResponseEntity containing the error response.
-   */
-  @ExceptionHandler({PermissionDeniedException.class, InvalidPasswordResetTokenException.class})
-  public ResponseEntity<ExceptionResponse> handleForbidden(Exception e) {
-    return ExceptionResponse.toResponseEntity(HttpStatus.FORBIDDEN, e.getMessage());
-  }
+	/**
+	 * Handles exceptions by returning an {@link HttpStatus#FORBIDDEN} response.
+	 * @param e The exception.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@ExceptionHandler({ PermissionDeniedException.class, InvalidPasswordResetTokenException.class })
+	public ResponseEntity<ExceptionResponse> handleForbidden(Exception e) {
+		return ExceptionResponse.toResponseEntity(HttpStatus.FORBIDDEN, e.getMessage());
+	}
 
-  /**
-   * Handles exceptions by returning an {@link HttpStatus#CONFLICT} response.
-   *
-   * @param e The exception.
-   * @return A ResponseEntity containing the error response.
-   */
-  @ExceptionHandler({EmailAlreadyExistsException.class})
-  public ResponseEntity<ExceptionResponse> handleConflict(Exception e) {
-    return ExceptionResponse.toResponseEntity(HttpStatus.CONFLICT, e.getMessage());
-  }
+	/**
+	 * Handles exceptions by returning an {@link HttpStatus#CONFLICT} response.
+	 * @param e The exception.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@ExceptionHandler({ EmailAlreadyExistsException.class })
+	public ResponseEntity<ExceptionResponse> handleConflict(Exception e) {
+		return ExceptionResponse.toResponseEntity(HttpStatus.CONFLICT, e.getMessage());
+	}
 
-  /**
-   * Handles exceptions by returning an {@link HttpStatus#NOT_FOUND} response.
-   *
-   * @param e The exception.
-   * @return A ResponseEntity containing the error response.
-   */
-  @ExceptionHandler({UserNotFoundException.class, ImageNotFoundException.class,
-      GoalNotFoundException.class, ChallengeNotFoundException.class})
-  public ResponseEntity<ExceptionResponse> handleNotFound(Exception e) {
-    return ExceptionResponse.toResponseEntity(HttpStatus.NOT_FOUND, e.getMessage());
-  }
+	/**
+	 * Handles exceptions by returning an {@link HttpStatus#NOT_FOUND} response.
+	 * @param e The exception.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@ExceptionHandler({ UserNotFoundException.class, ImageNotFoundException.class, GoalNotFoundException.class,
+			ChallengeNotFoundException.class })
+	public ResponseEntity<ExceptionResponse> handleNotFound(Exception e) {
+		return ExceptionResponse.toResponseEntity(HttpStatus.NOT_FOUND, e.getMessage());
+	}
 
-  /**
-   * Handles remaining exceptions by returning an {@link HttpStatus#INTERNAL_SERVER_ERROR} response.
-   *
-   * @param e The exception.
-   * @return A ResponseEntity containing the error response.
-   */
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ExceptionResponse> handleRemainingExceptions(Exception e) {
-    return ExceptionResponse.toResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-  }
+	/**
+	 * Handles remaining exceptions by returning an
+	 * {@link HttpStatus#INTERNAL_SERVER_ERROR} response.
+	 * @param e The exception.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ExceptionResponse> handleRemainingExceptions(Exception e) {
+		return ExceptionResponse.toResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+	}
 
-  /**
-   * Customizes the default exception handler.
-   *
-   * @param e The exception.
-   * @param body The body of the response.
-   * @param headers The headers for the response.
-   * @param statusCode The HTTP status code.
-   * @param request The current web request.
-   * @return A ResponseEntity containing the error response.
-   */
-  @Override
-  protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
-    ExceptionResponse response = new ExceptionResponse(statusCode.value(), e.getMessage());
-    return super.handleExceptionInternal(e, response, headers, statusCode, request);
-  }
+	/**
+	 * Customizes the default exception handler.
+	 * @param e The exception.
+	 * @param body The body of the response.
+	 * @param headers The headers for the response.
+	 * @param statusCode The HTTP status code.
+	 * @param request The current web request.
+	 * @return A ResponseEntity containing the error response.
+	 */
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers,
+			HttpStatusCode statusCode, WebRequest request) {
+		ExceptionResponse response = new ExceptionResponse(statusCode.value(), e.getMessage());
+		return super.handleExceptionInternal(e, response, headers, statusCode, request);
+	}
+
 }

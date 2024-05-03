@@ -10,4 +10,5 @@ class SparestiApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+
 }

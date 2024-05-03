@@ -23,20 +23,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TransactionController {
 
-  @Autowired
-  private TransactionService transactionService;
+	@Autowired
+	private TransactionService transactionService;
 
-  @Operation(summary = "Transfer to account", description = "Transfer money from a users account "
-      + "to another account of the same user")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successfully got accounts"),
-      @ApiResponse(responseCode = "200", description = "No accounts associated with a bank user"),
-      @ApiResponse(responseCode = "404", description = "Bank profile id does not exist")
-  })
-  @PostMapping("/norwegian-domestic-payment-to-self")
-  public ResponseEntity<TransactionDTO> transferToSelf(@RequestBody TransactionDTO transactionRequest) {
-    transactionService.saveTransaction(transactionRequest);
-    log.info("[TransactionController:transferToSelf] transaction amount {} from: {} -> {}", transactionRequest.getAmount(), transactionRequest.getCreditorBBAN(), transactionRequest.getDebtorBBAN());
-    return ResponseEntity.ok(transactionRequest);
-  }
+	@Operation(summary = "Transfer to account",
+			description = "Transfer money from a users account " + "to another account of the same user")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successfully got accounts"),
+			@ApiResponse(responseCode = "200", description = "No accounts associated with a bank user"),
+			@ApiResponse(responseCode = "404", description = "Bank profile id does not exist") })
+	@PostMapping("/norwegian-domestic-payment-to-self")
+	public ResponseEntity<TransactionDTO> transferToSelf(@RequestBody TransactionDTO transactionRequest) {
+		transactionService.saveTransaction(transactionRequest);
+		log.info("[TransactionController:transferToSelf] transaction amount {} from: {} -> {}",
+				transactionRequest.getAmount(), transactionRequest.getCreditorBBAN(),
+				transactionRequest.getDebtorBBAN());
+		return ResponseEntity.ok(transactionRequest);
+	}
+
 }

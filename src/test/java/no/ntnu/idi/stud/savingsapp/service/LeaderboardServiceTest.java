@@ -16,127 +16,123 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(locations = "classpath:application-h2.yml")
 public class LeaderboardServiceTest {
 
-  @Autowired
-  private LeaderboardServiceImpl leaderboardService;
+	@Autowired
+	private LeaderboardServiceImpl leaderboardService;
 
-  // Top leaderboard
-  @Test
-  void shouldGetTopGlobalUsersFiltredByTotalPoints() {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOTAL_POINTS,
-        LeaderboardFilter.GLOBAL, 3,
-        1L);
+	// Top leaderboard
+	@Test
+	void shouldGetTopGlobalUsersFiltredByTotalPoints() {
+		Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOTAL_POINTS, LeaderboardFilter.GLOBAL,
+				3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(1050);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
+		assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(1050);
+	}
 
-  @Test
-  void shouldGetTopGlobalUsersFiltredByCurrentStreak() {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.CURRENT_STREAK,
-        LeaderboardFilter.GLOBAL, 3, 1L);
+	@Test
+	void shouldGetTopGlobalUsersFiltredByCurrentStreak() {
+		Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.CURRENT_STREAK,
+				LeaderboardFilter.GLOBAL, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(12);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
+		assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(12);
+	}
 
-  @Test
-  void shouldGetTopGlobalUsersFiltredByTopStreak() {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOP_STREAK,
-        LeaderboardFilter.GLOBAL, 3, 1L);
+	@Test
+	void shouldGetTopGlobalUsersFiltredByTopStreak() {
+		Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOP_STREAK, LeaderboardFilter.GLOBAL,
+				3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(20);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
+		assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(20);
+	}
 
-  @Test
-  void shouldGetTopFriendsUsersFiltredByTotalPoints() {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOTAL_POINTS,
-        LeaderboardFilter.FRIENDS, 3,
-        1L);
+	@Test
+	void shouldGetTopFriendsUsersFiltredByTotalPoints() {
+		Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOTAL_POINTS,
+				LeaderboardFilter.FRIENDS, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(1000);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
+		assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(1000);
+	}
 
-  @Test
-  void shouldGetTopFriendsUsersFiltredByCurrentStreak() {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.CURRENT_STREAK,
-        LeaderboardFilter.FRIENDS, 3, 1L);
+	@Test
+	void shouldGetTopFriendsUsersFiltredByCurrentStreak() {
+		Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.CURRENT_STREAK,
+				LeaderboardFilter.FRIENDS, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(10);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
+		assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(10);
+	}
 
-  @Test
-  void shouldGetTopFriendsUsersFiltredByTopStreak() {
-    Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOP_STREAK,
-        LeaderboardFilter.FRIENDS, 3, 1L);
+	@Test
+	void shouldGetTopFriendsUsersFiltredByTopStreak() {
+		Leaderboard leaderboard = leaderboardService.getTopUsers(LeaderboardType.TOP_STREAK, LeaderboardFilter.FRIENDS,
+				3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
-    assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(15);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
+		assertThat(leaderboard.getEntries().get(0).getScore()).isEqualTo(15);
+	}
 
-  // Surrounding leaderboard
-  @Test
-  void shouldGetSurroundingGlobalUsersFiltredByTotalPoints() {
-    Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOTAL_POINTS,
-        LeaderboardFilter.GLOBAL, 3,
-        1L);
+	// Surrounding leaderboard
+	@Test
+	void shouldGetSurroundingGlobalUsersFiltredByTotalPoints() {
+		Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOTAL_POINTS,
+				LeaderboardFilter.GLOBAL, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(5);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(5);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
+	}
 
-  @Test
-  void shouldGetSurroundingGlobalUsersFiltredByCurrentStreak() {
-    Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.CURRENT_STREAK,
-        LeaderboardFilter.GLOBAL, 3, 1L);
+	@Test
+	void shouldGetSurroundingGlobalUsersFiltredByCurrentStreak() {
+		Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.CURRENT_STREAK,
+				LeaderboardFilter.GLOBAL, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(8);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(8);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
+	}
 
-  @Test
-  void shouldGetSurroundingGlobalUsersFiltredByTopStreak() {
-    Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOP_STREAK,
-        LeaderboardFilter.GLOBAL, 3, 1L);
+	@Test
+	void shouldGetSurroundingGlobalUsersFiltredByTopStreak() {
+		Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOP_STREAK,
+				LeaderboardFilter.GLOBAL, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(5);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(5);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
+	}
 
-  @Test
-  void shouldGetSurroundingFriendsUsersFiltredByTotalPoints() {
-    Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOTAL_POINTS,
-        LeaderboardFilter.FRIENDS, 3,
-        1L);
+	@Test
+	void shouldGetSurroundingFriendsUsersFiltredByTotalPoints() {
+		Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOTAL_POINTS,
+				LeaderboardFilter.FRIENDS, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOTAL_POINTS);
+	}
 
-  @Test
-  void shouldGetSurroundingFriendsUsersFiltredByCurrentStreak() {
-    Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.CURRENT_STREAK,
-        LeaderboardFilter.FRIENDS, 3, 1L);
+	@Test
+	void shouldGetSurroundingFriendsUsersFiltredByCurrentStreak() {
+		Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.CURRENT_STREAK,
+				LeaderboardFilter.FRIENDS, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.CURRENT_STREAK);
+	}
 
-  @Test
-  void shouldGetSurroundingFriendsUsersFiltredByTopStreak() {
-    Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOP_STREAK,
-        LeaderboardFilter.FRIENDS, 3, 1L);
+	@Test
+	void shouldGetSurroundingFriendsUsersFiltredByTopStreak() {
+		Leaderboard leaderboard = leaderboardService.getSurrounding(LeaderboardType.TOP_STREAK,
+				LeaderboardFilter.FRIENDS, 3, 1L);
 
-    assertThat(leaderboard.getEntries()).hasSize(3);
-    assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
-  }
+		assertThat(leaderboard.getEntries()).hasSize(3);
+		assertThat(leaderboard.getType()).isEqualTo(LeaderboardType.TOP_STREAK);
+	}
 
 }

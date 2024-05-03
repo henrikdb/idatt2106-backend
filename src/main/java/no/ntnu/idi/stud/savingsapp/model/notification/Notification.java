@@ -29,29 +29,30 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "notification")
 public class Notification {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "notification_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "notification_id")
+	private Long id;
 
-  @ManyToOne
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "user_id")
-  private User user;
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @NonNull
-  @Column(name = "message", nullable = false)
-  private String message;
+	@NonNull
+	@Column(name = "message", nullable = false)
+	private String message;
 
-  @NonNull
-  @Column(name = "unread", nullable = false)
-  private boolean unread;
+	@NonNull
+	@Column(name = "unread", nullable = false)
+	private boolean unread;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "notification_type", nullable = false)
-  private NotificationType notificationType;
+	@NonNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "notification_type", nullable = false)
+	private NotificationType notificationType;
 
-  @Column(name = "created_at")
-  private Timestamp createdAt;
+	@Column(name = "created_at")
+	private Timestamp createdAt;
+
 }

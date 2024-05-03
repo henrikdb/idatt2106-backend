@@ -23,19 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class BankProfileController {
 
-  @Autowired
-  private BankProfileService bankProfileService;
+	@Autowired
+	private BankProfileService bankProfileService;
 
-  @Operation(summary = "Create bank profile", description = "Create a bank profile by providing a"
-      + " social security number")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successfully created a bank profile"),
-      @ApiResponse(responseCode = "400", description = "Could not create profile")
-  })
-  @PostMapping("/create-profile")
-  public BankProfileResponseDTO createBankProfile(@RequestBody BankProfileDTO bankProfileDTO) {
-    log.info("[BankProfileController:createBankProfile] bank-profileSsn: {}", bankProfileDTO.getSsn());
-    return bankProfileService.saveBankProfile(bankProfileDTO);
-  }
+	@Operation(summary = "Create bank profile",
+			description = "Create a bank profile by providing a" + " social security number")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successfully created a bank profile"),
+			@ApiResponse(responseCode = "400", description = "Could not create profile") })
+	@PostMapping("/create-profile")
+	public BankProfileResponseDTO createBankProfile(@RequestBody BankProfileDTO bankProfileDTO) {
+		log.info("[BankProfileController:createBankProfile] bank-profileSsn: {}", bankProfileDTO.getSsn());
+		return bankProfileService.saveBankProfile(bankProfileDTO);
+	}
 
 }

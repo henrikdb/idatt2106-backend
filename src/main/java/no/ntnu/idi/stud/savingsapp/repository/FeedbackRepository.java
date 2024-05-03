@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Repository interface for {@link Feedback} entities.
  */
 @Repository
-public interface FeedbackRepository extends JpaRepository<Feedback, Long>{
+public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
 }

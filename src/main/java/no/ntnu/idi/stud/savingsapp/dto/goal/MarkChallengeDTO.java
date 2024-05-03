@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 @Data
 public final class MarkChallengeDTO {
 
-  private long id;
-  private int day;
-  private BigDecimal amount;
+	private long id;
+
+	private int day;
+
+	private BigDecimal amount;
 
 }

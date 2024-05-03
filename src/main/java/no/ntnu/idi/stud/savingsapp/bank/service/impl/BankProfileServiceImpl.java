@@ -15,45 +15,45 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * Implementation of the {@link BankProfileService} interface for bank profile related operations.
+ * Implementation of the {@link BankProfileService} interface for bank profile related
+ * operations.
  */
 @Slf4j
 @Service
 public class BankProfileServiceImpl implements BankProfileService {
 
-  @Autowired
-  private BankProfileRepository bankProfileRepository;
+	@Autowired
+	private BankProfileRepository bankProfileRepository;
 
-  /**
-   * Create a new bank profile.
-   *
-   * @param bankProfileDTO The DTO containing the user's Social Security Number.
-   * @return a {@link BankProfileResponseDTO} containing profile information.
-   */
-  @Override
-  public BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO) {
+	/**
+	 * Create a new bank profile.
+	 * @param bankProfileDTO The DTO containing the user's Social Security Number.
+	 * @return a {@link BankProfileResponseDTO} containing profile information.
+	 */
+	@Override
+	public BankProfileResponseDTO saveBankProfile(BankProfileDTO bankProfileDTO) {
 
-    if (bankProfileDTO.getSsn() < 1) {
-      log.error("[BankProfileServiceImpl:saveBankProfile] Negative ssn: {}", bankProfileDTO.getSsn());
-      throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative ssn");
-    }
+		if (bankProfileDTO.getSsn() < 1) {
+			log.error("[BankProfileServiceImpl:saveBankProfile] Negative ssn: {}", bankProfileDTO.getSsn());
+			throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Negative ssn");
+		}
 
-    BankProfile newBankProfile = new BankProfile();
-    List<Account> newEmptyAccountList = new ArrayList<>();
-    BankProfileResponseDTO savedProfileResponse = new BankProfileResponseDTO();
+		BankProfile newBankProfile = new BankProfile();
+		List<Account> newEmptyAccountList = new ArrayList<>();
+		BankProfileResponseDTO savedProfileResponse = new BankProfileResponseDTO();
 
-    newBankProfile.setSsn(bankProfileDTO.getSsn());
-    try {
-      BankProfile savedBankProfile = bankProfileRepository.save(newBankProfile);
-      savedProfileResponse.setSsn(savedBankProfile.getSsn());
-      savedProfileResponse.setAccounts(newEmptyAccountList);
-    } catch (Exception e) {
-      log.error("[BankProfileServiceImpl:saveBankProfile] Negative ssn: {}", bankProfileDTO.getSsn());
-      throw new ResponseStatusException(
-          HttpStatusCode.valueOf(400),
-          "Could not create bank profile");
-    }
-    log.info("[BankProfileServiceImpl:saveBankProfile] bank-profileSsn: {}", bankProfileDTO.getSsn());
-    return savedProfileResponse;
-  }
+		newBankProfile.setSsn(bankProfileDTO.getSsn());
+		try {
+			BankProfile savedBankProfile = bankProfileRepository.save(newBankProfile);
+			savedProfileResponse.setSsn(savedBankProfile.getSsn());
+			savedProfileResponse.setAccounts(newEmptyAccountList);
+		}
+		catch (Exception e) {
+			log.error("[BankProfileServiceImpl:saveBankProfile] Negative ssn: {}", bankProfileDTO.getSsn());
+			throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Could not create bank profile");
+		}
+		log.info("[BankProfileServiceImpl:saveBankProfile] bank-profileSsn: {}", bankProfileDTO.getSsn());
+		return savedProfileResponse;
+	}
+
 }

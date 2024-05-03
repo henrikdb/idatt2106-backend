@@ -41,117 +41,108 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AuthenticationController {
 
-  @Autowired
-  private UserService userService;
+	@Autowired
+	private UserService userService;
 
-  @Autowired
-  private ModelMapper modelMapper;
+	@Autowired
+	private ModelMapper modelMapper;
 
-  /**
-   * Handles user login requests.
-   *
-   * @param request The login request.
-   * @return ResponseEntity containing the authentication response.
-   * @throws InvalidCredentialsException if the provided credentials are invalid.
-   * @throws UserNotFoundException if the user is not found.
-   */
-  @Operation(summary = "User Login", description = "Log in with an existing user")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successfully logged in"),
-      @ApiResponse(responseCode = "401", description = "Invalid credentials",
-          content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
-      @ApiResponse(responseCode = "404", description = "User not found",
-          content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
-  })
-  @SecurityRequirements
-  @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest request) {
-    User user = userService.login(request.getEmail(), request.getPassword());
-    String token = TokenUtils.generateToken(user);
-    log.info("[AuthenticationController:login] Successfully logged in") ;
-    return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(),
-        user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
-        user.getSubscriptionLevel().name(), token));
-  }
+	/**
+	 * Handles user login requests.
+	 * @param request The login request.
+	 * @return ResponseEntity containing the authentication response.
+	 * @throws InvalidCredentialsException if the provided credentials are invalid.
+	 * @throws UserNotFoundException if the user is not found.
+	 */
+	@Operation(summary = "User Login", description = "Log in with an existing user")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successfully logged in"),
+			@ApiResponse(responseCode = "401", description = "Invalid credentials",
+					content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+			@ApiResponse(responseCode = "404", description = "User not found",
+					content = @Content(schema = @Schema(implementation = ExceptionResponse.class))) })
+	@SecurityRequirements
+	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest request) {
+		User user = userService.login(request.getEmail(), request.getPassword());
+		String token = TokenUtils.generateToken(user);
+		log.info("[AuthenticationController:login] Successfully logged in");
+		return ResponseEntity.ok(new AuthenticationResponse(user.getFirstName(), user.getLastName(), user.getId(),
+				user.getProfileImage(), user.getRole().name(), user.getSubscriptionLevel().name(), token));
+	}
 
-  /**
-   * Handles user signup requests.
-   *
-   * @param request The signup request.
-   * @return ResponseEntity containing the authentication response.
-   * @throws EmailAlreadyExistsException if the email is registered with an existing user.
-   */
-  @Operation(summary = "User Signup", description = "Sign up a new user")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Successfully signed up"),
-      @ApiResponse(responseCode = "409", description = "Email already exists",
-          content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
-  })
-  @SecurityRequirements
-  @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseStatus(value = HttpStatus.CREATED)
-  public ResponseEntity<AuthenticationResponse> signup(@RequestBody @Valid SignUpRequest request) {
-    User requestUser = modelMapper.map(request, User.class);
-    User user = userService.register(requestUser);
-    String token = TokenUtils.generateToken(user);
-    log.info("[AuthenticationController:signup] Successfully signed up") ;
-    return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
-        user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
-        user.getSubscriptionLevel().name(), token));
-  }
+	/**
+	 * Handles user signup requests.
+	 * @param request The signup request.
+	 * @return ResponseEntity containing the authentication response.
+	 * @throws EmailAlreadyExistsException if the email is registered with an existing
+	 * user.
+	 */
+	@Operation(summary = "User Signup", description = "Sign up a new user")
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Successfully signed up"),
+			@ApiResponse(responseCode = "409", description = "Email already exists",
+					content = @Content(schema = @Schema(implementation = ExceptionResponse.class))) })
+	@SecurityRequirements
+	@PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public ResponseEntity<AuthenticationResponse> signup(@RequestBody @Valid SignUpRequest request) {
+		User requestUser = modelMapper.map(request, User.class);
+		User user = userService.register(requestUser);
+		String token = TokenUtils.generateToken(user);
+		log.info("[AuthenticationController:signup] Successfully signed up");
+		return ResponseEntity.status(HttpStatus.CREATED)
+			.body(new AuthenticationResponse(user.getFirstName(), user.getLastName(), user.getId(),
+					user.getProfileImage(), user.getRole().name(), user.getSubscriptionLevel().name(), token));
+	}
 
-  /**
-   * Handles authentication requests using BankID.
-   * This method processes an authentication request by taking a unique code and state from the BankID request,
-   * verifies the user, and returns an authentication token along with user details.
-   *
-   * @param request The request body containing the authentication details required by BankID,
-   *                specifically a 'code' and 'state' used for user verification.
-   * @return A ResponseEntity object containing the user's authentication details including a JWT token
-   *         if the authentication is successful.
-   * @apiNote This method is protected by security requirements that must be met before the
-   *          authentication can proceed.
-   */
-  @Operation(summary = "Authenticate a BankID request", description = "Authenticate a BankID request")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "If the authentication is successful")
-  })
-  @SecurityRequirements
-  @PostMapping(value = "/bank-id")
-  public ResponseEntity<AuthenticationResponse> bankIdAuthentication(@RequestBody BankIDRequest request) {
-    User user = userService.bankIDAuth(request.getCode(), request.getState());
-    String token = TokenUtils.generateToken(user);
-    log.info("[AuthenticationController:bankIdAuthentication] BankId Authenticated successfully");
-    return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticationResponse(user.getFirstName(),
-        user.getLastName(), user.getId(), user.getProfileImage(), user.getRole().name(),
-        user.getSubscriptionLevel().name(), token));
-  }
+	/**
+	 * Handles authentication requests using BankID. This method processes an
+	 * authentication request by taking a unique code and state from the BankID request,
+	 * verifies the user, and returns an authentication token along with user details.
+	 * @param request The request body containing the authentication details required by
+	 * BankID, specifically a 'code' and 'state' used for user verification.
+	 * @return A ResponseEntity object containing the user's authentication details
+	 * including a JWT token if the authentication is successful.
+	 * @apiNote This method is protected by security requirements that must be met before
+	 * the authentication can proceed.
+	 */
+	@Operation(summary = "Authenticate a BankID request", description = "Authenticate a BankID request")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "If the authentication is successful") })
+	@SecurityRequirements
+	@PostMapping(value = "/bank-id")
+	public ResponseEntity<AuthenticationResponse> bankIdAuthentication(@RequestBody BankIDRequest request) {
+		User user = userService.bankIDAuth(request.getCode(), request.getState());
+		String token = TokenUtils.generateToken(user);
+		log.info("[AuthenticationController:bankIdAuthentication] BankId Authenticated successfully");
+		return ResponseEntity.status(HttpStatus.CREATED)
+			.body(new AuthenticationResponse(user.getFirstName(), user.getLastName(), user.getId(),
+					user.getProfileImage(), user.getRole().name(), user.getSubscriptionLevel().name(), token));
+	}
 
-  /**
-   * Validates an email.
-   *
-   * @param email The email.
-   * @return ResponseEntity.
-   * @throws EmailAlreadyExistsException if the email is registered with an existing user.
-   */
-  @Operation(summary = "Validate email", description = "Check that the given email is valid")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Email is valid"),
-      @ApiResponse(responseCode = "409", description = "Email already exists",
-          content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
-  })
-  @SecurityRequirements
-  @PostMapping(value = "/valid-email/{email}")
-  public ResponseEntity<?> validateEmail(@PathVariable @Email(message = "Invalid email") String email) {
-    try {
-      userService.findByEmail(email);
-      log.error("[AuthenticationController:validateEmail] email already exists: {}", email);
-      throw new EmailAlreadyExistsException();
-    } catch (UserNotFoundException e) {
-      log.info("[AuthenticationController:validateEmail] email is valid: {}", email);
-      return ResponseEntity.ok().build();
-    }
-  }
+	/**
+	 * Validates an email.
+	 * @param email The email.
+	 * @return ResponseEntity.
+	 * @throws EmailAlreadyExistsException if the email is registered with an existing
+	 * user.
+	 */
+	@Operation(summary = "Validate email", description = "Check that the given email is valid")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Email is valid"),
+			@ApiResponse(responseCode = "409", description = "Email already exists",
+					content = @Content(schema = @Schema(implementation = ExceptionResponse.class))) })
+	@SecurityRequirements
+	@PostMapping(value = "/valid-email/{email}")
+	public ResponseEntity<?> validateEmail(@PathVariable @Email(message = "Invalid email") String email) {
+		try {
+			userService.findByEmail(email);
+			log.error("[AuthenticationController:validateEmail] email already exists: {}", email);
+			throw new EmailAlreadyExistsException();
+		}
+		catch (UserNotFoundException e) {
+			log.info("[AuthenticationController:validateEmail] email is valid: {}", email);
+			return ResponseEntity.ok().build();
+		}
+	}
+
 }

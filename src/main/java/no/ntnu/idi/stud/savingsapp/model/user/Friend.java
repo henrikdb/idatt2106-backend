@@ -20,13 +20,14 @@ import lombok.NonNull;
 @Table(name = "friend")
 public class Friend {
 
-  @NonNull
-  @EmbeddedId
-  private FriendId id;
+	@NonNull
+	@EmbeddedId
+	private FriendId id;
 
-  @Column(name = "pending", nullable = false)
-  private boolean pending;
+	@Column(name = "pending", nullable = false)
+	private boolean pending;
 
-  @Column(name = "created_at")
-  private Timestamp createdAt;
+	@Column(name = "created_at")
+	private Timestamp createdAt;
+
 }

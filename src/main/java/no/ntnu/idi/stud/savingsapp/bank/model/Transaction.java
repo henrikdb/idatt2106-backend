@@ -26,27 +26,27 @@ import lombok.NoArgsConstructor;
 @Table(name = "transaction")
 public class Transaction {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "transaction_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "transaction_id")
+	private Long id;
 
-  @Column(name = "amount")
-  private BigDecimal amount;
+	@Column(name = "amount")
+	private BigDecimal amount;
 
-  @ManyToOne()
-  @JoinColumn(name = "debtor_account_bban")
-  private Account debtorAccount;
+	@ManyToOne()
+	@JoinColumn(name = "debtor_account_bban")
+	private Account debtorAccount;
 
-  @ManyToOne()
-  @JoinColumn(name = "creditor_account_bban")
-  private Account creditorAccount;
+	@ManyToOne()
+	@JoinColumn(name = "creditor_account_bban")
+	private Account creditorAccount;
 
-  @Column(name = "created_at")
-  private Timestamp createdAt;
+	@Column(name = "created_at")
+	private Timestamp createdAt;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "transaction_type")
-  private TransactionType transactionType;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "transaction_type")
+	private TransactionType transactionType;
 
 }

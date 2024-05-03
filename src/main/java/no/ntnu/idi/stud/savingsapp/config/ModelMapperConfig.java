@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ModelMapperConfig {
 
-  /**
-   * Configures and provides the ModelMapper bean.
-   *
-   * @return ModelMapper bean configured with custom mappings.
-   */
-  @Bean
-  public ModelMapper modelMapper() {
-    return new ModelMapper();
-  }
+	/**
+	 * Configures and provides the ModelMapper bean.
+	 * @return ModelMapper bean configured with custom mappings.
+	 */
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+
 }

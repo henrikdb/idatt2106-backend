@@ -5,9 +5,12 @@ import lombok.Data;
 @Data
 public class BadgeDTO {
 
-  private Long id;
-  private String badgeName;
-  private int criteria;
-  private Long imageId;
+	private Long id;
+
+	private String badgeName;
+
+	private int criteria;
+
+	private Long imageId;
 
 }

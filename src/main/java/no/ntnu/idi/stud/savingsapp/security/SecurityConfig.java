@@ -19,62 +19,63 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Configuration class responsible for defining security configurations for the application.
+ * Configuration class responsible for defining security configurations for the
+ * application.
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-  /**
-   * Provides a bean for password encoder.
-   *
-   * @return A PasswordEncoder instance.
-   */
-  @Bean
-  public PasswordEncoder encoder() {
-    return new BCryptPasswordEncoder();
-  }
+	/**
+	 * Provides a bean for password encoder.
+	 * @return A PasswordEncoder instance.
+	 */
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-  /**
-   * Configures the security filter chain.
-   *
-   * @param http The HttpSecurity object to configure.
-   * @return A SecurityFilterChain instance.
-   * @throws Exception If an error occurs during configuration.
-   */
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http.cors()
-        .and()
-        .csrf()
-        .disable()
-        .authorizeHttpRequests(auth -> {
-          auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-              .requestMatchers("/swagger/**", "/api/auth/**", "/api/users/reset-password", "/api/users/send-feedback",
-              "/api/users/confirm-password", "/api/question/**", "/api/images/**", "/redirect",
-                  "/bank/v1/account/balance/**").permitAll().anyRequest().authenticated();
-        })
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-        .build();
-  }
+	/**
+	 * Configures the security filter chain.
+	 * @param http The HttpSecurity object to configure.
+	 * @return A SecurityFilterChain instance.
+	 * @throws Exception If an error occurs during configuration.
+	 */
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		return http.cors().and().csrf().disable().authorizeHttpRequests(auth -> {
+			auth.dispatcherTypeMatchers(DispatcherType.ERROR)
+				.permitAll()
+				.requestMatchers("/swagger/**", "/api/auth/**", "/api/users/reset-password", "/api/users/send-feedback",
+						"/api/users/confirm-password", "/api/question/**", "/api/images/**", "/redirect",
+						"/bank/v1/account/balance/**")
+				.permitAll()
+				.anyRequest()
+				.authenticated();
+		})
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.build();
+	}
 
-  /**
-   * Provides a bean for configuring CORS (Cross-Origin Resource Sharing).
-   *
-   * @return A CorsConfigurationSource instance.
-   */
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-    config.setAllowedOrigins(List.of(SparestiApplication.getFrontendURL()));
-    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
-    config.setAllowCredentials(true);
+	/**
+	 * Provides a bean for configuring CORS (Cross-Origin Resource Sharing).
+	 * @return A CorsConfigurationSource instance.
+	 */
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+		config.setAllowedOrigins(List.of(SparestiApplication.getFrontendURL()));
+		config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
+		config.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
 
-    return source;
-  }
+		return source;
+	}
+
 }

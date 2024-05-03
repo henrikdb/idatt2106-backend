@@ -24,125 +24,125 @@ import static org.hamcrest.Matchers.*;
 @Transactional
 public class FriendControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-  private User user;
+	private User user;
 
-  @BeforeEach
-  public void setup() {
-    user = new User();
-    user.setId(3L);
-    user.setRole(Role.USER);
-    user.setEmail("testuser1@example.com");
-  }
+	@BeforeEach
+	public void setup() {
+		user = new User();
+		user.setId(3L);
+		user.setRole(Role.USER);
+		user.setEmail("testuser1@example.com");
+	}
 
+	@Test
+	void getFriendsShouldReturnAllFriends() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/friends")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(7));
+	}
 
-  @Test
-  void getFriendsShouldReturnAllFriends() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/friends")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(7));
-  }
+	@Test
+	@WithMockUser
+	void getFriendRequestsShouldReturnAllFriendRequests() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/friends/requests")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(14));
+	}
 
-  @Test
-  @WithMockUser
-  void getFriendRequestsShouldReturnAllFriendRequests() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/friends/requests")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(14));
-  }
+	@Test
+	@WithMockUser
+	void putAcceptFriendRequestShouldAddFriend() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.put("/api/friends/14")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk());
 
-  @Test
-  @WithMockUser
-  void putAcceptFriendRequestShouldAddFriend() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.put("/api/friends/14")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk());
-      
-    mvc.perform(MockMvcRequestBuilders.get("/api/friends")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(14))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(7));
-  }
+		mvc.perform(MockMvcRequestBuilders.get("/api/friends")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(14))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(7));
+	}
 
-  @Test
-  @WithMockUser
-  void postAddFriendRequestShouldAddFriendRequest() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.post("/api/friends/3")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isCreated());
-      
-    mvc.perform(MockMvcRequestBuilders.get("/api/friends/requests")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
-  }
+	@Test
+	@WithMockUser
+	void postAddFriendRequestShouldAddFriendRequest() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/api/friends/3")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isCreated());
 
-  @Test
-  @WithMockUser
-  void deleteFriendShouldDeleteFriend() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.delete("/api/friends/7")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk());
-      
-    mvc.perform(MockMvcRequestBuilders.get("/api/friends")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
-  }
+		mvc.perform(MockMvcRequestBuilders.get("/api/friends/requests")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
+	}
 
-  @Test
-  @WithMockUser
-  void getUsersByNameAndFilterNonFriendsShouldNotReturnYourself() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(3)))); 
-  }
+	@Test
+	@WithMockUser
+	void deleteFriendShouldDeleteFriend() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.delete("/api/friends/7")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk());
 
-  @Test
-  @WithMockUser
-  void getUsersByNameAndFilterNonFriendsShouldNotReturnFriends() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(5))))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(12)))); 
-  }
+		mvc.perform(MockMvcRequestBuilders.get("/api/friends")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
+	}
 
-  @Test
-  @WithMockUser
-  void getUsersByNameAdminAndFilterNonFriendsShouldReturnOnlyAdmin() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/admin/NON_FRIENDS")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(2))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Admin"));
-  }
+	@Test
+	@WithMockUser
+	void getUsersByNameAndFilterNonFriendsShouldNotReturnYourself() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(3))));
+	}
 
-  @Test
-  @WithMockUser
-  void getSevenRandomUsersShouldReturnSevenRandomUsers() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/random/7/NON_FRIENDS")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(7)));
-  }
+	@Test
+	@WithMockUser
+	void getUsersByNameAndFilterNonFriendsShouldNotReturnFriends() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/search/ /NON_FRIENDS")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(5))))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(12))));
+	}
 
-  @Test
-  @WithMockUser
-  void getRandomUsersShouldNotIncludeYourself() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.get("/api/users/search/random/100/NON_FRIENDS")
-        .with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(3)))); 
-  }
+	@Test
+	@WithMockUser
+	void getUsersByNameAdminAndFilterNonFriendsShouldReturnOnlyAdmin() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/search/admin/NON_FRIENDS")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(2))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Admin"));
+	}
+
+	@Test
+	@WithMockUser
+	void getSevenRandomUsersShouldReturnSevenRandomUsers() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/search/random/7/NON_FRIENDS")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(7)));
+	}
+
+	@Test
+	@WithMockUser
+	void getRandomUsersShouldNotIncludeYourself() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/users/search/random/100/NON_FRIENDS")
+			.with(SecurityMockMvcRequestPostProcessors.authentication(UserUtil.getAuthentication(user))))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$[*].id", not(contains(3))));
+	}
+
 }

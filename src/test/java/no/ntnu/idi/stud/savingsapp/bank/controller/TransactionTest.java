@@ -19,61 +19,60 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TransactionTest {
 
-  @Autowired
-  private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-  @Test
-  @WithMockUser
-  void shouldTransferMoneyBetweenAccounts() throws Exception {
-    TransactionDTO transactionRequestDTO = new TransactionDTO();
-    transactionRequestDTO.setAmount(BigDecimal.valueOf(50));
-    transactionRequestDTO.setDebtorBBAN(12073650567L);
-    transactionRequestDTO.setCreditorBBAN(12097256355L);
-    mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(JsonUtil.toJson(transactionRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.amount").isNumber())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.debtorBBAN").isNumber())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.creditorBBAN").isNumber());
-  }
+	@Test
+	@WithMockUser
+	void shouldTransferMoneyBetweenAccounts() throws Exception {
+		TransactionDTO transactionRequestDTO = new TransactionDTO();
+		transactionRequestDTO.setAmount(BigDecimal.valueOf(50));
+		transactionRequestDTO.setDebtorBBAN(12073650567L);
+		transactionRequestDTO.setCreditorBBAN(12097256355L);
+		mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(transactionRequestDTO)))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.amount").isNumber())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.debtorBBAN").isNumber())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.creditorBBAN").isNumber());
+	}
 
-  @Test
-  @WithMockUser
-  void shouldNotTransferMoneyBetweenWrongAccounts() throws Exception {
-    TransactionDTO transactionRequestDTO = new TransactionDTO();
-    transactionRequestDTO.setAmount(BigDecimal.valueOf(50));
-    transactionRequestDTO.setDebtorBBAN(0L);
-    transactionRequestDTO.setCreditorBBAN(12097256355L);
-    mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtil.toJson(transactionRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isNotFound());
-  }
+	@Test
+	@WithMockUser
+	void shouldNotTransferMoneyBetweenWrongAccounts() throws Exception {
+		TransactionDTO transactionRequestDTO = new TransactionDTO();
+		transactionRequestDTO.setAmount(BigDecimal.valueOf(50));
+		transactionRequestDTO.setDebtorBBAN(0L);
+		transactionRequestDTO.setCreditorBBAN(12097256355L);
+		mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(transactionRequestDTO))).andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
 
-  @Test
-  @WithMockUser
-  void shouldNotTransferMoneyWithNegativeTransferAmount() throws Exception {
-    TransactionDTO transactionRequestDTO = new TransactionDTO();
-    transactionRequestDTO.setAmount(BigDecimal.valueOf(-50));
-    transactionRequestDTO.setDebtorBBAN(12073650567L);
-    transactionRequestDTO.setCreditorBBAN(12097256355L);
-    mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtil.toJson(transactionRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isBadRequest());
-  }
+	@Test
+	@WithMockUser
+	void shouldNotTransferMoneyWithNegativeTransferAmount() throws Exception {
+		TransactionDTO transactionRequestDTO = new TransactionDTO();
+		transactionRequestDTO.setAmount(BigDecimal.valueOf(-50));
+		transactionRequestDTO.setDebtorBBAN(12073650567L);
+		transactionRequestDTO.setCreditorBBAN(12097256355L);
+		mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(transactionRequestDTO))).andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
 
-  @Test
-  @WithMockUser
-  void shouldNotTransferMoneyWithInsufficientFunds() throws Exception {
-    TransactionDTO transactionRequestDTO = new TransactionDTO();
-    transactionRequestDTO.setAmount(BigDecimal.valueOf(10000000));
-    transactionRequestDTO.setDebtorBBAN(12073650567L);
-    transactionRequestDTO.setCreditorBBAN(12097256355L);
-    mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtil.toJson(transactionRequestDTO)))
-        .andExpect(MockMvcResultMatchers.status().isPaymentRequired());
-  }
+	@Test
+	@WithMockUser
+	void shouldNotTransferMoneyWithInsufficientFunds() throws Exception {
+		TransactionDTO transactionRequestDTO = new TransactionDTO();
+		transactionRequestDTO.setAmount(BigDecimal.valueOf(10000000));
+		transactionRequestDTO.setDebtorBBAN(12073650567L);
+		transactionRequestDTO.setCreditorBBAN(12097256355L);
+		mvc.perform(MockMvcRequestBuilders.post("/bank/v1/transaction/norwegian-domestic-payment-to-self")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(JsonUtil.toJson(transactionRequestDTO)))
+			.andExpect(MockMvcResultMatchers.status().isPaymentRequired());
+	}
+
 }

@@ -9,13 +9,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class UserUtil {
 
-  public static Authentication getAuthentication(User user) {
-    return getAuthentication(user.getId(), user.getRole().name());
-  }
+	public static Authentication getAuthentication(User user) {
+		return getAuthentication(user.getId(), user.getRole().name());
+	}
 
-  public static Authentication getAuthentication(long userId, String role) {
-    return new UsernamePasswordAuthenticationToken(new AuthIdentity(userId, role), null,
-        Collections.singletonList(new SimpleGrantedAuthority(role)));
-  }
+	public static Authentication getAuthentication(long userId, String role) {
+		return new UsernamePasswordAuthenticationToken(new AuthIdentity(userId, role), null,
+				Collections.singletonList(new SimpleGrantedAuthority(role)));
+	}
 
 }

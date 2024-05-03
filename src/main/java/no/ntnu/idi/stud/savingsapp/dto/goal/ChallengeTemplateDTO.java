@@ -8,10 +8,14 @@ import java.math.BigDecimal;
 @Data
 public final class ChallengeTemplateDTO {
 
-  private long id;
-  private String templateName;
-  private String text;
-  private BigDecimal amount;
-  private ChallengeType type;
+	private long id;
+
+	private String templateName;
+
+	private String text;
+
+	private BigDecimal amount;
+
+	private ChallengeType type;
 
 }

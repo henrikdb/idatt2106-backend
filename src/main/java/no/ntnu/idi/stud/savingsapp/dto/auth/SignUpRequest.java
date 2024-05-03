@@ -14,24 +14,24 @@ import no.ntnu.idi.stud.savingsapp.validation.Password;
 @Data
 public final class SignUpRequest {
 
-  @Name
-  private String firstName;
+	@Name
+	private String firstName;
 
-  @Name
-  private String lastName;
+	@Name
+	private String lastName;
 
-  @Email(message = "Invalid email")
-  private String email;
+	@Email(message = "Invalid email")
+	private String email;
 
-  @Password
-  private String password;
+	@Password
+	private String password;
 
-  private Long checkingAccountBBAN;
+	private Long checkingAccountBBAN;
 
-  private Long savingsAccountBBAN;
+	private Long savingsAccountBBAN;
 
-  @Valid
-  @NotNull(message = "Configuration is required")
-  private ConfigurationDTO configuration;
+	@Valid
+	@NotNull(message = "Configuration is required")
+	private ConfigurationDTO configuration;
 
 }

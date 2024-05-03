@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public final class BankIDRequest {
 
-  private String code;
-  private String state;
+	private String code;
+
+	private String state;
 
 }

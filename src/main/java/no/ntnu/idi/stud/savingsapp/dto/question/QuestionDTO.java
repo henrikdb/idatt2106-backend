@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 public class QuestionDTO {
 
-    String questionText;
-    List<AnswerDTO> answers;
+	String questionText;
+
+	List<AnswerDTO> answers;
 
 }

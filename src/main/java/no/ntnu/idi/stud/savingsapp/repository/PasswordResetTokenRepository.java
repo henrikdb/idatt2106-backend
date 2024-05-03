@@ -12,13 +12,14 @@ import java.util.Optional;
 @Repository
 public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
 
-  /**
-   * Retrieves a password reset token by its token string.
-   * This method is used to fetch a password reset token from the database to verify its validity
-   * and to perform operations like password reset confirmation.
-   *
-   * @param token The unique string of the password reset token.
-   * @return An Optional containing the found PasswordResetToken or an empty Optional if no token is found.
-   */
-  Optional<PasswordResetToken> findByToken(String token);
+	/**
+	 * Retrieves a password reset token by its token string. This method is used to fetch
+	 * a password reset token from the database to verify its validity and to perform
+	 * operations like password reset confirmation.
+	 * @param token The unique string of the password reset token.
+	 * @return An Optional containing the found PasswordResetToken or an empty Optional if
+	 * no token is found.
+	 */
+	Optional<PasswordResetToken> findByToken(String token);
+
 }

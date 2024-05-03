@@ -7,10 +7,10 @@ import no.ntnu.idi.stud.savingsapp.validation.Password;
 @Data
 public final class PasswordResetDTO {
 
-  @NotNull(message = "Token is required")
-  private String token;
+	@NotNull(message = "Token is required")
+	private String token;
 
-  @Password
-  private String password;
+	@Password
+	private String password;
 
 }

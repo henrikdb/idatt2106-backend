@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The main class for the Sparesti application.
- * This class bootstraps the Spring application and configures it for execution.
+ * The main class for the Sparesti application. This class bootstraps the Spring
+ * application and configures it for execution.
  */
 @SpringBootApplication
 public class SparestiApplication {
@@ -20,7 +20,7 @@ public class SparestiApplication {
 
 	/**
 	 * Returns the URL for the frontend application.
-	 * @return	the URL for the frontend application
+	 * @return the URL for the frontend application
 	 */
 	public static String getFrontendURL() {
 		return System.getProperty("FRONTEND_URL", "http://localhost");
@@ -28,9 +28,10 @@ public class SparestiApplication {
 
 	/**
 	 * Returns the URL for the backend application.
-	 * @return	the URL for the backend application
+	 * @return the URL for the backend application
 	 */
 	public static String getBackendURL() {
 		return System.getProperty("API_URL", "http://localhost:8080");
 	}
+
 }

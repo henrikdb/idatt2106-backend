@@ -5,8 +5,6 @@ package no.ntnu.idi.stud.savingsapp.model.notification;
  */
 public enum NotificationType {
 
-  BADGE,
-  FRIEND_REQUEST,
-  COMPLETED_GOAL
+	BADGE, FRIEND_REQUEST, COMPLETED_GOAL
 
 }

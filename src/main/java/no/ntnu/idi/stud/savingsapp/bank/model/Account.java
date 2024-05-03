@@ -23,24 +23,25 @@ import no.ntnu.idi.stud.savingsapp.bank.model.generated.RandomValue;
 @Table(name = "account")
 public class Account {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "bban")
-  private Long bban;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "bban")
+	private Long bban;
 
-  @Column(name = "balance")
-  private BigDecimal balance;
+	@Column(name = "balance")
+	private BigDecimal balance;
 
-  @ManyToOne
-  @JsonBackReference
-  @JoinColumn(name = "bank_profile_id")
-  private BankProfile bankProfile;
+	@ManyToOne
+	@JsonBackReference
+	@JoinColumn(name = "bank_profile_id")
+	private BankProfile bankProfile;
 
-  /**
-   * Constructor for account.
-   * Generate a random balance for the account when an instance is created.
-   */
-  public Account() {
-    this.balance = RandomValue.generateAccountBalance();
-  }
+	/**
+	 * Constructor for account. Generate a random balance for the account when an instance
+	 * is created.
+	 */
+	public Account() {
+		this.balance = RandomValue.generateAccountBalance();
+	}
+
 }

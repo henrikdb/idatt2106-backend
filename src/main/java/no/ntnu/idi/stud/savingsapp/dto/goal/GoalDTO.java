@@ -12,13 +12,20 @@ import java.util.List;
 @NoArgsConstructor
 public final class GoalDTO {
 
-  private long id;
-  private String name;
-  private String description;
-  private BigDecimal targetAmount;
-  private Timestamp targetDate;
-  private Timestamp createdAt;
-  private List<ChallengeDTO> challenges;
-  private UserDTO user;
+	private long id;
+
+	private String name;
+
+	private String description;
+
+	private BigDecimal targetAmount;
+
+	private Timestamp targetDate;
+
+	private Timestamp createdAt;
+
+	private List<ChallengeDTO> challenges;
+
+	private UserDTO user;
 
 }

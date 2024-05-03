@@ -36,48 +36,43 @@ import java.io.IOException;
 @Slf4j
 public class ImageController {
 
-  @Autowired
-  private ImageService imageService;
+	@Autowired
+	private ImageService imageService;
 
-  /**
-   * Uploads an image to the server and stores it.
-   * The image data is extracted from a multipart file upload.
-   *
-   * @param file The MultipartFile object containing the image to be uploaded.
-   * @return ResponseEntity containing the unique ID of the stored image.
-   * @throws IOException If an error occurs while reading the file data.
-   */
-  @Operation(summary = "Upload an image", description = "Upload an image to the server")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Successfully uploaded the image")
-  })
-  @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<Long> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-    byte[] imageBytes = file.getBytes();
-    Image image = imageService.saveImage(file.getName(), imageBytes);
-    log.info("[ImageController:uploadImage] image name: {}", image.getName());
-    return ResponseEntity.ok().body(image.getId());
-  }
+	/**
+	 * Uploads an image to the server and stores it. The image data is extracted from a
+	 * multipart file upload.
+	 * @param file The MultipartFile object containing the image to be uploaded.
+	 * @return ResponseEntity containing the unique ID of the stored image.
+	 * @throws IOException If an error occurs while reading the file data.
+	 */
+	@Operation(summary = "Upload an image", description = "Upload an image to the server")
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Successfully uploaded the image") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Long> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+		byte[] imageBytes = file.getBytes();
+		Image image = imageService.saveImage(file.getName(), imageBytes);
+		log.info("[ImageController:uploadImage] image name: {}", image.getName());
+		return ResponseEntity.ok().body(image.getId());
+	}
 
-  /**
-   * Retrieves an image from the server based on its unique ID.
-   * Returns the image data as a byte array, suitable for direct display in web browsers or image views.
-   *
-   * @param id The unique identifier of the image to retrieve.
-   * @return ResponseEntity containing the raw image data as a byte array.
-   */
-  @Operation(summary = "Retrieve an image", description = "Retrieve an image from the server")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successfully retrieved the image"),
-      @ApiResponse(responseCode = "404", description = "Image not found",
-          content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
-  })
-  @SecurityRequirements
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<Resource> getImage(@PathVariable long id) {
-    Image image = imageService.getImage(id);
-    log.info("[ImageController:getImage] image id: {}", id);
-    return ResponseEntity.ok().body(new ByteArrayResource(image.getData()));
-  }
+	/**
+	 * Retrieves an image from the server based on its unique ID. Returns the image data
+	 * as a byte array, suitable for direct display in web browsers or image views.
+	 * @param id The unique identifier of the image to retrieve.
+	 * @return ResponseEntity containing the raw image data as a byte array.
+	 */
+	@Operation(summary = "Retrieve an image", description = "Retrieve an image from the server")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successfully retrieved the image"),
+			@ApiResponse(responseCode = "404", description = "Image not found",
+					content = @Content(schema = @Schema(implementation = ExceptionResponse.class))) })
+	@SecurityRequirements
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Resource> getImage(@PathVariable long id) {
+		Image image = imageService.getImage(id);
+		log.info("[ImageController:getImage] image id: {}", id);
+		return ResponseEntity.ok().body(new ByteArrayResource(image.getData()));
+	}
+
 }

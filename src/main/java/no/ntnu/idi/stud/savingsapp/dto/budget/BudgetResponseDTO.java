@@ -7,10 +7,14 @@ import lombok.Data;
 @Data
 public class BudgetResponseDTO {
 
-  private Long id;
-  private String budgetName;
-  private BigDecimal budgetAmount;
-  private BigDecimal expenseAmount;
-  private Timestamp createdAt;
+	private Long id;
+
+	private String budgetName;
+
+	private BigDecimal budgetAmount;
+
+	private BigDecimal expenseAmount;
+
+	private Timestamp createdAt;
 
 }

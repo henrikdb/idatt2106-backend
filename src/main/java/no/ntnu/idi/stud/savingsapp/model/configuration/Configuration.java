@@ -19,24 +19,25 @@ import no.ntnu.idi.stud.savingsapp.model.user.User;
 @Table(name = "configuration")
 public class Configuration {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "configuration_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "configuration_id")
+	private Long id;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "commitment", nullable = false)
-  private Commitment commitment;
+	@NonNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "commitment", nullable = false)
+	private Commitment commitment;
 
-  @NonNull
-  @Enumerated(EnumType.STRING)
-  @Column(name = "experience", nullable = false)
-  private Experience experience;
+	@NonNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "experience", nullable = false)
+	private Experience experience;
 
-  @ElementCollection(targetClass = ChallengeType.class)
-  @JoinTable(name = "configuration_challenges", joinColumns = @JoinColumn(name = "configuration_id"))
-  @Column(name = "challenge_type", nullable = false)
-  @Enumerated(EnumType.STRING)
-  private List<ChallengeType> challengeTypes;
+	@ElementCollection(targetClass = ChallengeType.class)
+	@JoinTable(name = "configuration_challenges", joinColumns = @JoinColumn(name = "configuration_id"))
+	@Column(name = "challenge_type", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private List<ChallengeType> challengeTypes;
+
 }

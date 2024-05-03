@@ -10,11 +10,18 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthenticationResponse {
 
-  private String firstName;
-  private String lastName;
-  private Long userId;
-  private Long profileImage;
-  private String role;
-  private String subscriptionLevel;
-  private String token;
+	private String firstName;
+
+	private String lastName;
+
+	private Long userId;
+
+	private Long profileImage;
+
+	private String role;
+
+	private String subscriptionLevel;
+
+	private String token;
+
 }

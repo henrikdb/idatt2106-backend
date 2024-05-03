@@ -12,12 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChallengeTemplateRepository extends JpaRepository<ChallengeTemplate, Long> {
 
-    /**
-     * Retrieves a list of {@link ChallengeTemplate challangeTempletes} by a
-     * list of {@link ChallengeType challengeType} enums.
-     *
-     * @param challengeType the list challengeType enums
-     * @return the list of challengeTemplates.
-     */
-    List<ChallengeTemplate> findAllByChallengeTypeIn(List<ChallengeType> challengeType);
+	/**
+	 * Retrieves a list of {@link ChallengeTemplate challangeTempletes} by a list of
+	 * {@link ChallengeType challengeType} enums.
+	 * @param challengeType the list challengeType enums
+	 * @return the list of challengeTemplates.
+	 */
+	List<ChallengeTemplate> findAllByChallengeTypeIn(List<ChallengeType> challengeType);
+
 }

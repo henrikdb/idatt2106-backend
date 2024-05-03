@@ -17,40 +17,38 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-  /**
-   * Get all accounts that belong to a user with a specified id.
-   *
-   * @param bankProfileId The id of the bank profile that belongs to the desired accounts.
-   * @return A list of accounts.
-   */
-  @Query("SELECT a FROM Account a WHERE a.bankProfile.id = :bankProfileId")
-  List<Account> findAllByBankProfileId(@Param("bankProfileId") Long bankProfileId);
+	/**
+	 * Get all accounts that belong to a user with a specified id.
+	 * @param bankProfileId The id of the bank profile that belongs to the desired
+	 * accounts.
+	 * @return A list of accounts.
+	 */
+	@Query("SELECT a FROM Account a WHERE a.bankProfile.id = :bankProfileId")
+	List<Account> findAllByBankProfileId(@Param("bankProfileId") Long bankProfileId);
 
-  /**
-   * Get all accounts that belong to a user with a specified social security number.
-   *
-   * @param ssn The Social Security Number of the user.
-   * @return    A list of accounts.
-   */
-  List<Account> findAllByBankProfileSsn(Long ssn);
+	/**
+	 * Get all accounts that belong to a user with a specified social security number.
+	 * @param ssn The Social Security Number of the user.
+	 * @return A list of accounts.
+	 */
+	List<Account> findAllByBankProfileSsn(Long ssn);
 
-  /**
-   * Update the balance of an account.
-   *
-   * @param amount The new balance of the account.
-   * @param bban   The Basic Bank Account Number, specifying which account is updated.
-   * @return       The number of affected rows.
-   */
-  @Modifying
-  @Transactional
-  @Query(value = "UPDATE account a SET a.balance = :amount WHERE a.bban = :bban", nativeQuery = true)
-  int updateBalance(@Param("amount") BigDecimal amount,@Param("bban") Long bban);
+	/**
+	 * Update the balance of an account.
+	 * @param amount The new balance of the account.
+	 * @param bban The Basic Bank Account Number, specifying which account is updated.
+	 * @return The number of affected rows.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE account a SET a.balance = :amount WHERE a.bban = :bban", nativeQuery = true)
+	int updateBalance(@Param("amount") BigDecimal amount, @Param("bban") Long bban);
 
-  /**
-   * Get an account given the Basic Bank Account Number
-   * 
-   * @param bban  The Basic Bank Account Number belonging to the account.
-   * @return      The account if it exists, if not: return empty.
-   */
-  Optional<Account> findAccountByBban(Long bban);
+	/**
+	 * Get an account given the Basic Bank Account Number
+	 * @param bban The Basic Bank Account Number belonging to the account.
+	 * @return The account if it exists, if not: return empty.
+	 */
+	Optional<Account> findAccountByBban(Long bban);
+
 }
