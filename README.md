@@ -8,6 +8,14 @@ The API backend of sparesti.app. SpareSti is designed to make saving fun. The ap
 - **Frontend**: [https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/frontend](https://gitlab.stud.idi.ntnu.no/idatt2106-2024-07/frontend)
 - **Jacoco Test Coverage**: [https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no](https://backend-idatt2106-v24-7-120575f97d1f5ac63c49fe399f685f116b780a1.pages.stud.idi.ntnu.no)
 
+## Prerequisites
+Before you can run the application, ensure you have the following software installed on your system:
+
+- **Java (v17)**: The application is built using Java, so you'll need the JDK to compile and run it. [Download Java JDK v17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- **Maven**: Maven is used for dependency management and to build the application. [Download Maven](https://maven.apache.org/download.cgi)
+- **MySQL**: The application uses MySQL as its database. [Download MySQL](https://dev.mysql.com/downloads/mysql/)
+- **Docker**: Docker is used for creating containers for the application.[ Download Docker](https://www.docker.com/get-started)
+
 ## Getting Started
 
 ### 1. Clone SpareSti:
