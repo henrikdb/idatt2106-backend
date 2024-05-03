@@ -6,10 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import no.ntnu.idi.stud.savingsapp.dto.goal.ChallengeDTO;
 import no.ntnu.idi.stud.savingsapp.dto.goal.MarkChallengeDTO;
 import no.ntnu.idi.stud.savingsapp.dto.goal.CreateGoalDTO;
 import no.ntnu.idi.stud.savingsapp.dto.goal.GoalDTO;
 import no.ntnu.idi.stud.savingsapp.exception.ExceptionResponse;
+import no.ntnu.idi.stud.savingsapp.model.goal.Challenge;
 import no.ntnu.idi.stud.savingsapp.model.goal.Goal;
 import no.ntnu.idi.stud.savingsapp.security.AuthIdentity;
 import no.ntnu.idi.stud.savingsapp.service.ChallengeService;
@@ -127,9 +129,17 @@ public class GoalController {
   }
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<GoalDTO> getGoal(@RequestParam Long id) {
+  public ResponseEntity<GoalDTO> getGoal(@PathVariable Long id) {
     Goal goal = goalService.getGoal(id);
     GoalDTO goalDTO = modelMapper.map(goal, GoalDTO.class);
     return ResponseEntity.ok(goalDTO);
+  }
+
+  @PatchMapping(value = "/challenge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ChallengeDTO> regenerateChallenge(@AuthenticationPrincipal AuthIdentity identity,
+                                                          @PathVariable Long id) {
+    Challenge challenge = challengeService.regenerateChallenge(identity.getId(), id);
+    ChallengeDTO challengeDTO = modelMapper.map(challenge, ChallengeDTO.class);
+    return ResponseEntity.ok(challengeDTO);
   }
 }
